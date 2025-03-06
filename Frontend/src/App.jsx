@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import './App.css'
+import ThemeToggle from './components/ThemeToggle'
 
 function App() {
 
   return (
     <>
-      <h1 className='text-2xl'>hello</h1>
+    <ThemeToggle/>
+    
     </>
   )
 }
