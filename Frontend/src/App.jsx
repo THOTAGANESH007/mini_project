@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import './App.css'
-import ThemeToggle from './components/ThemeToggle'
+
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 function App() {
 
   return (
     <>
-    <ThemeToggle/>
+    <Header/>
     
+    <Footer/>
     </>
   )
 }

@@ -1,8 +1,9 @@
 import React from 'react'
-
-export default function Header(){
-    return(
-        <>
-        </>
-    );
+import '../index.css'
+export default function Header() {
+  return (
+    <div className='header'>
+      
+    </div>
+  )
 }

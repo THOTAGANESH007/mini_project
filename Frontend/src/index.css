@@ -1,15 +1,14 @@
 @import "tailwindcss";
-:root {
-    --bg-color: white;
-    --text-color: black;
-  }
-  .dark-mode {
-    --bg-color: black;
-    --text-color: white;
-  }
-  body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-  }
+.header{
+  height: 100px;
+  background-color: #6290c3;
+  position: sticky;
+  top: 0;
+  /* le/ft: 0; */
+
+}
+.footer{
+  height: 250px;
+  background-color: #393E41;
+}
   
