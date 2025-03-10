@@ -1,0 +1,78 @@
+.homePage{
+    height: 100vh;
+}
+.events{
+    padding: 20px 0rem;
+    background-color: black;
+}
+@keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  
+  .scroll-container-left {
+    background-color: black;
+    /* padding-top:1.5rem;
+    padding-bottom:1.5rem; */
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  
+  .scroll-content-left {
+    display: flex;
+    gap: 1.5rem; /* Adds gap between cards */
+    animation: scroll 20s linear infinite;
+  }
+  
+
+
+  @keyframes scroll-right {
+    from {
+        transform: translateX(-50%);
+      }
+      to {
+        transform: translateX(0);
+      }
+  }
+  
+  .scroll-container-right {
+    background-color: black;
+    padding-top:1.5rem;
+    /* padding-bottom:1.5rem; */
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  
+  .scroll-content-right {
+    display: flex;
+    gap: 1.5rem; /* Adds gap between cards */
+    animation: scroll-right 20s linear infinite;
+  }
+  
+
+
+
+  .card {
+    cursor: pointer;
+    flex: 0 0 28%; /* Each card takes 28% width */
+    height: 300px; /* Same height for all cards */
+    background-color: #111010; /* Tailwind blue-600 */
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  .card:hover{
+    border: 2px solid white;
+  }
+  

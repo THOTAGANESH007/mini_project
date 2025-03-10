@@ -3,6 +3,7 @@ import './App.css'
 import { Routes, Route, Link } from 'react-router-dom';
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Home from './components/LandingPage/Home';
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
     <Header/>
     
       <Routes>
-          <Route path="/" element={<></>} />
+          <Route path="/" element={<Home></Home>} />
           <Route path="/about" element={<></>} />
           <Route path="/contact" element={<></>} />
       </Routes>
