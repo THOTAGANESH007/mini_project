@@ -1,10 +1,10 @@
 import React from 'react'
-
+import '../index.css'
 
 const Header = () => {
   return (
-    <div className="w-full header ">
-      <nav className="flex items-center justify-between px-6 py-3">
+    <div className="w-full  ">
+      <nav className="flex items-center justify-between px-6 py-3 header">
         
         {/* Left Section - Logo */}
         <div className="flex items-center">

@@ -3,7 +3,7 @@
 }
 .events{
     padding: 20px 0rem;
-    background-color: black;
+    background-color:#393E41;
 }
 @keyframes scroll {
     from {
@@ -15,7 +15,7 @@
   }
   
   .scroll-container-left {
-    background-color: black;
+    /* background-color: black; */
     /* padding-top:1.5rem;
     padding-bottom:1.5rem; */
     width: 100%;
@@ -42,9 +42,9 @@
   }
   
   .scroll-container-right {
-    background-color: black;
+    /* background-color: black; */
     padding-top:1.5rem;
-    /* padding-bottom:1.5rem; */
+    padding-bottom:1.5rem;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
@@ -64,7 +64,7 @@
     cursor: pointer;
     flex: 0 0 28%; /* Each card takes 28% width */
     height: 300px; /* Same height for all cards */
-    background-color: #111010; /* Tailwind blue-600 */
+    background-color: #262626; /* Tailwind blue-600 */
     color: #fff;
     border-radius: 10px;
     display: flex;
