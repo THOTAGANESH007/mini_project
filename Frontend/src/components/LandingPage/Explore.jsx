@@ -10,7 +10,7 @@ export default function Explore() {
             <div className='explore-cards'>
                 <ExploreCards/>
             </div>
-            <button className='mx-auto block exlore-button text-lg mb-3'>Discover here</button>
+            <button className='mx-auto block exlore-button text-lg '>Discover here</button>
     
     </div>
 

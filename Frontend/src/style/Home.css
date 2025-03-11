@@ -2,7 +2,9 @@
     min-height: 100vh;
 }
 .events{
+    height: auto;
     padding: 20px 0rem;
+    padding-bottom: 80px;
     background-color:#393E41;
 }
 @keyframes scroll {
@@ -18,7 +20,8 @@
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
-    position: relative;
+    position:relative;
+    top: 90px;
   }
   
   .scroll-content-left {
@@ -46,6 +49,7 @@
     overflow: hidden;
     white-space: nowrap;
     position: relative;
+    top: 80px;
   }
   
   .scroll-content-right {
@@ -80,6 +84,7 @@
     /* background-repeat: no-repeat; */
     /* opacity: 0.6; */
     height: auto;
+    padding-bottom:2.6rem ;
     background-color: #262626;
     color: white;
     /* background-attachment: scroll; */
@@ -109,6 +114,7 @@
 }
 .explore-section h2{
   color: #393E41;
+  
 }
 .explore-section button{
   background-color: #393E41;
