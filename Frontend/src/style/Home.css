@@ -15,9 +15,6 @@
   }
   
   .scroll-container-left {
-    /* background-color: black; */
-    /* padding-top:1.5rem;
-    padding-bottom:1.5rem; */
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
@@ -120,4 +117,26 @@
   padding: 10px 20px;
   border-radius: 20px;
   /* margin-bottom: 20px; */
+}
+.info-main{
+  /* height: 200px; */
+  /* margin-bottom: 20px; */
+  background-color: #393E41;
+}
+.select{
+  color: black;
+  background-color: #262626;
+  border: 2px solid black;
+}
+.notselect{
+  background-color: #262626;
+  border: 1px solid white;
+  color: white;
+}
+.buttom-one{
+  background-color: #262626;
+
+}
+.filter-btn{
+  padding:5px 65px ;
 }
