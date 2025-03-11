@@ -1,5 +1,5 @@
 .homePage{
-    height: 100vh;
+    min-height: 100vh;
 }
 .events{
     padding: 20px 0rem;
@@ -76,3 +76,48 @@
     border: 2px solid white;
   }
   
+  /* explore section */
+  .explore-section{
+    /* background-image: url('/sky.jpg'); */
+    /* height: 700px; */
+    /* background-repeat: no-repeat; */
+    /* opacity: 0.6; */
+    height: auto;
+    background-color: #262626;
+    color: white;
+    /* background-attachment: scroll; */
+
+  }
+  .explore-cards{
+    padding: 0 2rem;
+    /* margin: 3rem 0; */
+  }
+  .explore-cardsin img{
+    height: 100%;
+  }
+  .explore-cardsin img{
+    cursor: pointer;
+  }
+  .explore-cardsin {
+    transition: transform 0.3s ease-in-out;
+    margin-top: 30px; /* Compensate for upward translation */
+}
+
+.explore-cardsin:hover {
+    transform: translateY(-30px);
+}
+
+.explore-section h1{
+  color: #393E41;
+}
+.explore-section h2{
+  color: #393E41;
+}
+.explore-section button{
+  background-color: #393E41;
+  color:#262626 ;
+  padding: 10px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  /* margin-bottom: 20px; */
+}
