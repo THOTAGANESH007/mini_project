@@ -3,6 +3,7 @@ import '../../style/Home.css'
 import Events from './Events'
 import Explore from './Explore'
 import Info from './Info'
+import LastSection from './LastSection'
 // import { Info } from 'lucide-react'
 export default function Home() {
   return (
@@ -10,8 +11,7 @@ export default function Home() {
       <Events/>
       <Explore/>
       <Info/>
-      <div className='' style={{backgroundColor:"#262626",height:"200px"}}
-      ></div>
+      <LastSection/>
     </div>
   )
 }

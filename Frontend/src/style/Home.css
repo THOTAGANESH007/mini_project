@@ -5,7 +5,7 @@
     height: auto;
     padding: 20px 0rem;
     padding-bottom: 80px;
-    background-color:#393E41;
+    background-color:#C2E7DA;
 }
 @keyframes scroll {
     from {
@@ -74,7 +74,7 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
   .card:hover{
-    border: 2px solid white;
+    border: 2px solid #6290C3;
   }
   
   /* explore section */
@@ -85,7 +85,7 @@
     /* opacity: 0.6; */
     height: auto;
     padding-bottom:2.6rem ;
-    background-color: #262626;
+    background-color:#262626;
     color: white;
     /* background-attachment: scroll; */
 
@@ -145,4 +145,23 @@
 }
 .filter-btn{
   padding:5px 65px ;
+}
+
+
+/* last section */
+.lastSection{
+  height: auto;
+  display: flex;
+  padding: 1.5rem 2.5rem;
+  gap: 1rem;
+  background-color: #262626;
+}
+.last-left{
+  width: 50%;
+  /* border: 2px solid black; */
+  height: 500px;
+  background-color: #F1FFE7;
+  color: black;
+  border-radius: 20px;
+  padding: 0.75rem 1.2rem;
 }
