@@ -11,8 +11,10 @@ export default function LastSection() {
         </p>
         <button className='border py-1 px-4 rounded-2xl mb-3'>Read More...</button>
       </div>
-      <div className='last-left'>
-        {/* <MapComponent/> */}
+      <div className=' last-right'>
+        <MapComponent/>
+       
+
       </div>
     </div>
   )
