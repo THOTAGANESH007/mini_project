@@ -36,6 +36,34 @@ const data = [
     phoneNumber: "202-555-0112", 
     designation: "Congressman", 
     photo: "https://randomuser.me/api/portraits/men/5.jpg"
+  },
+  { 
+    name: "Sarah Johnson", 
+    email: "sarah.johnson@gov.us", 
+    phoneNumber: "202-555-0198", 
+    designation: "Senator", 
+    photo: "https://randomuser.me/api/portraits/women/3.jpg"
+  },
+  { 
+    name: "Robert Chang", 
+    email: "robert.chang@gov.us", 
+    phoneNumber: "202-555-0156", 
+    designation: "Mayor", 
+    photo: "https://randomuser.me/api/portraits/men/10.jpg"
+  },
+  { 
+    name: "Emily Carter", 
+    email: "emily.carter@gov.us", 
+    phoneNumber: "202-555-0174", 
+    designation: "Governor", 
+    photo: "https://randomuser.me/api/portraits/women/7.jpg"
+  },
+  { 
+    name: "James Anderson", 
+    email: "james.anderson@gov.us", 
+    phoneNumber: "202-555-0139", 
+    designation: "City Council Member", 
+    photo: "https://randomuser.me/api/portraits/men/8.jpg"
   }
 ];
 

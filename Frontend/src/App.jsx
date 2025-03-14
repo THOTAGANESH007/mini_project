@@ -7,6 +7,7 @@ import Home from './components/LandingPage/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import GovRepresentives from './components/GovRepresentives';
+import AllPlaces from './components/AllPlaces';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
           <Route path="/officals" element={<GovRepresentives/>} />
+          <Route path="/places" element={<AllPlaces/>} />
 
           
       </Routes>
