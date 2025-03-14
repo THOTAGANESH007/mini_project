@@ -1,21 +1,32 @@
-import React from 'react'
-import '../../style/Home.css'
-import MapComponent from './MapComponent'
+import React from 'react';
+import MapComponent from './MapComponent';
+
 export default function LastSection() {
   return (
-    <div className='lastSection'>
-      <div className='last-left text-white text-justify'>
-        <h1 className='text-center text-3xl mb-2'>About GHMC</h1>
-        <p className='mb-4'>
-        Greater Hyderabad Municipal Corporation is a civic administrative body which looks after the administration of the Hyderabad city which is the capital city of Telangana State. It has been constituted in the year 2007 by merging surrounding 12 municipalities into the Municipal Corporation of Hyderabad which was formed in the year 1955. The Jurisdiction of the Corporation is spread over (4) districts- Hyderabad district, part of Medchal Malkajgiri, Ranga Reddy and Sangareddy districts. At present GHMC limits extend to 650 Sq. Km with 6 zones with 30 circles which is further divided into 150 wards
+    <div className="flex flex-col md:flex-row gap-4 p-6 bg-gray-900">
+      
+      {/* Left Section */}
+      <div className="w-full md:w-1/2 bg-green-100 text-black p-6 rounded-2xl shadow-lg">
+        <h1 className="text-center text-3xl mb-4 font-semibold">About GHMC</h1>
+        <p className="text-justify mb-4 leading-relaxed">
+          Greater Hyderabad Municipal Corporation is a civic administrative body 
+          which looks after the administration of the Hyderabad city, the capital 
+          city of Telangana State. It was constituted in 2007 by merging surrounding
+          12 municipalities into the Municipal Corporation of Hyderabad, originally 
+          formed in 1955. GHMC's jurisdiction spans 4 districts—Hyderabad, Medchal 
+          Malkajgiri, Ranga Reddy, and Sangareddy—covering 650 Sq. Km with 6 zones, 
+          30 circles, and 150 wards.
         </p>
-        <button className='border py-1 px-4 rounded-2xl mb-3'>Read More...</button>
+        <button className="border border-black py-2 px-6 rounded-2xl bg-white hover:bg-gray-200 transition">
+          Read More...
+        </button>
       </div>
-      <div className=' last-right'>
-        <MapComponent/>
-       
 
+      {/* Right Section */}
+      <div className="w-full md:w-1/2 bg-green-100 p-6 rounded-2xl shadow-lg flex items-center justify-center">
+        <MapComponent />
       </div>
+
     </div>
-  )
+  );
 }

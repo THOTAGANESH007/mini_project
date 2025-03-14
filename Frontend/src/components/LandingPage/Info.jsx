@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import '../../style/Home.css';
 const Info = () => {
     const [selectedFilter, setSelectedFilter] = useState('Population');
@@ -29,7 +30,7 @@ const Info = () => {
                     </button>
                 ))}
             </div>
-
+            
             {/* Display Filter Data */}
             <div className="p-4 text-center  rounded-md bg-blue-50 buttom-one">
                 <h2 className="text-xl font-semibold mb-2">{selectedFilter} Info</h2>
