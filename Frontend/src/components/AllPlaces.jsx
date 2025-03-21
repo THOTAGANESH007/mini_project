@@ -6,7 +6,7 @@ const AllPlaces = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 py-10 mt-[95px] mb-[80px]">
+    <div className="flex flex-col items-center bg-gray-100 py-10 mt-[95px] mb-[10px]">
       {selectedPlace ? (
         <PlaceDetail place={selectedPlace} onClose={() => setSelectedPlace(null)} />
       ) : (
