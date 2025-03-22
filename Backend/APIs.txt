@@ -1,0 +1,9 @@
+http://localhost:9999/api/user/register  -- post
+http://localhost:9999/api/user/login  --post
+http://localhost:9999/api/user/logout  --get
+http://localhost:9999/api/user/upload-profile  --put
+http://localhost:9999/api/user/update-user  --put
+http://localhost:9999/api/user/forgot-password  --put
+http://localhost:9999/api/user/forgot-password-otp  --put
+http://localhost:9999/api/user/reset-password  --put
+http://localhost:9999/api/user/verify-email  --post
