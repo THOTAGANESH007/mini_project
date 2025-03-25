@@ -2,11 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-<<<<<<< HEAD
   "type":"module",
-=======
-  "type": "module",
->>>>>>> deb782f (pack)
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
