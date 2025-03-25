@@ -1,34 +1,65 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
+/*
+var transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "ganeshthota656@gmail.com",
+    pass: "xtaz fhdw vwcc jebo",
+  },
+});
+
+var mailOptions = {
+  from: "ganeshthota656@gmail.com",
+  to: "gathota150@gmail.com",
+  subject: "Sending Email using Node.js",
+  text: "That was easy!",
+};
+
+transporter.sendMail(mailOptions, function (error, info) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Email sent: " + info.response);
+  }
+});
+
+*/
+
 import dotenv from "dotenv";
 
+//dotenv.config({ path: "../.env" }); // Load environment variables from .env file
 dotenv.config();
+//console.log(process.env.USEREMAIL);
 
-if (!process.env.RESEND_API) {
-  console.error("Provide RESEND_API inside the .env file");
-  process.exit(1);
-}
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.USEREMAIL,
+    pass: process.env.PASSEMAIL,
+  },
+});
 
-const resend = new Resend(process.env.RESEND_API);
-
-const sendEmail = async ({ to, subject, html }) => {
+/**
+ * Function to send an email
+ * @param {Object} options - Email details
+ * @param {string} options.to - Recipient email address
+ * @param {string} options.subject - Email subject
+ * @param {string} options.html - Email body content (HTML format)
+ */
+export async function sendEmail({ to, subject, html }) {
   try {
-    const response = await resend.emails.send({
-      from: "UrbanPulse <ganeshthota656@gmail.com>",
-      to: [to],
+    const mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to,
       subject,
       html,
-    });
+    };
 
-    if (response.error) {
-      console.error("Email sending failed:", response.error);
-      return null;
-    }
-   console.log(response);
-    return response.data;
+    const info = await transporter.sendMail(mailOptions);
+    console.log("✅ Email sent successfully:", info.response);
   } catch (error) {
-    console.error("Unexpected error while sending email:", error);
-    return null;
+    console.error("❌ Error sending email:", error);
   }
-};
+}
 
 export default sendEmail;
