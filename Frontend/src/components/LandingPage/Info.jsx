@@ -32,7 +32,7 @@ const Info = () => {
             </div>
             
             {/* Display Filter Data */}
-            <div className="p-4 text-center  rounded-md bg-blue-50 buttom-one">
+            <div className="p-4 text-center  rounded-md bg-blue-50">
                 <h2 className="text-xl font-semibold mb-2">{selectedFilter} Info</h2>
                 <p>{filterData[selectedFilter]}</p>
             </div>

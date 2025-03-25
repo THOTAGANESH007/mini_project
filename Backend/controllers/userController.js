@@ -285,7 +285,7 @@ export async function forgotPasswordController(req, res) {
       success: true,
     });
   } catch (error) {
-    return rres.status(500).json({
+    return res.status(500).json({
       message: error.message,
       success: false,
       error: true,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -7,9 +7,18 @@ const Signup = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userType, setUserType] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Signup Attempt:", { email, password, username });
+    const data=await axios.post("http://localhost:9999/api/user/register", { email, password,name:username },
+         {
+        headers: {
+          "Content-Type": "application/json",
+         }
+        }
+    );
+    console.log(data);
+
   };
 
   return (

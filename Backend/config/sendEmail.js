@@ -13,7 +13,7 @@ const resend = new Resend(process.env.RESEND_API);
 const sendEmail = async ({ to, subject, html }) => {
   try {
     const response = await resend.emails.send({
-      from: "UrbanPulse <dontNeed@resend.dev>",
+      from: "UrbanPulse <ganeshthota656@gmail.com>",
       to: [to],
       subject,
       html,
@@ -23,7 +23,7 @@ const sendEmail = async ({ to, subject, html }) => {
       console.error("Email sending failed:", response.error);
       return null;
     }
-
+   console.log(response);
     return response.data;
   } catch (error) {
     console.error("Unexpected error while sending email:", error);
