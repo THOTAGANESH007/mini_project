@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import GovRepresentives from './components/GovRepresentives';
 import AllPlaces from './components/AllPlaces';
+import AuthPage from './components/AuthPage';
 
 function App() {
 
@@ -19,13 +20,14 @@ function App() {
           <Route path="/" element={<Home></Home>} />
           <Route path="/about" element={<></>} />
           <Route path="/contact" element={<></>} />
-          <Route path="/login" element={<Login/>} />
+          {/* <Route path="/login" element={<Login/>} /> */}
           <Route path="/signup" element={<Signup/>} />
           <Route path="/officals" element={<GovRepresentives/>} />
           <Route path="/places" element={<AllPlaces/>} />
 
-          
+          <Route path="/auth/*" element={<AuthPage/>} />
       </Routes>
+    
 
     <Footer/>
     </>

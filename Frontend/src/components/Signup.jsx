@@ -1,33 +1,55 @@
 import React, { useState } from "react";
 import axios from "axios";
+
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userType, setUserType] = useState("");
+  const [message, setMessage] = useState(""); // State to store API response message
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Signup Attempt:", { email, password, username });
-    const data=await axios.post("http://localhost:9999/api/user/register", { email, password,name:username },
-         {
-        headers: {
-          "Content-Type": "application/json",
-         }
-        }
-    );
-    console.log(data);
+    setMessage(""); // Clear message before submitting
 
+    try {
+      console.log("Signup Attempt:", { email, password, username });
+      const res = await axios.post(
+        "http://localhost:9999/api/user/register",
+        { email, password, name: username, phoneNumber, userType },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Response:", res.data);
+      setMessage(res.data.message); // Set success message
+    } catch (error) {
+      console.error("Error:", error.response);
+      setMessage(error.response?.data?.message || "Signup failed!"); // Set error message
+    }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen  mt-[140px] mb-[80px]">
+    <div className="flex justify-center items-center h-screen mt-[140px] mb-[80px]">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-4 rounded-lg shadow-lg  border border-black w-[400px] mx-auto"
+        className="bg-white p-4 rounded-lg shadow-lg border border-black w-[400px] mx-auto"
       >
         <h2 className="text-3xl font-semibold mb-6 text-center">SignUp</h2>
+
+        {message && (
+          <p
+            className={`text-center mb-4 p-2 rounded ${
+              message.includes("User Registration Successful") ?  "bg-green-200 text-green-700":"bg-red-200 text-red-700"
+            }`}
+          >
+            {message}
+          </p>
+        )}
 
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Username</label>
@@ -45,8 +67,10 @@ const Signup = () => {
           <select
             value={userType}
             onChange={(e) => setUserType(e.target.value)}
+            required
             className="w-full p-3 border border-black rounded focus:outline-none focus:ring-2 focus:ring-gray-800"
           >
+            <option value="">Select Role</option>
             <option value="Stranger">Stranger</option>
             <option value="Household">Household</option>
             <option value="Admin">Admin</option>

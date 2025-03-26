@@ -22,7 +22,7 @@ const Header = () => {
 
           {/* Login Button */}
           <button className="text-white border border-white px-4 py-1 rounded-lg hover:bg-white hover:text-blue-600 transition">
-           <Link to={"/login"}> Login</Link>
+           <Link to={"/auth"}> Login</Link>
           </button>
           <button className="text-white border border-white px-4 py-1 rounded-lg hover:bg-white hover:text-blue-600 transition">
            <Link to={"/signup"}> Signup</Link>
