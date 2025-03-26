@@ -44,7 +44,9 @@ const Signup = () => {
         {message && (
           <p
             className={`text-center mb-4 p-2 rounded ${
-              message.includes("User Registration Successful") ?  "bg-green-200 text-green-700":"bg-red-200 text-red-700"
+              message.includes("User Registration Successful")
+                ? "bg-green-200 text-green-700"
+                : "bg-red-200 text-red-700"
             }`}
           >
             {message}
@@ -70,10 +72,9 @@ const Signup = () => {
             required
             className="w-full p-3 border border-black rounded focus:outline-none focus:ring-2 focus:ring-gray-800"
           >
-            <option value="">Select Role</option>
-            <option value="Stranger">Stranger</option>
-            <option value="Household">Household</option>
+            <option value="User">User</option>
             <option value="Admin">Admin</option>
+            <option value="MLA">Higher Authority</option>
           </select>
         </div>
 
