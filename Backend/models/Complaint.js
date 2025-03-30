@@ -1,24 +1,28 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+import mongoose from "mongoose";
 
-const ComplaintSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  category: {
-    type: String,
-    enum: [
-      "Billing_Issue",
-      "Service_Issue",
-      "Technical_Issue",
-      "Fraud",
-      "Other",
-    ],
-    required: true,
+const { Schema } = mongoose; // ✅ Extract Schema from mongoose
+
+const ComplaintSchema = new Schema(
+  {
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    category: {
+      type: String,
+      enum: ["Electrical", "Drainage", "Water_Service", "Other"],
+      required: true,
+    },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    description: { type: String, required: true },
+    status: {
+      type: String,
+      enum: ["Pending", "Rejected", "Accepted", "Processing", "Resolved"],
+      default: "Pending",
+    },
+    imageUrl: String,
   },
-  email: { type: String, required: true },
-  phone: { type: String, required: true },
-  description: { type: String, required: true },
-  status: { type: String, enum: ["Resolved", "Pending"], default: "Pending" },
-  timestamps: { type: Date, default: Date.now },
-});
+  { timestamps: true } // ✅ Auto-add createdAt & updatedAt
+);
 
-module.exports = model("Complaint", ComplaintSchema);
+const Complaint = mongoose.model("Complaint", ComplaintSchema);
+
+export default Complaint;
