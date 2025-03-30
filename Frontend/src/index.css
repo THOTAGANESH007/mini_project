@@ -13,3 +13,11 @@
   /* height: 250px; */
   background-color: #393E41;
 }
+.about-page{
+  margin-top: 50px;
+  background-color: black;
+}
+.about-inner{
+  background-color: #262626;
+  color: white;
+}

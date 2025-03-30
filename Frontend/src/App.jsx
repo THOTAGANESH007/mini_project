@@ -9,6 +9,7 @@ import Signup from './components/Signup';
 import GovRepresentives from './components/GovRepresentives';
 import AllPlaces from './components/AllPlaces';
 import AuthPage from './components/AuthPage';
+import AboutPage from './components/AboutPage';
 
 function App() {
 
@@ -18,13 +19,13 @@ function App() {
     
       <Routes>
           <Route path="/" element={<Home></Home>} />
-          <Route path="/about" element={<></>} />
+        
           <Route path="/contact" element={<></>} />
           {/* <Route path="/login" element={<Login/>} /> */}
           <Route path="/signup" element={<Signup/>} />
           <Route path="/officals" element={<GovRepresentives/>} />
           <Route path="/places" element={<AllPlaces/>} />
-
+          <Route path='/about' element={<AboutPage></AboutPage>} />
           <Route path="/auth/*" element={<AuthPage/>} />
       </Routes>
     

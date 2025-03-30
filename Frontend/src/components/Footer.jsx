@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-6 text-center">
+    <footer style={{backgroundColor:"#262626"}}className=" text-white py-6 text-center">
       <div className="flex flex-col items-center gap-3 px-4">
         
         {/* Social Media Icons */}
