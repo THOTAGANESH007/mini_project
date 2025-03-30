@@ -1,7 +1,10 @@
 import React from 'react';
 import MapComponent from './MapComponent';
+import { useNavigate } from "react-router-dom";
+
 
 export default function LastSection() {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row gap-4 p-6 bg-gray-900">
       
@@ -17,7 +20,9 @@ export default function LastSection() {
           Malkajgiri, Ranga Reddy, and Sangareddy—covering 650 Sq. Km with 6 zones, 
           30 circles, and 150 wards.
         </p>
-        <button className="border border-black py-2 px-6 rounded-2xl bg-white hover:bg-gray-200 transition">
+        <button
+         onClick={() => navigate("/about")}
+         className="border border-black py-2 px-6 rounded-2xl bg-white hover:bg-gray-200 transition">
           Read More...
         </button>
       </div>
