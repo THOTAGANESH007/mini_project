@@ -10,6 +10,8 @@ import GovRepresentives from './components/GovRepresentives';
 import AllPlaces from './components/AllPlaces';
 import AuthPage from './components/AuthPage';
 import AboutPage from './components/AboutPage';
+import EventList from './components/Events/EventList';
+import EventDetail from './components/Events/EventDetail';
 
 function App() {
 
@@ -24,6 +26,8 @@ function App() {
           {/* <Route path="/login" element={<Login/>} /> */}
           <Route path="/signup" element={<Signup/>} />
           <Route path="/officals" element={<GovRepresentives/>} />
+          <Route path="/events" element={<EventList/>} />
+          <Route path="/event/:id" element={<EventDetail/>} />
           <Route path="/places" element={<AllPlaces/>} />
           <Route path='/about' element={<AboutPage></AboutPage>} />
           <Route path="/auth/*" element={<AuthPage/>} />
