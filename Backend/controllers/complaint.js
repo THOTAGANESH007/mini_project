@@ -20,7 +20,7 @@ export async function addComplaints(req, res) {
     }
 
     const upload = await uploadImageCloudinary(image);
-
+    console.log("url", upload.url);
     const complaint = new Complaint({
       userId,
       category,
