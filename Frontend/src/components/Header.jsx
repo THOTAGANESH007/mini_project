@@ -9,12 +9,12 @@ const Header = () => {
 
         {/* Left Section - Logo */}
         <div className="flex items-center">
-          <h1 className="text-white text-2xl font-semibold">UrbanPulse</h1>
+          <h1 className="text-white text-2xl font-semibold"><a href='/'>UrbanPulse</a></h1>
         </div>
       
         {/* Right Section - Navigation & Login */}
         <div className="flex items-center gap-x-6">
-          <a href="#" className="text-white text-xl hover:text-gray-300">Events</a>
+          <a href="/events" className="text-white text-xl hover:text-gray-300">Events</a>
           <a href="#" className="text-white text-xl hover:text-gray-300">Complaints</a>
           <a href="#" className="text-white text-xl hover:text-gray-300">Bills</a>
           <a href="#" className="text-white text-xl hover:text-gray-300">Appointments</a>

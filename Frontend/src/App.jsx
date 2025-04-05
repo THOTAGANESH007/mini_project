@@ -12,18 +12,17 @@ import AuthPage from './components/AuthPage';
 import AboutPage from './components/AboutPage';
 import EventList from './components/Events/EventList';
 import EventDetail from './components/Events/EventDetail';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
 
   return (
     <>
     <Header/>
-    
+    <ScrollToTop/>
       <Routes>
           <Route path="/" element={<Home></Home>} />
-        
           <Route path="/contact" element={<></>} />
-          {/* <Route path="/login" element={<Login/>} /> */}
           <Route path="/signup" element={<Signup/>} />
           <Route path="/officals" element={<GovRepresentives/>} />
           <Route path="/events" element={<EventList/>} />
