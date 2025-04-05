@@ -6,12 +6,12 @@ import morgan from "morgan";
 import helmet from "helmet";
 import connectDB from "./config/connectDB.js";
 import userRouter from "./routes/userRoute.js";
+import complaintRouter from "./routes/complaintRoute.js";
 dotenv.config();
 
 const app = express();
 app.use(
   cors({
-
     credentials: true,
     origin: "http://localhost:5173",
   })
@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRouter);
+app.use("/api/complaints", complaintRouter);
 
 connectDB()
   .then(() => {

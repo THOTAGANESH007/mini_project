@@ -23,12 +23,7 @@ userRouter.post("/login", loginController);
 
 userRouter.get("/logout", auth, logoutController);
 
-userRouter.put(
-  "/upload-profile",
-  auth,
-  upload.single("profile"),
-  uploadProfile
-);
+userRouter.put("/upload-profile", auth, upload.single("image"), uploadProfile);
 
 userRouter.put("/update-user", auth, updateUserDetails);
 
