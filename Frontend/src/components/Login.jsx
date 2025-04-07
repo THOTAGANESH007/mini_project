@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { addUser } from "../utils/UserSlice";
+import { useDispatch } from "react-redux";
 const Login = ({ setAuthStep }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(""); // State for API message
   const [isError, setIsError] = useState(false); // Track success or error
   const navigate = useNavigate();
+  const dispatch=useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,11 +21,11 @@ const Login = ({ setAuthStep }) => {
         { email, password },
         { withCredentials: true }
       );
-
+      console.log(res.data.data);
       if (res.data.success) {
         setMessage(res.data.message);
         setIsError(false);
-
+        dispatch(addUser(res.data.data.userObj))
         setTimeout(() => {
           navigate("/"); // Redirect after success
         }, 1500);
@@ -38,7 +40,7 @@ const Login = ({ setAuthStep }) => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen bg-gray-100 mt-10">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md border border-black w-[400px]"

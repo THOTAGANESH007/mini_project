@@ -14,7 +14,8 @@ const Header = () => {
         {/* Right Section - Navigation & Login */}
         <div className="flex items-center gap-x-6">
           <a href="/events" className="text-white text-xl hover:text-gray-300">Events</a>
-          <a href="#" className="text-white text-xl hover:text-gray-300">Complaints</a>
+          <Link to="/complaints"className="text-white text-xl hover:text-gray-300">Complaints</Link>
+          <Link to="/profile"className="text-white text-xl hover:text-gray-300">Profile</Link>
           <a href="#" className="text-white text-xl hover:text-gray-300">Bills</a>
           <a href="#" className="text-white text-xl hover:text-gray-300">Appointments</a>
           <a href="#" className="text-white text-xl hover:text-gray-300"><BellDot/></a>

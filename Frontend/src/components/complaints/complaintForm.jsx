@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ComplaintForm = () => {
+  const navigate=useNavigate();
   const [formData, setFormData] = useState({
     userId: "",
     category: "Electrical",
@@ -15,11 +17,11 @@ const ComplaintForm = () => {
 
   // Decode JWT token to get userId
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded = jwtDecode(token);
-      setFormData((prev) => ({ ...prev, userId: decoded.userId }));
-    }
+    // const token = localStorage.getItem("token");
+    // if (token) {
+    //   const decoded = jwtDecode(token);
+    //   setFormData((prev) => ({ ...prev, userId: decoded.userId }));
+    // }
   }, []);
 
   const handleChange = (e) => {
@@ -69,6 +71,7 @@ const ComplaintForm = () => {
         description: "",
       });
       setImage(null);
+      navigate("/complaints");
     } catch (error) {
       console.error(
         "Error submitting complaint:",
@@ -79,8 +82,8 @@ const ComplaintForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-[140px] mb-[50px] border rounded">
-      <h2 className="text-2xl font-bold mb-4">Submit a Complaint</h2>
+    <div className="max-w-lg mx-auto p-6 bg-gray-50 shadow-lg rounded-lg mt-[140px] mb-[50px] border rounded">
+      <h2 className="text-2xl font-bold mb-4">New Complaint</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
           <label className="block font-medium">Category</label>

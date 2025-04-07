@@ -13,13 +13,20 @@ import AuthPage from "./components/AuthPage";
 import AboutPage from "./components/AboutPage";
 import EventList from "./components/Events/EventList";
 import EventDetail from "./components/Events/EventDetail";
-import ComplaintForm from "./complaints/complaintForm";
+import ComplaintsHome from "./components/complaints/ComplaintsHome";
 import ScrollToTop from './components/ScrollToTop';
+import ComplaintForm from "./components/complaints/complaintForm";
+import ComplaintHistory from "./components/complaints/ComplaintHistory";
+import TenderForm from "./components/TenderForm";
+import { store } from "./utils/Store";
+import { Provider } from "react-redux";
+import Profile from "./components/Profile";
 
 
 function App() {
   return (
     <>
+    <Provider store={store}>
     <Header/>
     <ScrollToTop/>
       <Routes>
@@ -30,11 +37,16 @@ function App() {
           <Route path="/events" element={<EventList/>} />
           <Route path="/event/:id" element={<EventDetail/>} />
           <Route path="/places" element={<AllPlaces/>} />
-          <Route path="/complaints" element={<ComplaintForm/>}/>
+          <Route path="/complaints" element={<ComplaintsHome/>}/>
           <Route path='/about' element={<AboutPage></AboutPage>} />
           <Route path="/auth/*" element={<AuthPage/>} />
+          <Route path="/complaints/add" element={<ComplaintForm/>} />
+          <Route path="/complaints/history" element={<ComplaintHistory/>} />
+          <Route path="/tenders" element={<TenderForm/>} />
+          <Route path="/profile" element={<Profile/>} />
       </Routes>
       <Footer />
+    </Provider>
     </>
   );
 }

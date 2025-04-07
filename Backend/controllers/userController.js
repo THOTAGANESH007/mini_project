@@ -136,13 +136,19 @@ export async function loginController(req, res) {
     res.cookie("accessToken", accessToken, cookiesOption);
     res.cookie("refreshToken", refreshToken, cookiesOption);
 
+    const userObj = {
+      name:existedUser.name,
+      email:existedUser.email,
+      mobile:existedUser.mobile,
+      profile:existedUser.profile,
+
+    }
     return res.json({
       message: "Login Successful!!!",
       success: true,
       error: false,
       data: {
-        accessToken,
-        refreshToken,
+        userObj
       },
     });
   } catch (error) {
