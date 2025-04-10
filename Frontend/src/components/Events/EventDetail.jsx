@@ -1,51 +1,49 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-// same mock events from EventList
-const allEvents = Array.from({ length: 50 }, (_, i) => ({
-  _id: i + 1,
-  title: `Event ${i + 1}`,
-  description: `Description for event ${i + 1}`,
-  location: `City ${i + 1}`,
-  date: new Date(2025, 3, (i % 30) + 1),
-  is_free: i % 3 === 0,
-  ticket_price: i % 3 === 0 ? 0 : Math.floor(Math.random() * 1000 + 100),
-}));
+import allEvents from "./events";
 
 const EventDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const event = allEvents.find((e) => e._id === parseInt(id));
+  const event = allEvents[id];
 
   if (!event) {
     return <p className="text-center mt-10 text-red-600">Event not found.</p>;
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-4 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-      >
-        ← Back
-      </button>
+    <div style={{minHeight:"100vh"}} className="max-w-4xl mx-auto p-6 mt-5 bg-white shadow-lg rounded-2xl mt-10">
+    <img src={event.img} alt={event.title} className="w-full h-64 object-cover rounded-xl mb-6" />
 
-      <h1 className="text-3xl font-bold mb-2">{event.title}</h1>
-      <p className="text-gray-700 mb-4">{event.description}</p>
-      <p className="text-sm text-gray-600">Location: {event.location}</p>
-      <p className="text-sm text-gray-600">
-        Date: {new Date(event.date).toLocaleDateString()}
-      </p>
-      <p className="text-lg mt-2">
-        Price:{" "}
-        {event.is_free ? (
-          <span className="text-green-600">Free</span>
-        ) : (
-          `₹${event.ticket_price}`
-        )}
-      </p>
+    <h1 className="text-3xl font-bold text-gray-800 mb-2">{event.title}</h1>
+    <p className="text-gray-600 text-lg mb-4">{event.description}</p>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 mb-4">
+      <div>
+        <span className="font-semibold">Organizer:</span> {event.organizer_name}
+      </div>
+      <div>
+        <span className="font-semibold">Location:</span> {event.location}
+      </div>
+      <div>
+        <span className="font-semibold">Price:</span>{" "}
+        {event.isfree ? "Free" : `$${event.price}`}
+      </div>
+      <div>
+        <span className="font-semibold">Registration:</span>{" "}
+        <a
+          href={event.registration_link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:underline"
+        >
+          Click here to register
+        </a>
+      </div>
     </div>
+  </div>
   );
 };
 

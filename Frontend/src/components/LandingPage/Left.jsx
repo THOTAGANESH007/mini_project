@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 import '../../style/Home.css';
-
+import allEvents from '../Events/events';
 function Left() {
   const cards = [
     { title: "Card 1", description: "This is card 1" },
@@ -16,7 +16,7 @@ function Left() {
     <div className="scroll-container-left">
       <div className="scroll-content-left">
         {/* Original cards */}
-        {cards.map((card, index) => (
+        {allEvents.map((card, index) => (
           <Card key={index} {...card} />
         ))}
 
