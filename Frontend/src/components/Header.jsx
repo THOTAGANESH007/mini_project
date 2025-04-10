@@ -17,9 +17,10 @@ const handleLogout = async () => {
       dispatch(clearUser());
     
       alert(res.data.message)
+      navigate("/");
     }
    
-    navigate("/"); // redirect to login page
+    // redirect to login page
   } catch (error) {
     console.error("Logout failed:", error);
   }
@@ -35,12 +36,12 @@ const handleLogout = async () => {
 
         {/* Right Section - Navigation & Login */}
         <div className="flex items-center gap-x-6">
-          <a href="/events" className="text-white text-xl hover:text-gray-300">Events</a>
+          <Link to="/events" className="text-white text-xl hover:text-gray-300">Events</Link>
           <Link to="/complaints"className="text-white text-xl hover:text-gray-300">Complaints</Link>
           {/* <Link to="/profile"className="text-white text-xl hover:text-gray-300">Profile</Link> */}
-          <a href="#" className="text-white text-xl hover:text-gray-300">Bills</a>
-          <a href="#" className="text-white text-xl hover:text-gray-300">Appointments</a>
-          <a href="#" className="text-white text-xl hover:text-gray-300"><BellDot/></a>
+          <Link href="#" className="text-white text-xl hover:text-gray-300">Bills</Link>
+          <Link href="#" className="text-white text-xl hover:text-gray-300">Appointments</Link>
+          <Link href="#" className="text-white text-xl hover:text-gray-300"><BellDot/></Link>
 
           {/* Login Button */}
          {!user &&  (<div className="flex gap-2">
