@@ -49,6 +49,8 @@ const Profile = () => {
   
         // If backend returns new profile image URL:
         if (response.data.data.profile) {
+          dispatch(clearUser())
+          dispatch(addUser({...user,profile:response.data.data.profile}))
           setPreviewImage(response.data.data.profile);
         }
   

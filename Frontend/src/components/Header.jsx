@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../index.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BellDot } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../utils/UserSlice";
+import axios from "axios";
 const Header = () => {
 const user=useSelector((store)=>store.user)
+const dispatch = useDispatch();
+const navigate = useNavigate();
+
+const handleLogout = async () => {
+  try {
+    const res=await axios.get("http://localhost:9999/api/user/logout",{withCredentials:true}); // change this to your actual logout endpoint
+    if(res.data.message){
+      dispatch(clearUser());
+    
+      alert(res.data.message)
+    }
+   
+    navigate("/"); // redirect to login page
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+};
+
   return (
     <div className="fixed top-0 left-0 w-full z-50">
       <nav className="flex items-center justify-between px-6 py-3 header">
@@ -41,7 +61,7 @@ const user=useSelector((store)=>store.user)
       <img
         alt="User Photo"
         src={user.profile || "https://via.placeholder.com/40"}
-        className="w-15 h-15 rounded-full ring-2 ring-white object-cover"
+        className="w-10 h-10 rounded-full ring-2 ring-white object-cover"
       />
     </div>
 
@@ -55,7 +75,7 @@ const user=useSelector((store)=>store.user)
         </Link>
       </li>
       <li className="hover:bg-gray-100 px-4 py-2">
-        <Link to="/auth/logout" className="block w-full">Logout</Link>
+        <Link onClick={()=>handleLogout()} className="block w-full">Logout</Link>
       </li>
     </ul>
   </div>
