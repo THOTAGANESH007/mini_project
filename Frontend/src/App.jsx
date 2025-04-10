@@ -21,6 +21,10 @@ import TenderForm from "./components/TenderForm";
 import { store } from "./utils/Store";
 import { Provider } from "react-redux";
 import Profile from "./components/Profile";
+import Bills from "./components/Bills/BillsHome";
+import BillsHome from "./components/Bills/BillsHome";
+import PaymentForm from "./components/Bills/PaymentForm";
+import PaymentHistory from "./components/Bills/PaymentHistory";
 
 
 function App() {
@@ -43,7 +47,10 @@ function App() {
           <Route path="/complaints/add" element={<ComplaintForm/>} />
           <Route path="/complaints/history" element={<ComplaintHistory/>} />
           <Route path="/tenders" element={<TenderForm/>} />
+          <Route path="/bills" element={<BillsHome/>}/>
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/bills/pay" element={<PaymentForm/>}/>
+          <Route path="/bills/history" element={<PaymentHistory/>}/>
       </Routes>
       <Footer />
     </Provider>
