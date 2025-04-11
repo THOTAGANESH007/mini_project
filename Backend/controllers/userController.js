@@ -200,7 +200,7 @@ export async function uploadProfile(req, res) {
 
     const upload = await uploadImageCloudinary(image);
     const updateUser = await UserModel.findByIdAndUpdate(userId, {
-      avatar: upload.url,
+      profile: upload.url,
     });
     return res.json({
       message: "Uploaded Profile",
@@ -232,21 +232,26 @@ export async function updateUserDetails(req, res) {
       ...(password && { password: hashPassword }),
     });*/
 
-    const updateUser = await UserModel.updateOne(
+    const updateUser = await UserModel.findByIdAndUpdate(
       { _id: userId },
       {
         ...(name && { name: name }),
         ...(email && { email: email }),
         ...(mobile && { mobile: mobile }),
         ...(password && { password: hashPassword }),
-      }
+      },{new:true,runValidators:true}
     );
 
     return res.json({
       message: "User Details Updated",
       success: true,
       error: false,
-      data: updateUser,
+      data: {
+        name:updateUser.name,
+        profile:updateUser.profile,
+        email:updateUser.email,
+        mobile:updateUser.mobile,
+      },
     });
   } catch (error) {
     return res.status(500).json({

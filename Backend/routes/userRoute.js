@@ -26,7 +26,7 @@ userRouter.get("/logout", auth, logoutController);
 userRouter.put("/upload-profile", auth, upload.single("image"), uploadProfile);
 
 userRouter.put("/update-user", auth, updateUserDetails);
-
+ 
 userRouter.put("/forgot-password", forgotPasswordController);
 
 userRouter.put("/verify-forgot-password-otp", verifyForgotPasswordOtp);

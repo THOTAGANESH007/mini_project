@@ -84,7 +84,7 @@ const EventList = () => {
   const totalPages = Math.ceil(filteredEvents.length / eventsPerPage)
 
   return (
-    <div className='p-6 max-w-6xl mx-auto' style={{minHeight:"100vh"}}>
+    <div className='p-6 max-w-6xl mx-auto mt-[95px] mb-[10px]>' style={{minHeight:"100vh"}} >
       <h1 className='text-3xl font-bold mb-6'>Event List</h1>
 
       {/* Filters */}

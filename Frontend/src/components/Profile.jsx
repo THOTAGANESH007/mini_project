@@ -1,8 +1,12 @@
 import React, { useState,useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { addUser,clearUser } from "../utils/UserSlice";
+
 
 const Profile = () => {
     const user=useSelector((store)=>store.user);
+    const dispatch=useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,7 +17,7 @@ const Profile = () => {
   const [previewImage, setPreviewImage] = useState(
     "https://via.placeholder.com/150"
   );
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -22,19 +26,69 @@ const Profile = () => {
     }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Update preview and local state
       setFormData((prev) => ({ ...prev, image: file }));
       setPreviewImage(URL.createObjectURL(file));
+  
+      // Prepare form data
+      const formDataObj = new FormData();
+      formDataObj.append("image", file); // 'profile' should match your backend field
+  
+      try {
+        const response = await axios.put("http://localhost:9999/api/user/upload-profile", formDataObj, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials:true,
+        });
+  
+        console.log("Upload successful:", response.data);
+  
+        // If backend returns new profile image URL:
+        if (response.data.data.profile) {
+          dispatch(clearUser())
+          dispatch(addUser({...user,profile:response.data.data.profile}))
+          setPreviewImage(response.data.data.profile);
+        }
+  
+      } catch (error) {
+        console.error("Image upload failed:", error);
+      }
     }
   };
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted data:", formData);
-    // You can add actual form submission logic here
+  
+    try {
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        mobile: formData.mobile,
+        // Include profile image URL if you have it
+        profile: previewImage !== "https://via.placeholder.com/150" ? previewImage : null,
+      };
+  
+      const response = await axios.put(
+        "http://localhost:9999/api/user/update-user",
+        payload,
+        { withCredentials: true }
+      );
+  
+      console.log("Profile updated:", response.data);
+      // Optionally show a success message or update Redux store
+     dispatch(clearUser());
+      dispatch(addUser(response.data.data));
+        alert("Profile updated successfully");
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+    }
   };
+  
   useEffect(() => {
     if (user) {
       setFormData({
@@ -48,7 +102,7 @@ const Profile = () => {
         user.profile && user.profile !== "" ? user.profile : "https://via.placeholder.com/150"
       );
     }
-  }, []);
+  }, [user]);
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mb-[60px] mt-[140px]">
