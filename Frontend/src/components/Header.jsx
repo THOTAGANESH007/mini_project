@@ -39,9 +39,9 @@ const handleLogout = async () => {
           <Link to="/events" className="text-white text-xl hover:text-gray-300">Events</Link>
           <Link to="/complaints"className="text-white text-xl hover:text-gray-300">Complaints</Link>
           {/* <Link to="/profile"className="text-white text-xl hover:text-gray-300">Profile</Link> */}
-          <Link href="/bills" className="text-white text-xl hover:text-gray-300">Bills</Link>
-          <Link href="/appointments" className="text-white text-xl hover:text-gray-300">Appointments</Link>
-          <Link href="#" className="text-white text-xl hover:text-gray-300"><BellDot/></Link>
+          <Link to="/bills" className="text-white text-xl hover:text-gray-300">Bills</Link>
+          <Link to="/appointments" className="text-white text-xl hover:text-gray-300">Appointments</Link>
+          <Link to="#" className="text-white text-xl hover:text-gray-300"><BellDot/></Link>
 
           {/* Login Button */}
          {!user &&  (<div className="flex gap-2">
