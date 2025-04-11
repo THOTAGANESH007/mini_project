@@ -17,8 +17,7 @@ const PaymentHistory = () => {
   return (
     <div className="p-4">
         {/* <h1 className=''>Payment</h1> */}
-        <br></br><br></br>
-        <br></br>
+        {/* <br></br> */}
       <h2 className="text-3xl font-bold text-center my-4">Transaction History</h2>
       <div className='px-5'>
       <table className="w-full border-collapse border  border-gray-400">

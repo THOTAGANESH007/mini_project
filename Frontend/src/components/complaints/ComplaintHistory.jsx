@@ -67,8 +67,6 @@ const ComplaintHistory = () => {
   return (
     <div className="p-4">
       <br></br>
-      <br></br>
-      <br></br>
       <h2 className="text-xl font-bold text-center mb-4">Complaints Table</h2>
       {/* <br></br> */}
       <div className='p-4'>

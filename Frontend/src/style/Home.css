@@ -3,7 +3,7 @@
 }
 .events{
     height: auto;
-    padding: 20px 0rem;
+    /* padding: 20px 0rem; */
     padding-bottom: 80px;
     background-color:#0f0f0f;
 }
@@ -21,7 +21,7 @@
     overflow: hidden;
     white-space: nowrap;
     position:relative;
-    top: 90px;
+    top: 40px;
   }
   
   .scroll-content-left {
@@ -49,7 +49,7 @@
     overflow: hidden;
     white-space: nowrap;
     position: relative;
-    top: 80px;
+    top: 50px;
   }
   
   .scroll-content-right {
