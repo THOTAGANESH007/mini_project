@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { BellDot } from "lucide-react";
 const Header = () => {
   return (
-    <div className="fixed top-0 left-0 w-full z-50">
+    <div className="sticky top-0 left-0 w-full z-50">
       <nav className="flex items-center justify-between px-6 py-3 header">
         {/* Left Section - Logo */}
         <div className="flex items-center">
