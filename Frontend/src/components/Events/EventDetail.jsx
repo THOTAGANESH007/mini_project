@@ -14,17 +14,18 @@ const EventDetail = () => {
   }
 
   return (
-    <div style={{minHeight:"100vh"}} className="max-w-4xl mx-auto p-6 mt-5 bg-white shadow-lg rounded-2xl mt-10">
+    <div style={{minHeight:"100vh"}} className="max-w-4xl mx-auto p-6 mt-3 bg-white shadow-lg rounded-2xl mt-10">
+      <h1 className="text-3xl mb-5 font-bold text-center text-gray-800 mb-2">{event.title}</h1>
     <img src={event.img} alt={event.title} className="w-full h-64 object-cover rounded-xl mb-6" />
 
-    <h1 className="text-3xl font-bold text-gray-800 mb-2">{event.title}</h1>
-    <p className="text-gray-600 text-lg mb-4">{event.description}</p>
+    
+    <p className="text-gray-600 text-center text-lg mb-4">{event.description}</p>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 mb-4">
       <div>
         <span className="font-semibold">Organizer:</span> {event.organizer_name}
       </div>
-      <div>
+      <div className="">
         <span className="font-semibold">Location:</span> {event.location}
       </div>
       <div>
