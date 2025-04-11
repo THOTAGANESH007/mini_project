@@ -7,7 +7,7 @@ export default function AppointmentsPage() {
   });
 
   const [appointments, setAppointments] = useState([
-    // Dummy initial data
+    // Upcoming
     {
       id: 1,
       department: 'Cardiology',
@@ -19,8 +19,38 @@ export default function AppointmentsPage() {
       id: 2,
       department: 'Neurology',
       description: 'Headache',
-      assignedDate: '2025-04-10',
+      assignedDate: '2025-04-18',
       assignedTime: '03:00 PM',
+    },
+    {
+      id: 3,
+      department: 'Orthopedics',
+      description: 'Knee pain',
+      assignedDate: '2025-04-20',
+      assignedTime: '09:00 AM',
+    },
+
+    // Completed
+    {
+      id: 4,
+      department: 'Cardiology',
+      description: 'Follow-up',
+      assignedDate: '2025-04-05',
+      assignedTime: '11:00 AM',
+    },
+    {
+      id: 5,
+      department: 'Neurology',
+      description: 'Migraine consultation',
+      assignedDate: '2025-04-01',
+      assignedTime: '02:00 PM',
+    },
+    {
+      id: 6,
+      department: 'Orthopedics',
+      description: 'Back pain therapy',
+      assignedDate: '2025-03-28',
+      assignedTime: '01:00 PM',
     }
   ]);
 
@@ -68,9 +98,9 @@ export default function AppointmentsPage() {
   );
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-6 min-h-screen bg-gray-100">
-      {/* Left Side - Form */}
-      <div className="md:w-1/2 w-full bg-white p-6 rounded-xl shadow-md">
+    <div className="flex flex-col md:flex-row gap-6 p-6 min-h-screen bg-black">
+      {/* Left Side - Fixed Height */}
+      <div className="md:w-1/2 w-full bg-white p-6 rounded-xl shadow-md h-[85vh] sticky top-6 self-start overflow-y-auto">
         <h2 className="text-2xl font-semibold mb-4">Book an Appointment</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -109,8 +139,8 @@ export default function AppointmentsPage() {
         </form>
       </div>
 
-      {/* Right Side - Appointments */}
-      <div className="md:w-1/2 w-full space-y-6">
+      {/* Right Side - Scrollable */}
+      <div className="md:w-1/2 w-full h-[85vh] overflow-y-auto space-y-6 pr-2">
         {/* Upcoming */}
         <div className="bg-white p-6 rounded-xl shadow-md">
           <h3 className="text-xl font-semibold mb-3">Upcoming Appointments</h3>
