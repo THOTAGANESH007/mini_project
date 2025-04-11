@@ -25,6 +25,7 @@ import Bills from "./components/Bills/BillsHome";
 import BillsHome from "./components/Bills/BillsHome";
 import PaymentForm from "./components/Bills/PaymentForm";
 import PaymentHistory from "./components/Bills/PaymentHistory";
+import AppointmentsPage from "./components/Appointments/AppointmentsPage";
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/bills/pay" element={<PaymentForm/>}/>
           <Route path="/bills/history" element={<PaymentHistory/>}/>
+          <Route path="/appointments" element={<AppointmentsPage/>}/>
       </Routes>
       <Footer />
     </Provider>
