@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ComplaintHistory = () => {
+  const navigate = useNavigate();
+
   const complaintsData = [
     {
       sno: 1,
@@ -64,35 +67,33 @@ const ComplaintHistory = () => {
     },
   ];
 
+  const handleViewDetails = (complaint) => {
+    navigate(`/complaint/${complaint.sno}`, { state: { complaint } });
+  };
+
   return (
-    <div className="p-4">
-      <br></br>
-      <h2 className="text-xl font-bold text-center mb-4">Complaints Table</h2>
-      {/* <br></br> */}
-      <div className='p-4'>
-      <table className="w-full border-collapse border border-gray-400">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border border-gray-400 px-4 py-2">S.No</th>
-            <th className="border border-gray-400 px-4 py-2">Category</th>
-            <th className="border border-gray-400 px-4 py-2">Description</th>
-            <th className="border border-gray-400 px-4 py-2">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {complaintsData.map((complaint) => (
-            <tr key={complaint.sno}>
-              <td className="border border-gray-400 text-center px-4 py-2">{complaint.sno}</td>
-              <td className="border border-gray-400 px-4 text-center py-2">{complaint.category}</td>
-              <td className="border border-gray-400 px-4  py-2">{complaint.description}</td>
-              <td className={`border border-gray-400 px-4 text-center py-2 ${complaint.status === 'Pending' ? 'text-yellow-600' : complaint.status === 'Completed' ? 'text-green-600' : 'text-red-600'}`}>
-                {complaint.status}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
+    <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {complaintsData.map((complaint) => (
+        <div
+          key={complaint.sno}
+          className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200"
+        >
+          <img
+            src={`https://smartwatermagazine.com/sites/default/files/styles/thumbnail-1180x647/public/water-pipe-2.jpg?itok=cy3hSz5q`}
+            alt={complaint.category}
+            className="w-full h-48 object-cover"
+          />
+          <div className="p-4 text-center">
+            <h3 className="text-lg font-semibold">{complaint.category}</h3>
+            <button
+              onClick={() => handleViewDetails(complaint)}
+              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              View Details
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

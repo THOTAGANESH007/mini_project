@@ -26,6 +26,7 @@ import BillsHome from "./components/Bills/BillsHome";
 import PaymentForm from "./components/Bills/PaymentForm";
 import PaymentHistory from "./components/Bills/PaymentHistory";
 import AppointmentsPage from "./components/Appointments/AppointmentsPage";
+import ComplaintDetails from "./components/complaints/ComplaintDetails";
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Route path="/bills/pay" element={<PaymentForm/>}/>
           <Route path="/bills/history" element={<PaymentHistory/>}/>
           <Route path="/appointments" element={<AppointmentsPage/>}/>
+          <Route path="/complaint/:sno" element={<ComplaintDetails/>}/>
       </Routes>
       <Footer />
     </Provider>
