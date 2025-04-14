@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ComplaintSchema = new mongoose.Schema(
   {
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    userId: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
     category: {
       type: String,
       enum: ["Electrical", "Drainage", "Water_Service", "Other"],
