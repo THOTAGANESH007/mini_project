@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Card = ({ image }) => (
-  <div className="bg-white shadow-lg rounded-lg overflow-hidden flex-none w-[22.8%] h-80 mx-2 transition-transform duration-300 hover:-translate-y-6">
+  <div className="bg-white shadow-lg rounded-lg overflow-hidden flex-none w-[22.8%] h-96 mx-2 transition-transform duration-300 hover:-translate-y-6">
     <img src={image} alt="Sample" className="w-full h-full object-cover cursor-pointer" />
   </div>
 );
@@ -48,7 +48,7 @@ function ExploreCards() {
   };
 
   return (
-    <div className="p-8 bg-gray-900 text-white flex flex-col items-center">
+    <div className="p-8  text-white flex flex-col items-center">
       {/* Explore Section Title */}
       <h1 className="text-4xl font-bold text-gray-300 mb-6">Explore</h1>
 
@@ -61,10 +61,10 @@ function ExploreCards() {
 
       {/* Arrow Buttons */}
       <div className="flex mt-6 gap-4">
-        <button onClick={scrollLeft} className="p-3 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition">
+        <button onClick={scrollLeft} className="p-3 cursor-pointer bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition">
           <ChevronLeft />
         </button>
-        <button onClick={scrollRight} className="p-3 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition">
+        <button onClick={scrollRight} className="p-3 cursor-pointer bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition">
           <ChevronRight />
         </button>
       </div>

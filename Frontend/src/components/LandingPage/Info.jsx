@@ -35,7 +35,7 @@ const Info = () => {
                 {Object.keys(departmentDetails).map((dept) => (
                     <button
                         key={dept}
-                        className={`py-1 px-3 text-lg border-2 rounded-2xl filter-btn
+                        className={`py-1 px-3 cursor-pointer text-lg border-2 rounded-2xl filter-btn
                             ${selectedDept === dept
                                 ? 'select'
                                 : 'bg-gray-200 border-transparent notselect'} 
@@ -49,8 +49,8 @@ const Info = () => {
 
             {/* Table for Selected Department */}
             <div className="overflow-x-auto">
-                <table className="min-w-full border border-gray-300 bg-white rounded-md">
-                    <thead className="bg-blue-100">
+                <table className="min-w-full border  bg-white rounded-md">
+                    <thead style={{backgroundColor:"#262626"}} className="text-white">
                         <tr>
                             <th className="py-2 px-4 border-b">Name</th>
                             <th className="py-2 px-4 border-b">Designation</th>
@@ -59,7 +59,7 @@ const Info = () => {
                     </thead>
                     <tbody>
                         {departmentDetails[selectedDept].map((person, index) => (
-                            <tr key={index} className="hover:bg-blue-50 transition">
+                            <tr style={{backgroundColor:"#F1FFE7"}} key={index} className="hover:bg-blue-50 transition">
                                 <td className="text-center py-2 px-4 border-b font-medium">{person.name}</td>
                                 <td className="text-center py-2 px-4 border-b">{person.designation}</td>
                                 <td className="text-center py-2 px-4 border-b">{person.contact}</td>
@@ -70,7 +70,7 @@ const Info = () => {
             </div>
             <div className="mt-4 text-center">
     <Link to={'/officals/'}>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
+        <button style={{backgroundColor:"#262626"}}  className="cursor-pointer  text-white px-4 py-2 rounded-md hover:bg-blue-600 transition border border-rounded">
             More contacts...
         </button>
     </Link>

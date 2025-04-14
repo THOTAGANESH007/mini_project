@@ -14,7 +14,7 @@ export default function Explore() {
             </div>
             <button
              onClick={() => navigate("/places")}
-             className='mx-auto block exlore-button text-lg '>Discover here</button>
+             className='mx-auto cursor-pointer block exlore-button text-lg '>Discover here</button>
     
     </div>
 

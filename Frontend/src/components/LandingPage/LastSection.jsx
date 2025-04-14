@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 export default function LastSection() {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-6 bg-gray-900">
+    <div style={{backgroundColor:"#F1FFE7"}} className="flex flex-col md:flex-row gap-4 p-6 ">
       
       {/* Left Section */}
-      <div className="w-full md:w-1/2 bg-green-100 text-black p-6 rounded-2xl shadow-lg">
+      <div  style={{backgroundColor:"#C2E7DA"}}className="w-full md:w-1/2  text-black p-6 rounded-2xl shadow-lg">
         <h1 className="text-center text-3xl mb-4 font-semibold">About GHMC</h1>
         <p className="text-justify mb-4 leading-relaxed">
           Greater Hyderabad Municipal Corporation is a civic administrative body 
@@ -22,7 +22,7 @@ export default function LastSection() {
         </p>
         <button
          onClick={() => navigate("/about")}
-         className="border border-black py-2 px-6 rounded-2xl bg-white hover:bg-gray-200 transition">
+         className="cursor-pointer border border-black py-2 px-6 rounded-2xl bg-white hover:bg-gray-200 transition">
           Read More...
         </button>
       </div>
