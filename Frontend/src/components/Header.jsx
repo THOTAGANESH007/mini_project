@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "../index.css";
 import { Link, useNavigate } from "react-router-dom";
-import { BellDot } from "lucide-react";
+import { BellDot, LogOut, User } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../utils/UserSlice";
 import axios from "axios";
@@ -72,11 +72,13 @@ const handleLogout = async () => {
       <li className=" hover:bg-gray-100 px-4 py-2">
         <Link to="/profile" className="flex justify-between items-center w-full">
           Profile
-          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">New</span>
+          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full"><User /></span>
         </Link>
       </li>
       <li className="hover:bg-gray-100 px-4 py-2">
-        <Link onClick={()=>handleLogout()} className="block w-full">Logout</Link>
+        <Link onClick={()=>handleLogout()} className="block w-full"><span className="flex items-center gap-15">
+      Logout <LogOut />
+    </span></Link>
       </li>
     </ul>
   </div>

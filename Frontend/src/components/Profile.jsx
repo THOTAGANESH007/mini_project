@@ -2,6 +2,7 @@ import React, { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addUser,clearUser } from "../utils/UserSlice";
+import { Pencil, Save } from "lucide-react";
 
 
 const Profile = () => {
@@ -114,9 +115,9 @@ const Profile = () => {
             alt="Profile"
             className="w-24 h-24 rounded-full ring-4 ring-blue-500 object-cover"
           />
-          <label className="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-1 cursor-pointer">
+          <label className="absolute bottom-0 right-0 bg-blue-500  rounded-full p-1 cursor-pointer">
             <input type="file" className="hidden" onChange={handleImageChange} />
-            ✏️
+            <Pencil className="text-white"/>
           </label>
         </div>
         <h2 className="mt-4 text-xl font-semibold">{formData.name || "Your Name"}</h2>
@@ -157,13 +158,14 @@ const Profile = () => {
             placeholder="Enter your mobile number"
           />
         </div>
-
         <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
-        >
-          Save Profile
-        </button>
+  type="submit"
+  className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition flex items-center justify-center gap-2"
+>
+  <Save className="my-0" />
+  Save Profile
+</button>
+
       </form>
     </div>
   );
