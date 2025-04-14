@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ProgressTracker from './ProgressTracker';
 
 const ComplaintHistory = () => {
   const navigate = useNavigate();
@@ -72,7 +73,10 @@ const ComplaintHistory = () => {
   };
 
   return (
+    <>
+     
     <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     
       {complaintsData.map((complaint) => (
         <div
           key={complaint.sno}
@@ -95,6 +99,7 @@ const ComplaintHistory = () => {
         </div>
       ))}
     </div>
+    </>
   );
 };
 
