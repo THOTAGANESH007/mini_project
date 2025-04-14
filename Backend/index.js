@@ -7,6 +7,7 @@ import helmet from "helmet";
 import connectDB from "./config/connectDB.js";
 import userRouter from "./routes/userRoute.js";
 import complaintRouter from "./routes/complaintRoute.js";
+import placesRouter from "./routes/placesRoute.js";
 dotenv.config();
 
 const app = express();
@@ -33,7 +34,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/complaints", complaintRouter);
-
+app.use("/api/places", placesRouter);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {
