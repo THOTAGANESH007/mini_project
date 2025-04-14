@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+import mongoose from "mongoose";
 
-const CensusSchema = new Schema({
+const CensusSchema = new mongoose.Schema({
   data: { type: Object, required: true },
   location: { type: String, required: true },
   population: { type: Number, required: true },
@@ -9,5 +8,5 @@ const CensusSchema = new Schema({
   ageGroups: { type: Object, required: true },
   sexRatio: { type: Number, required: true },
 });
-
-module.exports = model("Census", CensusSchema);
+const CensusModel = mongoose.model("Census", CensusSchema);
+export default CensusModel;

@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+import mongoose from "mongoose";
 
-const RepresentativeSchema = new Schema({
+const RepresentativeSchema = new mongoose.Schema({
   name: { type: String, required: true },
   designation: {
     type: String,
@@ -14,4 +13,8 @@ const RepresentativeSchema = new Schema({
   region_or_area: { type: String, required: true },
 });
 
-module.exports = model("Representative", RepresentativeSchema);
+const RepresentativeModel = mongoose.model(
+  "Representative",
+  RepresentativeSchema
+);
+export default RepresentativeModel;

@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+import mongoose from "mongoose";
 
-const BillSchema = new Schema({
+const BillSchema = new mongoose.Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
@@ -23,5 +22,5 @@ const BillSchema = new Schema({
   },
   dueDate: { type: Date, required: true },
 });
-
-module.exports = model("Bill", BillSchema);
+const BillModel = model("Bill", BillSchema);
+export default BillModel;

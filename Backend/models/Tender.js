@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+import mongoose from "mongoose";
 
-const TenderSchema = new Schema({
+const TenderSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   category: {
@@ -21,4 +20,6 @@ const TenderSchema = new Schema({
   pdf_link: { type: String, required: true },
 });
 
-module.exports = model("Tender", TenderSchema);
+const TenderModel = mongoose.model("Tender", TenderSchema);
+
+export default TenderModel;

@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose; // ✅ Extract Schema from mongoose
-
-const ComplaintSchema = new Schema(
+const ComplaintSchema = new mongoose.Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     category: {
@@ -23,6 +21,6 @@ const ComplaintSchema = new Schema(
   { timestamps: true } // ✅ Auto-add createdAt & updatedAt
 );
 
-const Complaint = mongoose.model("Complaint", ComplaintSchema);
+const ComplaintModel = mongoose.model("Complaint", ComplaintSchema);
 
-export default Complaint;
+export default ComplaintModel;

@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+import mongoose from "mongoose";
 
-const ReviewSchema = new Schema({
+const ReviewSchema = new mongoose.Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   placeId: { type: Schema.Types.ObjectId, ref: "Place", required: true },
   rating: { type: Number, required: true },
@@ -10,4 +9,5 @@ const ReviewSchema = new Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
-module.exports = model("Review", ReviewSchema);
+const ReviewModel = mongoose.model("Review", ReviewSchema);
+export default ReviewModel;

@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+import mongoose from "mongoose";
 
-const RTISchema = new Schema({
+const RTISchema = new mongoose.Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   subject: { type: String, required: true },
   requestDetails: { type: String, required: true },
@@ -12,4 +11,5 @@ const RTISchema = new Schema({
   },
 });
 
-module.exports = model("RTI", RTISchema);
+const RTIModel = mongoose.model("RTI", RTISchema);
+export default RTIModel;
