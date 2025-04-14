@@ -28,6 +28,9 @@ import PaymentHistory from "./components/Bills/PaymentHistory";
 import AppointmentsPage from "./components/Appointments/AppointmentsPage";
 import ComplaintDetails from "./components/complaints/ComplaintDetails";
 import AllAppointments from "./components/Appointments/AllAppointments";
+import AddPlace from "./components/Admin/AddPlace";
+import ShowPlaces from "./components/Admin/ShowPlaces";
+import EditPlace from "./components/Admin/EditPlace";
 
 
 function App() {
@@ -57,6 +60,10 @@ function App() {
           <Route path="/appointments" element={<AppointmentsPage/>}/>
           <Route path="/complaint/:sno" element={<ComplaintDetails/>}/>
           <Route path="/appointments/all" element={<AllAppointments/>}/>
+          <Route path="/admin/addPlace" element={<AddPlace/>}/>
+          <Route path="/admin/allPlaces" element={<ShowPlaces/>}/>
+          <Route path="/admin/edit/:id" element={<EditPlace/>}/>
+
       </Routes>
       <Footer />
     </Provider>
