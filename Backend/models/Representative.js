@@ -7,9 +7,10 @@ const RepresentativeSchema = new mongoose.Schema({
     enum: ["MLA", "MP", "Collector"],
     required: true,
   },
+  phoneNo: { type: String, required: true },
   email: { type: String, required: true },
   photo_url: { type: String },
-  office_address: { type: Object, required: true },
+  office_address: { type: String, required: true },
   region_or_area: { type: String, required: true },
 });
 
