@@ -24,7 +24,7 @@ app.use(
 );
 
 app.use(cookieParser());
-app.use(morgan());
+app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   helmet({
