@@ -1,48 +1,71 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const AddMember = () => {
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     name: "",
-    position: "",
     designation: "",
     email: "",
-    phone: "",
-    officeAddress: ""
+    phoneNumber: "",
+    officeAddress: "",
+    photo: null // previously 'photoFile'
   });
-
-  const [photoFile, setPhotoFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value
     }));
   };
 
-  const handlePhotoChange = (e) => {
-    setPhotoFile(e.target.files[0]);
+  const handleImageChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      photo: e.target.files[0]
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = new FormData();
-    for (let key in form) {
-      data.append(key, form[key]);
+    for (let key in formData) {
+      if (key === "image" && formData[key]) {
+        data.append("image", formData[key]);
+      } else {
+        data.append(key, formData[key]);
+      }
     }
 
-    if (photoFile) {
-      data.append("photo", photoFile);
-    }
+    try {
+      const response = await axios.post(
+        "http://localhost:9999/admin/addRepresentative",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
 
-    console.log("FormData prepared:");
-    for (let pair of data.entries()) {
-      console.log(pair[0] + ": ", pair[1]);
-    }
+      console.log("Success:", response);
+      alert("Member added successfully!");
 
-    // Example:
-    // await axios.post("/api/members", data);
+      // Reset form
+      setFormData({
+        name: "",
+        designation: "",
+        email: "",
+        phoneNumber: "",
+        officeAddress: "",
+        photo: null
+      });
+
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Failed to add member. Please try again.");
+    }
   };
 
   return (
@@ -57,19 +80,7 @@ const AddMember = () => {
         <input
           type="text"
           name="name"
-          value={form.name}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-        />
-      </div>
-
-      <div>
-        <label className="block text-gray-700 mb-1">Position</label>
-        <input
-          type="text"
-          name="position"
-          value={form.position}
+          value={formData.name}
           onChange={handleChange}
           required
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
@@ -81,7 +92,7 @@ const AddMember = () => {
         <input
           type="text"
           name="designation"
-          value={form.designation}
+          value={formData.designation}
           onChange={handleChange}
           required
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
@@ -93,7 +104,7 @@ const AddMember = () => {
         <input
           type="email"
           name="email"
-          value={form.email}
+          value={formData.email}
           onChange={handleChange}
           required
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
@@ -104,8 +115,8 @@ const AddMember = () => {
         <label className="block text-gray-700 mb-1">Phone Number</label>
         <input
           type="tel"
-          name="phone"
-          value={form.phone}
+          name="phoneNumber"
+          value={formData.phoneNumber}
           onChange={handleChange}
           required
           pattern="[0-9]{10}"
@@ -117,7 +128,7 @@ const AddMember = () => {
         <label className="block text-gray-700 mb-1">Office Address</label>
         <textarea
           name="officeAddress"
-          value={form.officeAddress}
+          value={formData.officeAddress}
           onChange={handleChange}
           rows="4"
           required
@@ -126,11 +137,11 @@ const AddMember = () => {
       </div>
 
       <div>
-        <label className="block text-gray-700 mb-1">Photo</label>
+        <label className="block text-gray-700 mb-1">Image</label>
         <input
           type="file"
           accept="image/*"
-          onChange={handlePhotoChange}
+          onChange={handleImageChange}
           className="w-full"
         />
       </div>

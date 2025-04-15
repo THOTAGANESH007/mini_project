@@ -18,7 +18,7 @@ const PlaceSchema = new mongoose.Schema({
     "Museums", "Cafes", "Malls", "Beaches", "Zoos"],
     required: true,
   },
-  image_url: { type: String },
+  imageUrl: { type: String },
   rating: { type: Number, default: 0 },
 });
 const PlaceModel = mongoose.model("Place", PlaceSchema);

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -5,26 +6,19 @@ const ShowPlaces = () => {
   const [places, setPlaces] = useState([]);
   const navigate = useNavigate();
   // Simulated fetch — replace with your actual API call
+  
   useEffect(() => {
-    const mockData = [
-      {
-        _id: "1",
-        name: "Sunset Beach",
-        image_url: "https://source.unsplash.com/featured/?beach",
-      },
-      {
-        _id: "2",
-        name: "Green Park",
-        image_url: "https://source.unsplash.com/featured/?park",
-      },
-      {
-        _id: "3",
-        name: "Historic Museum",
-        image_url: "https://source.unsplash.com/featured/?museum",
-      },
-    ];
-    setPlaces(mockData);
+   
+    fetchPlaces();
   }, []);
+  const fetchPlaces = async () => {
+    try {
+      const res = await axios.get("http://localhost:9999/admin/places");
+      setPlaces(res.data);
+    } catch (err) {
+      console.error("Failed to fetch places", err);
+    }
+  };
 
   const handleEdit = (id) => {
     console.log("Edit place with ID:", id);
@@ -32,10 +26,17 @@ const ShowPlaces = () => {
     navigate(`/admin/place/edit/${id}`);
   };
 
-  const handleRemove = (id) => {
-    console.log("Remove place with ID:", id);
+  const handleRemove = async(id) => {
+    
     // Call API to delete, then update state
-    setPlaces((prev) => prev.filter((place) => place._id !== id));
+    try {
+      const res=await axios.delete(`http://localhost:9999/admin/places/${id}`);
+      setPlaces((prev) => prev.filter((place) => place._id !== id));
+    } catch (err) {
+      console.error("Failed to delete place", err);
+      alert("Error deleting the place.");
+    }
+   
   };
 
   return (

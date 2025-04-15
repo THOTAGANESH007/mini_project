@@ -25,7 +25,7 @@ export const getPlaceById = async (req, res) => {
 // POST create a new place
 export const createPlace = async (req, res) => {
   try {
-    const { name, location, description, category } = req.body;
+    const { name, location, description, category, rating } = req.body;
     const image = req.file;
 
     if (!image) {
@@ -42,16 +42,18 @@ export const createPlace = async (req, res) => {
       location,
       description,
       category,
-      image_url: upload.url,
+      imageUrl: upload.url,
+      rating: Number(rating),
     };
-    const details = new PlaceModel(payload);
-    const save = await details.save();
+
+    const place = new PlaceModel(payload);
+    const save = await place.save();
 
     return res.json({
-      message: "Uploaded the datails of the places",
+      message: "Uploaded the details of the place",
       data: {
-        image_url: upload.url,
-        data: save,
+        imageUrl: upload.url,
+        newplace: save,
       },
     });
   } catch (error) {
@@ -62,6 +64,7 @@ export const createPlace = async (req, res) => {
     });
   }
 };
+
 
 // PUT update a place
 export const updatePlace = async (req, res) => {

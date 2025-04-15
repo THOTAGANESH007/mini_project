@@ -3,11 +3,11 @@ import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 
 export const createRepresentative = async (req, res) => {
   try {
-    const { name, designation, phoneNo, email, office_address } = req.body;
+    const { name, designation, phoneNumber, email, officeAddress } = req.body;
 
-    const image = req.file;
+    const photo = req.file;
 
-    if (!image) {
+    if (!photo) {
       return res.status(400).json({
         message: "No image uploaded",
         error: true,
@@ -15,15 +15,15 @@ export const createRepresentative = async (req, res) => {
       });
     }
 
-    const upload = await uploadImageCloudinary(image);
+    const upload = await uploadImageCloudinary(photo);
 
     const newRep = new RepresentativeModel({
       name,
       designation,
-      phoneNo,
+      phoneNumber,
       email,
-      photo_url: upload.url,
-      office_address,
+      photoUrl: upload.url,
+      officeAddress,
     });
 
     const savedRep = await newRep.save();
