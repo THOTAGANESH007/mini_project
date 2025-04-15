@@ -8,6 +8,8 @@ import connectDB from "./config/connectDB.js";
 import userRouter from "./routes/userRoute.js";
 import complaintRouter from "./routes/complaintRoute.js";
 import placesRouter from "./routes/placesRoute.js";
+import eventRouter from "./routes/eventRoute.js";
+import userViewRouter from "./routes/userViewRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -35,6 +37,8 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter);
 app.use("/api/complaints", complaintRouter);
 app.use("/api/places", placesRouter);
+app.use("/api/events", eventRouter);
+app.use("/api/user", userViewRouter);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {

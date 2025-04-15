@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const AppointMentSchema = new mongoose.Schema(
   {
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    userId: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
     department: {
       type: String,
       enum: ["Electrical", "Drainage", "Water_Service", "Other"],
