@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const EventSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  img: { type: String, required: true },
+  img: { type: String},
   description: { type: String, required: true },
   location: { type: String, required: true },
   date: { type: Date, required: true },
@@ -13,7 +13,6 @@ const EventSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["Scheduled", "Ongoing", "Completed", "Cancelled"],
-    required: true,
   },
 });
 const EventModel = mongoose.model("Event", EventSchema);

@@ -6,7 +6,7 @@ const EditEvent = () => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: "",
+    title: "",
     location: "",
     description: "",
     organizer_name: "",
@@ -21,19 +21,26 @@ const EditEvent = () => {
   useEffect(() => {
     // Simulate fetching existing event data
     const fetchEvent = async () => {
-      const mockData = {
-        name: "Music Concert",
-        location: "City Hall",
-        description: "A grand musical night",
-        organizer_name: "EventPro",
-        date: "2025-04-25",
-        is_free: "no",
-        ticket_price: "100",
-        img: "https://source.unsplash.com/featured/?concert",
-      };
-      setForm(mockData);
+      try {
+        const res = await fetch(`http://localhost:9999/admin/events/${id}`);
+        const data = await res.json();
+  
+        setForm({
+          title: data.title,
+          location: data.location,
+          description: data.description,
+          organizer_name: data.organizer_name,
+          date: data.date?.slice(0, 10), // Trim timestamp if needed
+          is_free: data.is_free ? "yes" : "no",
+          ticket_price: data.ticket_price?.toString() || "",
+          img: data.img || "",
+        });
+      } catch (error) {
+        console.error("Failed to fetch event", error);
+        alert("Failed to load event details.");
+      }
     };
-
+  
     fetchEvent();
   }, [id]);
 
@@ -53,32 +60,48 @@ const EditEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedForm = { ...form };
-
+  
+    // Upload image to Cloudinary if a new image is selected
     if (imageFile) {
       const imageData = new FormData();
       imageData.append("file", imageFile);
       imageData.append("upload_preset", "your_cloudinary_preset");
-
+  
       const res = await fetch("https://api.cloudinary.com/v1_1/your_cloud_name/image/upload", {
         method: "POST",
         body: imageData,
       });
-
+  
       const data = await res.json();
       updatedForm.img = data.secure_url;
     }
-
-    console.log("Updated Event:", updatedForm);
-
-    // Simulate API call
-    // await fetch(`/api/events/${id}`, {
-    //   method: "PUT",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(updatedForm),
-    // });
-
-    navigate("/events");
+  
+    // Convert "yes"/"no" to boolean for is_free
+    updatedForm.is_free = updatedForm.is_free === "yes";
+  
+    try {
+      const res = await fetch(`http://localhost:9999/admin/events/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedForm),
+      });
+  
+      if (!res.ok) {
+        throw new Error("Failed to update event");
+      }
+  
+      const result = await res.json();
+      console.log("Updated Event Response:", result);
+  
+      navigate("/admin/allevents"); // Redirect after success
+    } catch (error) {
+      console.error("Update failed:", error);
+      alert("Failed to update event.");
+    }
   };
+  
 
   return (
     <form
@@ -91,8 +114,8 @@ const EditEvent = () => {
         <label className="block text-gray-700 mb-1">Name</label>
         <input
           type="text"
-          name="name"
-          value={form.name}
+          name="title"
+          value={form.title}
           onChange={handleChange}
           required
           className="w-full px-4 py-2 border border-gray-300 rounded-lg"
