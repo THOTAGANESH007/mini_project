@@ -3,14 +3,7 @@ import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 
 export const createRepresentative = async (req, res) => {
   try {
-    const {
-      name,
-      designation,
-      phoneNo,
-      email,
-      office_address,
-      region_or_area,
-    } = req.body;
+    const { name, designation, phoneNo, email, office_address } = req.body;
 
     const image = req.file;
 
@@ -31,7 +24,6 @@ export const createRepresentative = async (req, res) => {
       email,
       photo_url: upload.url,
       office_address,
-      region_or_area,
     });
 
     const savedRep = await newRep.save();

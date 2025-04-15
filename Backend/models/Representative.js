@@ -11,7 +11,6 @@ const RepresentativeSchema = new mongoose.Schema({
   email: { type: String, required: true },
   photo_url: { type: String },
   office_address: { type: String, required: true },
-  region_or_area: { type: String, required: true },
 });
 
 const RepresentativeModel = mongoose.model(
