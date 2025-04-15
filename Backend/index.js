@@ -36,9 +36,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/complaints", complaintRouter);
-app.use("/api/places", placesRouter);
-app.use("/api/events", eventRouter);
-app.use("/api/user", userViewRouter);
+app.use("/admin/places", placesRouter);
+app.use("/admin/events", eventRouter);
+app.use("/admin/view", userViewRouter);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {
