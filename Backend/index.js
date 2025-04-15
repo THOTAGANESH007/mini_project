@@ -11,6 +11,8 @@ import placesRouter from "./routes/placesRoute.js";
 import eventRouter from "./routes/eventRoute.js";
 import userViewRouter from "./routes/userViewRoutes.js";
 import representative from "./routes/representativeRoute.js";
+import tenderRoute from "./routes/tenderRoutes.js";
+import viewTenderRoute from "./routes/viewTenderRoute.js";
 dotenv.config();
 
 const app = express();
@@ -41,6 +43,8 @@ app.use("/admin/places", placesRouter);
 app.use("/admin/events", eventRouter);
 app.use("/admin/view", userViewRouter);
 app.use("/admin/addRepresentative", representative);
+app.use("/admin/tenders", tenderRoute);
+app.use("/api/tenders", viewTenderRoute);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {
