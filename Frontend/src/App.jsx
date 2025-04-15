@@ -31,6 +31,7 @@ import AllAppointments from "./components/Appointments/AllAppointments";
 import AddPlace from "./components/Admin/AddPlace";
 import ShowPlaces from "./components/Admin/ShowPlaces";
 import EditPlace from "./components/Admin/EditPlace";
+import AddMember from "./components/Admin/AddMember";
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
           <Route path="/admin/addPlace" element={<AddPlace/>}/>
           <Route path="/admin/allPlaces" element={<ShowPlaces/>}/>
           <Route path="/admin/edit/:id" element={<EditPlace/>}/>
+          <Route path="/admin/addMember" element={<AddMember/>}/>
 
       </Routes>
       <Footer />
