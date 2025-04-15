@@ -29,7 +29,7 @@ const ShowPlaces = () => {
   const handleEdit = (id) => {
     console.log("Edit place with ID:", id);
     // Navigate to edit page or open modal
-    navigate(`/admin/edit/${id}`);
+    navigate(`/admin/place/edit/${id}`);
   };
 
   const handleRemove = (id) => {
@@ -61,7 +61,7 @@ const ShowPlaces = () => {
               <div className="flex justify-between">
                 <button
                   onClick={() => handleEdit(place._id)}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-1 rounded-lg"
+                  className="bg-blue-500 hover:bg-yellow-500 text-white px-4 py-1 rounded-lg"
                 >
                   Edit
                 </button>

@@ -17,7 +17,7 @@ import ComplaintsHome from "./components/complaints/ComplaintsHome";
 import ScrollToTop from './components/ScrollToTop';
 import ComplaintForm from "./components/complaints/complaintForm";
 import ComplaintHistory from "./components/complaints/ComplaintHistory";
-import TenderForm from "./components/TenderForm";
+import TenderForm from "./components/Admin/TenderForm";
 import { store } from "./utils/Store";
 import { Provider } from "react-redux";
 import Profile from "./components/Profile";
@@ -28,9 +28,12 @@ import PaymentHistory from "./components/Bills/PaymentHistory";
 import AppointmentsPage from "./components/Appointments/AppointmentsPage";
 import ComplaintDetails from "./components/complaints/ComplaintDetails";
 import AllAppointments from "./components/Appointments/AllAppointments";
-import AddPlace from "./components/Admin/AddPlace";
-import ShowPlaces from "./components/Admin/ShowPlaces";
-import EditPlace from "./components/Admin/EditPlace";
+import AddPlace from "./components/Admin/Places/AddPlace";
+import ShowPlaces from "./components/Admin/Places/ShowPlaces";
+import EditPlace from "./components/Admin/Places/EditPlace";
+import AddEvent from "./components/Admin/Events/AddEvent";
+import EditEvent from "./components/Admin/Events/EditEvent";
+import ShowEvents from "./components/Admin/Events/ShowEvents";
 
 
 function App() {
@@ -52,7 +55,7 @@ function App() {
           <Route path="/auth/*" element={<AuthPage/>} />
           <Route path="/complaints/add" element={<ComplaintForm/>} />
           <Route path="/complaints/history" element={<ComplaintHistory/>} />
-          <Route path="/tenders" element={<TenderForm/>} />
+          <Route path="/admin/tenders" element={<TenderForm/>} />
           <Route path="/bills" element={<BillsHome/>}/>
           <Route path="/profile" element={<Profile/>} />
           <Route path="/bills/pay" element={<PaymentForm/>}/>
@@ -62,8 +65,10 @@ function App() {
           <Route path="/appointments/all" element={<AllAppointments/>}/>
           <Route path="/admin/addPlace" element={<AddPlace/>}/>
           <Route path="/admin/allPlaces" element={<ShowPlaces/>}/>
-          <Route path="/admin/edit/:id" element={<EditPlace/>}/>
-
+          <Route path="/admin/place/edit/:id" element={<EditPlace/>}/>
+          <Route path="/admin/addEvent" element={<AddEvent/>}/>
+          <Route path="/admin/event/edit/:id" element={<EditEvent/>}/>
+          <Route path="/admin/allEvents" element={<ShowEvents/>}/>
       </Routes>
       <Footer />
     </Provider>
