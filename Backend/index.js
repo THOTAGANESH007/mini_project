@@ -10,6 +10,7 @@ import complaintRouter from "./routes/complaintRoute.js";
 import placesRouter from "./routes/placesRoute.js";
 import eventRouter from "./routes/eventRoute.js";
 import userViewRouter from "./routes/userViewRoutes.js";
+import representative from "./routes/representativeRoute.js";
 dotenv.config();
 
 const app = express();
@@ -39,6 +40,7 @@ app.use("/api/complaints", complaintRouter);
 app.use("/admin/places", placesRouter);
 app.use("/admin/events", eventRouter);
 app.use("/admin/view", userViewRouter);
+app.use("/admin/addRepresentative", representative);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {
