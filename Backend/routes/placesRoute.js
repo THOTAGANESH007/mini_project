@@ -14,7 +14,7 @@ const placesRouter = express.Router();
 placesRouter.get("/", getAllPlaces);
 placesRouter.get("/:id", getPlaceById);
 placesRouter.post("/", upload.single("image"), createPlace);
-placesRouter.put("/:id", updatePlace);
+placesRouter.put("/:id", upload.single("image"),updatePlace);
 placesRouter.delete("/:id", deletePlace);
 
 export default placesRouter;

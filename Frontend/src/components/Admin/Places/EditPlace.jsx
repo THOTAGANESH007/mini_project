@@ -1,85 +1,89 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const categories = [
+  "Temples", "Theatres", "Parks", "Hotels", "Lodges", "Restaurants",
+  "Gyms", "Aquariums", "Art Galleries", "Museums", "Cafes", "Malls", "Beaches", "Zoos"
+];
 
 const EditPlace = () => {
-  const { id } = useParams(); // place ID from URL
+  const { id } = useParams();
   const navigate = useNavigate();
-
-  const categories = [
-    "Temples", "Theatres", "Parks", "Hotels", "Lodges", "Restaurants",
-    "Gyms", "Aquariums", "Art Galleries", "Museums", "Cafes", "Malls", "Beaches", "Zoos"
-  ];
 
   const [form, setForm] = useState({
     name: "",
     location: "",
     description: "",
     category: "",
-    image_url: "",
-    rating: 0
+    rating: 0,
+    imageUrl: "",
   });
 
   const [imageFile, setImageFile] = useState(null);
 
-  // Fetch current data (simulated, replace with actual API)
-  useEffect(() => {
-    // Simulate fetch
-    const fetchPlace = async () => {
-      const mockData = {
-        name: "Historic Museum",
-        location: "Downtown City",
-        description: "A beautiful place to explore history.",
-        category: "Museums",
-        image_url: "https://source.unsplash.com/featured/?museum",
-        rating: 4.5
-      };
-      setForm(mockData);
-    };
+  // 🔹 Fetch place details from backend
+  const fetchPlaceDetails = async () => {
+    try {
+      const res = await axios.get(`http://localhost:9999/admin/places/${id}`);
+      const data = res.data;
 
-    fetchPlace();
+      setForm({
+        name: data.name,
+        location: data.location,
+        description: data.description,
+        category: data.category,
+        rating: data.rating,
+        imageUrl: data.imageUrl,
+      });
+    } catch (error) {
+      console.error("Error fetching place:", error);
+      alert("Failed to load place data.");
+    }
+  };
+
+  useEffect(() => {
+    fetchPlaceDetails();
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: name === "rating" ? Number(value) : value
+      [name]: name === "rating" ? Number(value) : value,
     }));
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
+    setImageFile(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedForm = { ...form };
+
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("location", form.location);
+    formData.append("description", form.description);
+    formData.append("category", form.category);
+    formData.append("rating", form.rating);
 
     if (imageFile) {
-      const imageData = new FormData();
-      imageData.append("file", imageFile);
-      imageData.append("upload_preset", "your_cloudinary_preset");
-
-      const res = await fetch("https://api.cloudinary.com/v1_1/your_cloud_name/image/upload", {
-        method: "POST",
-        body: imageData,
-      });
-
-      const data = await res.json();
-      updatedForm.image_url = data.secure_url;
+      formData.append("image", imageFile);
     }
 
-    console.log("Updated Place:", updatedForm);
+    try {
+      const res = await axios.put(
+        `http://localhost:9999/admin/places/${id}`,
+        formData
+      );
 
-    // Send updated data to backend
-    // await fetch(`/api/places/${id}`, {
-    //   method: "PUT",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(updatedForm),
-    // });
-
-    navigate("/places");
+      alert("Place updated successfully!");
+      navigate("/admin/allplaces");
+    } catch (err) {
+      console.error("Update error:", err);
+      alert("Something went wrong while updating the place.");
+    }
   };
 
   return (
@@ -163,9 +167,9 @@ const EditPlace = () => {
           onChange={handleImageChange}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg"
         />
-        {form.image_url && (
+        {form.imageUrl && (
           <img
-            src={form.image_url}
+            src={form.imageUrl}
             alt="Preview"
             className="mt-3 rounded-lg w-full h-48 object-cover"
           />

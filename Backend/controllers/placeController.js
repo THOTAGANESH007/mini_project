@@ -69,18 +69,50 @@ export const createPlace = async (req, res) => {
 // PUT update a place
 export const updatePlace = async (req, res) => {
   try {
+    const { name, location, description, category, rating } = req.body;
+    const image = req.file;
+
+    let payload = {
+      name,
+      location,
+      description,
+      category,
+      rating: Number(rating),
+    };
+
+    if (image) {
+      const upload = await uploadImageCloudinary(image);
+      payload.imageUrl = upload.url; // Keeping consistent with createPlace
+    }
+
     const updatedPlace = await PlaceModel.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      payload,
       { new: true, runValidators: true }
     );
-    if (!updatedPlace)
-      return res.status(404).json({ error: "Place not found" });
-    res.json(updatedPlace);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+
+    if (!updatedPlace) {
+      return res.status(404).json({
+        message: "Place not found",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.json({
+      message: "Place updated successfully",
+      data: updatedPlace,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      error: true,
+      success: false,
+    });
   }
 };
+
 
 // DELETE a place
 export const deletePlace = async (req, res) => {

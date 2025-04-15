@@ -14,6 +14,7 @@ const ShowPlaces = () => {
   const fetchPlaces = async () => {
     try {
       const res = await axios.get("http://localhost:9999/admin/places");
+      console.log(res)
       setPlaces(res.data);
     } catch (err) {
       console.error("Failed to fetch places", err);
@@ -51,7 +52,7 @@ const ShowPlaces = () => {
             className="bg-white shadow-md rounded-2xl overflow-hidden transition hover:shadow-lg"
           >
             <img
-              src={place.image_url}
+              src={place.imageUrl}
               alt={place.name}
               className="h-48 w-full object-cover"
             />
@@ -62,7 +63,7 @@ const ShowPlaces = () => {
               <div className="flex justify-between">
                 <button
                   onClick={() => handleEdit(place._id)}
-                  className="bg-blue-500 hover:bg-yellow-500 text-white px-4 py-1 rounded-lg"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-lg"
                 >
                   Edit
                 </button>
