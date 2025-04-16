@@ -36,6 +36,7 @@ import EditEvent from "./components/Admin/Events/EditEvent";
 import ShowEvents from "./components/Admin/Events/ShowEvents";
 import AddMember from "./components/Admin/AddMember";
 import BillsPage from "./components/Admin/BillsPage";
+import ComplaintsPage from "./components/Admin/ComplaintsPage";
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
           <Route path="/admin/allEvents" element={<ShowEvents/>}/>
           <Route path="/admin/addRepresentative" element={<AddMember/>}/>
           <Route path="/admin/bills" element={<BillsPage/>}/>
+          <Route path="/admin/complaints" element={<ComplaintsPage/>}/>
       </Routes>
       <Footer />
     </Provider>
