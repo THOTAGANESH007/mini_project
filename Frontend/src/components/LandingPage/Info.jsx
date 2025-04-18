@@ -35,11 +35,10 @@ const Info = () => {
                 {Object.keys(departmentDetails).map((dept) => (
                     <button
                         key={dept}
-                        className={`py-1 px-3 cursor-pointer text-lg border-2 rounded-2xl filter-btn
-                            ${selectedDept === dept
-                                ? 'select'
-                                : 'bg-gray-200 border-transparent notselect'} 
-                            hover:bg-blue-500 hover:text-white transition`}
+                        className={`filter-btn text-lg rounded-2xl border-2 transition cursor-pointer ${
+                            selectedDept === dept ? 'select' : 'notselect'
+                        }`}
+                        
                         onClick={() => setSelectedDept(dept)}
                     >
                         {dept}

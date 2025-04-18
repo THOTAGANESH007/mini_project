@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-// import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ComplaintForm = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    userId: "",
+    userId: "661f9f72e13fdd57b7095a10", // You can set this using JWT or props
     category: "Electrical",
     email: "",
     phone: "",
@@ -15,17 +15,23 @@ const ComplaintForm = () => {
 
   const [image, setImage] = useState(null);
 
-  // Decode JWT token to get userId
+  // Optional: If you are using JWT to get userId
   useEffect(() => {
-    // const token = localStorage.getItem("token");
-    // if (token) {
-    //   const decoded = jwtDecode(token);
-    //   setFormData((prev) => ({ ...prev, userId: decoded.userId }));
-    // }
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        // const decoded = jwtDecode(token);
+        // setFormData((prev) => ({ ...prev, userId: decoded.userId }));
+        // Just a placeholder – replace with actual decoding logic
+      } catch (err) {
+        console.error("Invalid token");
+      }
+    }
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e) => {
@@ -40,12 +46,9 @@ const ComplaintForm = () => {
     data.append("email", formData.email);
     data.append("phone", formData.phone);
     data.append("description", formData.description);
-    if (formData.userId) data.append("userId", formData.userId);
-    if (image) data.append("image", image); // Use "image" as expected in backend
-
-    // Log data being sent (for debugging)
-    for (let [key, value] of data.entries()) {
-      console.log(key, value);
+    data.append("userId", formData.userId);
+    if (image) {
+      data.append("image", image);
     }
 
     try {
@@ -59,12 +62,12 @@ const ComplaintForm = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+
       alert("Complaint submitted successfully!");
 
       // Reset form
       setFormData({
-        userId: formData.userId,
+        userId: "1234",
         category: "Electrical",
         email: "",
         phone: "",
@@ -73,16 +76,13 @@ const ComplaintForm = () => {
       setImage(null);
       navigate("/complaints");
     } catch (error) {
-      console.error(
-        "Error submitting complaint:",
-        error.response?.data || error
-      );
+      console.error("Error submitting complaint:", error.response?.data || error);
       alert("Error submitting complaint. Please try again.");
     }
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-50 shadow-lg rounded-lg mt-[140px] mb-[50px] border rounded">
+    <div className="max-w-lg mx-auto p-6 bg-gray-50 shadow-lg rounded-lg mt-[140px] mb-[50px]">
       <h2 className="text-2xl font-bold mb-4">New Complaint</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
@@ -92,11 +92,12 @@ const ComplaintForm = () => {
             value={formData.category}
             onChange={handleChange}
             className="w-full p-2 border rounded"
+            required
           >
             <option value="Electrical">Electrical</option>
-            <option value="Drainage">Drainage</option>
+            <option value="Sanitation">Drainage</option>
             <option value="Water_Service">Water Service</option>
-            <option value="Other">Other</option>
+            {/* <option value="Other">Other</option> */}
           </select>
         </div>
 

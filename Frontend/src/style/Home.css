@@ -146,6 +146,18 @@
 .filter-btn{
   padding:5px 65px ;
 }
+.filter-btn::after {
+  content: none !important;
+  background-image: none !important;
+}
+.filter-btn::after,
+.filter-btn::before {
+  content: none !important;
+  background-image: none !important;
+  display: none !important;
+}
+
+
 
 
 /* last section */

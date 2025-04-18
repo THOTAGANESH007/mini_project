@@ -1,9 +1,14 @@
 import React from "react";
 
-const ProgressTracker = () => {
+const ProgressTracker = ({status}) => {
   const steps = ["Pending", "Rejected", "Accepted", "Processing", "Resolved"];
-  const currentStep = 2; // Change this value to control progress
-
+  let currentStep = 0; // Change this value to control progress
+  for(let i=0;i<steps.length;i++){
+    if(steps[i]===status){
+      currentStep=i;
+      break;
+    }
+  }
   return (
     <div className="w-full max-w-5xl mx-auto py-10 px-4">
       {/* Step Circles + Lines */}

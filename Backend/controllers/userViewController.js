@@ -71,32 +71,40 @@ export const viewAppointments = async (req, res) => {
   }
 };
 
-// View all complaints
 export const viewComplaints = async (req, res) => {
   try {
-    const complaints = null;
+    let complaints = [];
+    let { email, role } = req.query;
+    console.log("Received email:", email);
+    console.log("Received role:", role);
+
     if (
       email === "sanitizationOfficer123@gmail.com" &&
-      role == "Sanitation Officer"
+      role === "Sanitation Officer"
     ) {
-      complaints = ComplaintModel.find({ category: "Sanitation" });
+      complaints = await ComplaintModel.find({ category: "Sanitation" });
     } else if (
       email === "waterOfficer123@gmail.com" &&
-      role == "Water Officer"
+      role === "Water Officer"
     ) {
-      complaints = ComplaintModel.find({ category: "Water_Service" });
+      complaints = await ComplaintModel.find({ category: "Water_Service" });
     } else if (
       email === "electricOfficer123@gmail.com" &&
-      role == "Electric Officer"
+      role === "Electric Officer"
     ) {
-      complaints = ComplaintModel.find({ category: "Electrical" });
+      complaints = await ComplaintModel.find({ category: "Electrical" });
     } else {
-      complaints = await ComplaintModel.find();
+      complaints = await ComplaintModel.find(); // all complaints
     }
+
     res.json({ success: true, data: complaints });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error fetching complaints", error });
+    console.error("Error in viewComplaints:", error); // log full error
+    res.status(500).json({
+      success: false,
+      message: "Error fetching complaints",
+      error: error.message,
+    });
   }
 };
+
