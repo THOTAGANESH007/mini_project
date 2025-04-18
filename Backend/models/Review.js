@@ -10,5 +10,8 @@ const ReviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Unique index to prevent duplicate reviews by the same user
+ReviewSchema.index({ userId: 1, placeId: 1 }, { unique: true });
+
 const ReviewModel = mongoose.model("Review", ReviewSchema);
 export default ReviewModel;

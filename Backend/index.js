@@ -13,6 +13,7 @@ import userViewRouter from "./routes/userViewRoutes.js";
 import representative from "./routes/representativeRoute.js";
 import tenderRoute from "./routes/tenderRoutes.js";
 import viewTenderRoute from "./routes/viewTenderRoute.js";
+import reviewRoute from "./routes/reviewRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -45,6 +46,7 @@ app.use("/representatives/view", userViewRouter);
 app.use("/admin/addRepresentative", representative);
 app.use("/admin/tenders", tenderRoute);
 app.use("/api/tenders", viewTenderRoute);
+app.use("/api/reviews", reviewRoute);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {
