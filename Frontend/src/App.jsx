@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
@@ -14,7 +13,7 @@ import AboutPage from "./components/AboutPage";
 import EventList from "./components/Events/EventList";
 import EventDetail from "./components/Events/EventDetail";
 import ComplaintsHome from "./components/complaints/ComplaintsHome";
-import ScrollToTop from './components/ScrollToTop';
+import ScrollToTop from "./components/ScrollToTop";
 import ComplaintForm from "./components/complaints/complaintForm";
 import ComplaintHistory from "./components/complaints/ComplaintHistory";
 import TenderForm from "./components/Admin/TenderForm";
@@ -39,47 +38,46 @@ import BillsPage from "./components/Admin/BillsPage";
 import ComplaintsPage from "./components/Admin/ComplaintsPage";
 import PlaceDetail from "./components/PlaceDetail";
 
-
 function App() {
   return (
     <>
-    <Provider store={store}>
-    <Header/>
-    <ScrollToTop/>
-      <Routes>
+      <Provider store={store}>
+        <Header />
+        <ScrollToTop />
+        <Routes>
           <Route path="/" element={<Home></Home>} />
           <Route path="/contact" element={<></>} />
-          <Route path="/signup" element={<Signup/>} />
-          <Route path="/officals" element={<GovRepresentives/>} />
-          <Route path="/events" element={<EventList/>} />
-          <Route path="/event/:id" element={<EventDetail/>} />
-          <Route path="/places" element={<AllPlaces/>} />
-          <Route path="/places/:id" element={<PlaceDetail/>} />
-          <Route path="/complaints" element={<ComplaintsHome/>}/>
-          <Route path='/about' element={<AboutPage></AboutPage>} />
-          <Route path="/auth/*" element={<AuthPage/>} />
-          <Route path="/complaints/add" element={<ComplaintForm/>} />
-          <Route path="/complaints/history" element={<ComplaintHistory/>} />
-          <Route path="/admin/tenders" element={<TenderForm/>} />
-          <Route path="/bills" element={<BillsHome/>}/>
-          <Route path="/profile" element={<Profile/>} />
-          <Route path="/bills/pay" element={<PaymentForm/>}/>
-          <Route path="/bills/history" element={<PaymentHistory/>}/>
-          <Route path="/appointments" element={<AppointmentsPage/>}/>
-          <Route path="/complaint/:sno" element={<ComplaintDetails/>}/>
-          <Route path="/appointments/all" element={<AllAppointments/>}/>
-          <Route path="/admin/addPlace" element={<AddPlace/>}/>
-          <Route path="/admin/allPlaces" element={<ShowPlaces/>}/>
-          <Route path="/admin/place/edit/:id" element={<EditPlace/>}/>
-          <Route path="/admin/addEvent" element={<AddEvent/>}/>
-          <Route path="/admin/event/edit/:id" element={<EditEvent/>}/>
-          <Route path="/admin/allEvents" element={<ShowEvents/>}/>
-          <Route path="/admin/addRepresentative" element={<AddMember/>}/>
-          <Route path="/admin/bills" element={<BillsPage/>}/>
-          <Route path="/admin/complaints" element={<ComplaintsPage/>}/>
-      </Routes>
-      <Footer />
-    </Provider>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/officals" element={<GovRepresentives />} />
+          <Route path="/events" element={<EventList />} />
+          <Route path="/event/:id" element={<EventDetail />} />
+          <Route path="/places" element={<AllPlaces />} />
+          <Route path="/places/:id" element={<PlaceDetail />} />
+          <Route path="/complaints" element={<ComplaintsHome />} />
+          <Route path="/about" element={<AboutPage></AboutPage>} />
+          <Route path="/auth/*" element={<AuthPage />} />
+          <Route path="/complaints/add" element={<ComplaintForm />} />
+          <Route path="/complaints/history" element={<ComplaintHistory />} />
+          <Route path="/admin/tenders" element={<TenderForm />} />
+          <Route path="/bills" element={<BillsHome />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/bills/pay" element={<PaymentForm />} />
+          <Route path="/bills/history" element={<PaymentHistory />} />
+          <Route path="/appointments" element={<AppointmentsPage />} />
+          <Route path="/complaint/:sno" element={<ComplaintDetails />} />
+          <Route path="/appointments/all" element={<AllAppointments />} />
+          <Route path="/admin/addPlace" element={<AddPlace />} />
+          <Route path="/admin/allPlaces" element={<ShowPlaces />} />
+          <Route path="/admin/place/edit/:id" element={<EditPlace />} />
+          <Route path="/admin/addEvent" element={<AddEvent />} />
+          <Route path="/admin/event/edit/:id" element={<EditEvent />} />
+          <Route path="/admin/allEvents" element={<ShowEvents />} />
+          <Route path="/admin/addRepresentative" element={<AddMember />} />
+          <Route path="/admin/bills" element={<BillsPage />} />
+          <Route path="/admin/complaints" element={<ComplaintsPage />} />
+        </Routes>
+        <Footer />
+      </Provider>
     </>
   );
 }
