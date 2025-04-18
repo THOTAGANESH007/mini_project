@@ -10,17 +10,17 @@ export const viewBills = async (req, res) => {
       email === "sanitizationOfficer123@gmail.com" &&
       role == "Sanitation Officer"
     ) {
-      bills = await BillModel.findOne({ billType: "Sanitation" });
+      bills = await BillModel.find({ billType: "Sanitation" });
     } else if (
       email === "waterOfficer123@gmail.com" &&
       role == "Water Officer"
     ) {
-      bills = await BillModel.findOne({ billType: "Water" });
+      bills = await BillModel.find({ billType: "Water" });
     } else if (
       email === "electricOfficer123@gmail.com" &&
       role == "Electric Officer"
     ) {
-      bills = await BillModel.findOne({ billType: "Electricity" });
+      bills = await BillModel.find({ billType: "Electricity" });
     } else {
       bills = await BillModel.find();
     }
@@ -42,21 +42,21 @@ export const viewAppointments = async (req, res) => {
       email === "sanitizationOfficer123@gmail.com" &&
       role == "Sanitation Officer"
     ) {
-      appointments = await AppointMentModel.findOne({
+      appointments = await AppointMentModel.find({
         department: "Sanitation",
       });
     } else if (
       email === "waterOfficer123@gmail.com" &&
       role == "Water Officer"
     ) {
-      appointments = await AppointMentModel.findOne({
+      appointments = await AppointMentModel.find({
         department: "Water_Service",
       });
     } else if (
       email === "electricOfficer123@gmail.com" &&
       role == "Electric Officer"
     ) {
-      appointments = await AppointMentModel.findOne({
+      appointments = await AppointMentModel.find({
         department: "Electrical",
       });
     } else {
@@ -79,17 +79,17 @@ export const viewComplaints = async (req, res) => {
       email === "sanitizationOfficer123@gmail.com" &&
       role == "Sanitation Officer"
     ) {
-      complaints = ComplaintModel.findOne({ category: "Sanitation" });
+      complaints = ComplaintModel.find({ category: "Sanitation" });
     } else if (
       email === "waterOfficer123@gmail.com" &&
       role == "Water Officer"
     ) {
-      complaints = ComplaintModel.findOne({ category: "Water_Service" });
+      complaints = ComplaintModel.find({ category: "Water_Service" });
     } else if (
       email === "electricOfficer123@gmail.com" &&
       role == "Electric Officer"
     ) {
-      complaints = ComplaintModel.findOne({ category: "Electrical" });
+      complaints = ComplaintModel.find({ category: "Electrical" });
     } else {
       complaints = await ComplaintModel.find();
     }
