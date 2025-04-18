@@ -9,8 +9,8 @@ export const createTender = async (req, res) => {
     category,
     opening_date,
     deadline,
-    uuid,
-    fileUrl,
+    uuid, // UUID from frontend to get file metadata
+    fileUrl, // Optional, in case UUID is not used
   } = req.body;
 
   if (!uuid && !fileUrl) {
@@ -20,6 +20,7 @@ export const createTender = async (req, res) => {
   try {
     let metadata;
 
+    // If uuid is provided, fetch file metadata from Uploadcare
     if (uuid) {
       const response = await axios.get(
         `https://api.uploadcare.com/files/${uuid}/`,
@@ -30,12 +31,25 @@ export const createTender = async (req, res) => {
           },
         }
       );
+
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch file metadata from Uploadcare");
+      }
+
       metadata = response.data;
     } else {
+      // If fileUrl is provided, use it directly
       metadata = {
         cdn_url: fileUrl,
         original_filename: fileUrl.split("/").pop(),
       };
+    }
+
+    const pdf_link = metadata.original_file_url || metadata.cdn_url;
+    if (!pdf_link) {
+      return res
+        .status(500)
+        .json({ error: "Failed to retrieve valid file URL" });
     }
 
     const newTender = new TenderModel({
@@ -44,7 +58,7 @@ export const createTender = async (req, res) => {
       category,
       opening_date,
       deadline,
-      pdf_link: metadata.original_file_url || metadata.cdn_url,
+      pdf_link, // Save the pdf link here
     });
 
     await newTender.save();
