@@ -17,7 +17,7 @@ const Signup = () => {
       console.log("Signup Attempt:", { email, password, username });
       const res = await axios.post(
         "http://localhost:9999/api/user/register",
-        { email, password, name: username, phoneNumber, userType },
+        { email, password, name: username, mobile: phoneNumber, userType },
         {
           headers: {
             "Content-Type": "application/json",
@@ -65,20 +65,6 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Role</label>
-          <select
-            value={userType}
-            onChange={(e) => setUserType(e.target.value)}
-            required
-            className="w-full p-3 border border-black rounded focus:outline-none focus:ring-2 focus:ring-gray-800"
-          >
-            <option value="User">User</option>
-            <option value="Admin">Admin</option>
-            <option value="MLA">Higher Authority</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
           <label className="block text-gray-700 mb-2">Email</label>
           <input
             type="email"
@@ -101,7 +87,9 @@ const Signup = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Phone Number</label>
+          <label className="block text-gray-700 mb-2">
+            Phone Number (Optional)
+          </label>
           <input
             type="text"
             value={phoneNumber}

@@ -9,7 +9,7 @@ const Login = ({ setAuthStep }) => {
   const [message, setMessage] = useState(""); // State for API message
   const [isError, setIsError] = useState(false); // Track success or error
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,16 +22,25 @@ const Login = ({ setAuthStep }) => {
         { withCredentials: true }
       );
       console.log(res.data.data);
+
       if (res.data.success) {
+        const user = res.data.data.userObj;
         setMessage(res.data.message);
         setIsError(false);
-        dispatch(addUser(res.data.data.userObj))
-        setTimeout(() => {
-          navigate("/"); // Redirect after success
-        }, 1500);
-      } else {
-        setMessage(res.data.message || "Login failed");
-        setIsError(true);
+        dispatch(addUser(user));
+
+        // Redirect based on email
+        if (user.email === "admin@gmail.com") {
+          navigate("/admin/dashboard");
+        } else if (user.email === "waterOfficer123@gmail.com") {
+          navigate("/officer/water");
+        } else if (user.email === "sanitizationOfficer123@gmail.com") {
+          navigate("/officer/sanitation");
+        } else if (user.email === "electricOfficer123@gmail.com") {
+          navigate("/officer/electric");
+        } else {
+          navigate("/"); // Default user homepage
+        }
       }
     } catch (error) {
       setMessage(error.response?.data?.message || "Login failed");
@@ -51,7 +60,9 @@ const Login = ({ setAuthStep }) => {
         {message && (
           <p
             className={`text-center mb-4 p-2 rounded ${
-              isError ? "bg-red-200 text-red-700" : "bg-green-200 text-green-700"
+              isError
+                ? "bg-red-200 text-red-700"
+                : "bg-green-200 text-green-700"
             }`}
           >
             {message}

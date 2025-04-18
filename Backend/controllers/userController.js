@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 
 export async function registerUserController(req, res) {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, mobile } = req.body;
     if (!name || !email || !password)
       return res.status(400).json({
         message: "Please Provide Name or Email or Password",
@@ -33,6 +33,7 @@ export async function registerUserController(req, res) {
       name,
       email,
       password: hashPassword,
+      mobile,
     };
 
     const newUser = new UserModel(payload);
@@ -45,7 +46,7 @@ export async function registerUserController(req, res) {
       subject: "Verify your email",
       html: verifyEmailTemplate({ name, url: verifyEmailUrl }),
     });
-   console.log("email res:",emailResponse);
+    console.log("email res:", emailResponse);
     if (!emailResponse) {
       return res.status(500).json({
         message: "User registered, but email sending failed",
@@ -137,18 +138,17 @@ export async function loginController(req, res) {
     res.cookie("refreshToken", refreshToken, cookiesOption);
 
     const userObj = {
-      name:existedUser.name,
-      email:existedUser.email,
-      mobile:existedUser.mobile,
-      profile:existedUser.profile,
-
-    }
+      name: existedUser.name,
+      email: existedUser.email,
+      mobile: existedUser.mobile,
+      profile: existedUser.profile,
+    };
     return res.json({
       message: "Login Successful!!!",
       success: true,
       error: false,
       data: {
-        userObj
+        userObj,
       },
     });
   } catch (error) {
@@ -239,7 +239,8 @@ export async function updateUserDetails(req, res) {
         ...(email && { email: email }),
         ...(mobile && { mobile: mobile }),
         ...(password && { password: hashPassword }),
-      },{new:true,runValidators:true}
+      },
+      { new: true, runValidators: true }
     );
 
     return res.json({
@@ -247,10 +248,10 @@ export async function updateUserDetails(req, res) {
       success: true,
       error: false,
       data: {
-        name:updateUser.name,
-        profile:updateUser.profile,
-        email:updateUser.email,
-        mobile:updateUser.mobile,
+        name: updateUser.name,
+        profile: updateUser.profile,
+        email: updateUser.email,
+        mobile: updateUser.mobile,
       },
     });
   } catch (error) {
