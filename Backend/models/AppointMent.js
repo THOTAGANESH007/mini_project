@@ -5,7 +5,7 @@ const AppointMentSchema = new mongoose.Schema(
     userId: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
     department: {
       type: String,
-      enum: ["Electrical", "Drainage", "Water_Service", "Other"],
+      enum: ["Electrical", "Sanitation", "Water_Service"],
       required: true,
     },
     description: { type: String, required: true },

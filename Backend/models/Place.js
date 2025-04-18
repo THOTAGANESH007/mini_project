@@ -6,7 +6,8 @@ const PlaceSchema = new mongoose.Schema({
   description: { type: String, required: true },
   category: {
     type: String,
-    enum: [ "Temples",
+    enum: [
+      "Temples",
       "Theatres",
       "Parks",
       "Hotels",
@@ -15,11 +16,17 @@ const PlaceSchema = new mongoose.Schema({
       "Gyms",
       "Aquariums",
       "Art Galleries",
-    "Museums", "Cafes", "Malls", "Beaches", "Zoos"],
+      "Museums",
+      "Cafes",
+      "Malls",
+      "Beaches",
+      "Zoos",
+    ],
     required: true,
   },
   imageUrl: { type: String },
   rating: { type: Number, default: 0 },
+  reviewCount: { type: Number, default: 0 },
 });
 const PlaceModel = mongoose.model("Place", PlaceSchema);
 export default PlaceModel;

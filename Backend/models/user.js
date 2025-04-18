@@ -12,7 +12,13 @@ const UserSchema = new mongoose.Schema({
   forgot_password_expired: { type: Date, default: "" },
   role: {
     type: String,
-    enum: ["User", "Admin", "MLA", "MP", "Collector"],
+    enum: [
+      "User",
+      "Admin",
+      "Electric Officer",
+      "Water Officer",
+      "Sanitation Officer",
+    ],
     default: "User",
   },
   representative: { type: mongoose.Schema.ObjectId, ref: "Representative" },

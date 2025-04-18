@@ -5,7 +5,7 @@ const ComplaintSchema = new mongoose.Schema(
     userId: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
     category: {
       type: String,
-      enum: ["Electrical", "Drainage", "Water_Service", "Other"],
+      enum: ["Electrical", "Sanitation", "Water_Service"],
       required: true,
     },
     email: { type: String, required: true },

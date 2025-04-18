@@ -24,7 +24,7 @@ app.use(
 );
 
 app.use(cookieParser());
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   helmet({
@@ -41,7 +41,7 @@ app.use("/api/user", userRouter);
 app.use("/api/complaints", complaintRouter);
 app.use("/admin/places", placesRouter);
 app.use("/admin/events", eventRouter);
-app.use("/admin/view", userViewRouter);
+app.use("/representatives/view", userViewRouter);
 app.use("/admin/addRepresentative", representative);
 app.use("/admin/tenders", tenderRoute);
 app.use("/api/tenders", viewTenderRoute);
