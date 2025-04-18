@@ -26,13 +26,12 @@ const PlaceSchema = new mongoose.Schema(
       required: true,
     },
     imageUrl: { type: String },
-    rating: { type: Number, default: 0 },
-    reviewCount: { type: Number, default: 0 },
+    avgRating: { type: Number, default: 0 },
+   
     reviews: [
       {
-        userId: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
-        rating: { type: Number, required: true },
-        review: { type: String },
+       type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
       },
     ],
   },

@@ -37,6 +37,7 @@ import ShowEvents from "./components/Admin/Events/ShowEvents";
 import AddMember from "./components/Admin/AddMember";
 import BillsPage from "./components/Admin/BillsPage";
 import ComplaintsPage from "./components/Admin/ComplaintsPage";
+import PlaceDetail from "./components/PlaceDetail";
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Route path="/events" element={<EventList/>} />
           <Route path="/event/:id" element={<EventDetail/>} />
           <Route path="/places" element={<AllPlaces/>} />
+          <Route path="/places/:id" element={<PlaceDetail/>} />
           <Route path="/complaints" element={<ComplaintsHome/>}/>
           <Route path='/about' element={<AboutPage></AboutPage>} />
           <Route path="/auth/*" element={<AuthPage/>} />

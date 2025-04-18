@@ -1,13 +1,13 @@
 import express from "express";
 import {
-  createOrUpdateReview,
+  createReview,
   getReviewsByPlace,
 } from "../controllers/reviewController.js";
 import auth from "../middlewares/auth.js";
 
 const reviewRoute = express.Router();
 
-reviewRoute.post("/:placeId", auth, createOrUpdateReview);
+reviewRoute.post("/:placeId", auth, createReview);
 reviewRoute.get("/:placeId", auth, getReviewsByPlace);
 
 export default reviewRoute;
