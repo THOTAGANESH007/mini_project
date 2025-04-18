@@ -4,7 +4,8 @@ import { updatePlaceRating } from "../utils/updatePlaceRating.js";
 // Create or Update review
 export const createOrUpdateReview = async (req, res) => {
   try {
-    const { userId, rating, review } = req.body;
+    const userId = req.user._id;
+    const { rating, review } = req.body;
     const placeId = req.params;
     let existingReview = await ReviewModel.findOne({ userId, placeId });
 
