@@ -15,6 +15,7 @@ import tenderRoute from "./routes/tenderRoutes.js";
 import viewTenderRoute from "./routes/viewTenderRoute.js";
 import reviewRoute from "./routes/reviewRoutes.js";
 import appointmentRoute from "./routes/appointmentRoute.js";
+// import stripeRouter from "./routes/stripeRoute.js";
 dotenv.config();
 
 const app = express();

@@ -56,7 +56,7 @@ export const createEvent = async (req, res) => {
       date,
       organizer_name,
       is_free,
-      ticket_price: is_free ? 0 : ticket_price,
+      ticket_price: is_free === 'yes' ? 0 : ticket_price,
       registration_link,
       status,
       img: upload.url,
