@@ -39,6 +39,8 @@ import ComplaintsPage from "./components/Admin/ComplaintsPage";
 import ComplaintsCards from "./components/User/ComplaintsCards";
 import UpdateComplaintStatus from "./components/User/UpdateComplaintStatus";
 import PlaceDetail from "./components/PlaceDetail";
+import AppointmentsList from "./components/User/AppointmentsList";
+import AppointmentDetails from "./components/User/AppointmentDetails";
 
 
 
@@ -68,7 +70,7 @@ function App() {
           <Route path="/bills/pay" element={<PaymentForm/>}/>
           <Route path="/bills/history" element={<PaymentHistory/>}/>
           <Route path="/appointments" element={<AppointmentsPage/>}/>
-          <Route path="/complaint/:id" element={<ComplaintDetails/>}/>
+          <Route path="/complaints/:id" element={<ComplaintDetails/>}/>
           <Route path="/appointments/all" element={<AllAppointments/>}/>
           <Route path="/admin/addPlace" element={<AddPlace/>}/>
           <Route path="/admin/allPlaces" element={<ShowPlaces/>}/>
@@ -81,7 +83,8 @@ function App() {
           <Route path="/admin/complaints" element={<ComplaintsPage/>}/>
           <Route path='/user/complaints' element={<ComplaintsCards/>}/>
           <Route path='/user/complaints/:id' element={<UpdateComplaintStatus/>}/>
-      
+          <Route path="/user/appointments/" element={<AppointmentsList/>}/> 
+          <Route path='/user/appointments/:id' element={<AppointmentDetails/>}/>
       </Routes>
       <Footer />
     </Provider>
