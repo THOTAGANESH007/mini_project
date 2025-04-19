@@ -8,23 +8,49 @@ const AppointmentsPage = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (dept && description) {
-      const newAppointment = {
-        id: Date.now(), // used as timestamp
-        dept,
-        description,
-      };
-      setAppointments([...appointments, newAppointment]);
-      setDept("");
-      setDescription("");
-      alert("Appointment booked!");
+      try {
+        const response = await fetch("http://localhost:9999/api/appointments/book", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: "661f9f72e13fdd57b7095a10", // send the userId
+            department: dept,
+            description,
+          }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          // Optionally update local state if needed
+          const newAppointment = {
+            id: Date.now(),
+            dept,
+            description,
+          };
+          setAppointments([...appointments, newAppointment]);
+  
+          // Clear form
+          setDept("");
+          setDescription("");
+          alert("Appointment booked!");
+        } else {
+          alert(data.error || "Failed to book appointment.");
+        }
+      } catch (error) {
+        console.error("Booking error:", error);
+        alert("Something went wrong. Please try again.");
+      }
     } else {
       alert("Please fill in all fields.");
     }
   };
-
+  
   const handleViewAppointments = () => {
     navigate("/appointments/all", {
       state: { appointments },
@@ -49,7 +75,7 @@ const AppointmentsPage = () => {
           >
             <option value="">Select Department</option>
             <option value="Electrical">Electrical</option>
-            <option value="Drainage">Drainage</option>
+            <option value="Sanitation">Sanitation</option>
             <option value="Water_Service">Water Service</option>
           </select>
         </div>

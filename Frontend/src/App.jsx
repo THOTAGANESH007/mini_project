@@ -43,6 +43,8 @@ import StripeWrapper from "./components/payment/StripeWrapper";
 import Checkout from "./components/payment/Checkout";
 import Success from "./components/payment/Success";
 import Cancel from "./components/payment/Cancel";
+import AppointmentsList from "./components/User/AppointmentsList";
+import AppointmentDetails from "./components/User/AppointmentDetails";
 
 function App() {
   return (
@@ -59,6 +61,7 @@ function App() {
           <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/places" element={<AllPlaces />} />
           <Route path="/places/:id" element={<PlaceDetail />} />
+
           <Route path="/complaints" element={<ComplaintsHome />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/auth/*" element={<AuthPage />} />
