@@ -14,6 +14,7 @@ const ComplaintForm = () => {
   });
 
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   // Optional: If you are using JWT to get userId
   useEffect(() => {
@@ -35,7 +36,16 @@ const ComplaintForm = () => {
   };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -74,6 +84,7 @@ const ComplaintForm = () => {
         description: "",
       });
       setImage(null);
+      setImagePreview(null);
       navigate("/complaints");
     } catch (error) {
       console.error("Error submitting complaint:", error.response?.data || error);
@@ -82,74 +93,113 @@ const ComplaintForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-50 shadow-lg rounded-lg mt-[140px] mb-[50px]">
-      <h2 className="text-2xl font-bold mb-4">New Complaint</h2>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div className="mb-4">
-          <label className="block font-medium">Category</label>
+    <div className="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-20 mb-10">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Submit a Complaint</h2>
+      
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
+        {/* Category Selection */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-2">Category</label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500 outline-none"
             required
           >
             <option value="Electrical">Electrical</option>
             <option value="Sanitation">Drainage</option>
             <option value="Water_Service">Water Service</option>
-            {/* <option value="Other">Other</option> */}
           </select>
         </div>
 
-        <div className="mb-4">
-          <label className="block font-medium">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
+        {/* Contact Information */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500 outline-none"
+              placeholder="your@email.com"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Phone</label>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500 outline-none"
+              placeholder="Your phone number"
+              required
+            />
+          </div>
         </div>
 
-        <div className="mb-4">
-          <label className="block font-medium">Phone</label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-medium">Description</label>
+        {/* Description */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-2">Description</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            rows="4"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500 outline-none"
+            placeholder="Please describe the issue in detail..."
             required
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block font-medium">Upload Image</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="w-full p-2 border rounded"
-            required
-          />
+        {/* Image Upload */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-2">Upload Image</label>
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 transition-colors hover:bg-gray-50">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full"
+              required
+            />
+            
+            {imagePreview && (
+              <div className="mt-4">
+                <p className="text-sm text-gray-600 mb-2">Image Preview:</p>
+                <div className="relative">
+                  <img 
+                    src={imagePreview} 
+                    alt="Preview" 
+                    className="max-h-40 rounded border border-gray-200" 
+                  />
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      setImage(null);
+                      setImagePreview(null);
+                    }}
+                    className="absolute top-2 right-2 bg-white text-gray-700 rounded-full p-1 shadow-md hover:bg-gray-100"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
         >
           Submit Complaint
         </button>
