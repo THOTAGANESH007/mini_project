@@ -34,6 +34,16 @@ app.use(
     crossOriginResourcePolicy: false,
   })
 );
+
+// NOTE: Stripe webhooks need raw body
+import bodyParser from "body-parser";
+import stripeRouter from "./routes/stripeRoute.js";
+import webhookRoute from "./routes/webhookRoute.js";
+import paymentHistory from "./routes/paymentHistory.js";
+import notificationRoute from "./routes/notificationRoute.js";
+
+app.use("/api/stripe/webhook", bodyParser.raw({ type: "application/json" }));
+app.use("/api/stripe/webhook", webhookRoute);
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -50,6 +60,9 @@ app.use("/admin/tenders", tenderRoute);
 app.use("/api/tenders", viewTenderRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/appointments", appointmentRoute);
+app.use("/api/stripe", stripeRouter);
+app.use("/api/payment", paymentHistory);
+app.use("/api/notifications", notificationRoute);
 connectDB()
   .then(() => {
     app.listen(process.env.PORT, () => {
