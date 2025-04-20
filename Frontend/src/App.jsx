@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./components/LandingPage/Home";
@@ -45,12 +46,16 @@ import Success from "./components/payment/Success";
 import Cancel from "./components/payment/Cancel";
 import AppointmentsList from "./components/User/AppointmentsList";
 import AppointmentDetails from "./components/User/AppointmentDetails";
+import AdminLayout from "./components/Admin/AdminLayout";
 
 function App() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
     <>
       <Provider store={store}>
-        <Header />
+        {!isAdminRoute && <Header />}
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -67,11 +72,11 @@ function App() {
           <Route path="/auth/*" element={<AuthPage />} />
           <Route path="/complaints/add" element={<ComplaintForm />} />
           <Route path="/complaints/history" element={<ComplaintHistory />} />
-          <Route path="/admin/tenders" element={<TenderForm />} />
+          {/* <Route path="/admin/tenders" element={<TenderForm />} /> */}
           <Route path="/bills" element={<BillsHome />} />
           <Route path="/profile" element={<Profile />} />
           {/* <Route path="/bills/pay" element={<PaymentForm />} /> */}
-          <Route path="/bills/history" element={<PaymentHistory />} />
+          {/* <Route path="/bills/history" element={<PaymentHistory />} />
           <Route path="/appointments" element={<AppointmentsPage />} />
           <Route path="/complaint/:id" element={<ComplaintDetails />} />
           <Route path="/appointments/all" element={<AllAppointments />} />
@@ -83,7 +88,10 @@ function App() {
           <Route path="/admin/allEvents" element={<ShowEvents />} />
           <Route path="/admin/addRepresentative" element={<AddMember />} />
           <Route path="/admin/bills" element={<BillsPage />} />
-          <Route path="/admin/complaints" element={<ComplaintsPage />} />
+          <Route path="/admin/complaints" element={<ComplaintsPage />} /> */}
+
+          {/* Admin routes */}
+          <Route path="/admin/*" element={<AdminLayout />} />
           <Route path="/user/complaints" element={<ComplaintsCards />} />
           <Route
             path="/user/complaints/:id"
