@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,19 +19,14 @@ const AppointmentsPage = () => {
       setError("");
       
       try {
-        const response = await fetch("http://localhost:9999/api/appointments/book", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: "661f9f72e13fdd57b7095a10", // send the userId
-            department: dept,
+        const response = await axios.post("http://localhost:9999/api/appointments/book",   
+           { department: dept,
             description,
-          }),
-        });
-  
-        const data = await response.json();
+          },{withCredentials:true},
+        );
+    console.log("new appoint:",response)
+        const data = response.data;
+
   
         if (response.ok) {
           // Optionally update local state if needed

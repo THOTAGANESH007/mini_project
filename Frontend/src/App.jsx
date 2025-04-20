@@ -100,6 +100,9 @@ function App() {
             path="/user/complaints/:id"
             element={<UpdateComplaintStatus />}
           />
+          <Route path="/user/appointment" element={<AppointmentsList />} />
+          <Route path="/user/appointment/:id" element={<AppointmentDetails />} />
+          <Route path="/user/bills" element={<BillsPage />} />
 
           {/* Stripe Checkout route wrapped in StripeWrapper */}
           <Route

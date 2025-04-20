@@ -3,7 +3,7 @@ import axios from "axios";
 
 const AllAppointments = () => {
   const [appointments, setAppointments] = useState([]);
-  const [activeTab, setActiveTab] = useState("upcoming");
+  const [activeTab, setActiveTab] = useState("pending");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,12 +16,8 @@ const AllAppointments = () => {
         const res = await axios.get("http://localhost:9999/api/appointments/byUser", {
           withCredentials: true,
         });
-
-        const acceptedAppointments = res.data.filter(
-          (appt) => appt.appointmentStatus === "Accepted"
-        );
-        
-        setAppointments(acceptedAppointments);
+        console.log("all appointment by user",res.data.data)
+        setAppointments(res.data.data);
       } catch (error) {
         console.error("Failed to fetch appointments:", error);
         setError("Unable to load appointments. Please try again later.");
@@ -34,33 +30,29 @@ const AllAppointments = () => {
   }, []);
 
   // Filter appointments based on tab and search query
-  const filteredAppointments = appointments.filter(appt => {
-    const now = new Date();
-    const apptTime = new Date(appt.appointmentDate);
-    const isUpcoming = apptTime > now;
-    
-    // First filter by tab
-    if ((activeTab === 'upcoming' && !isUpcoming) || (activeTab === 'completed' && isUpcoming)) {
-      return false;
-    }
-    
-    // Then filter by search if any
+  const filteredAppointments = appointments.filter((appt) => {
+    // Filter by status
+    if (activeTab === "pending" && appt.appointmentStatus !== "Pending") return false;
+    if (activeTab === "accepted" && appt.appointmentStatus !== "Accepted") return false;
+  
+    // Filter by search
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       return (
-        appt.department.toLowerCase().includes(query) || 
+        appt.department.toLowerCase().includes(query) ||
         appt.description.toLowerCase().includes(query)
       );
     }
-    
+  
     return true;
   });
+  
   
   // Sort appointments by date
   filteredAppointments.sort((a, b) => {
     const dateA = new Date(a.appointmentDate);
     const dateB = new Date(b.appointmentDate);
-    return activeTab === 'upcoming' ? dateA - dateB : dateB - dateA;
+    return activeTab === 'pending' ? dateA - dateB : dateB - dateA;
   });
 
   const formatDateDisplay = (dateString) => {
@@ -210,24 +202,24 @@ const AllAppointments = () => {
             
             <div className="inline-flex rounded-md shadow-sm">
               <button
-                onClick={() => setActiveTab('upcoming')}
+                onClick={() => setActiveTab('pending')}
                 className={`px-4 py-2 text-sm font-medium rounded-l-lg border ${
-                  activeTab === 'upcoming'
+                  activeTab === 'pending'
                     ? 'bg-blue-600 text-white border-blue-600'
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                 }`}
               >
-                Upcoming
+                pending
               </button>
               <button
-                onClick={() => setActiveTab('completed')}
+                onClick={() => setActiveTab('accepted')}
                 className={`px-4 py-2 text-sm font-medium rounded-r-lg border ${
-                  activeTab === 'completed'
+                  activeTab === 'accepted'
                     ? 'bg-blue-600 text-white border-blue-600'
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                 }`}
               >
-                Completed
+                Accepted
               </button>
             </div>
           </div>

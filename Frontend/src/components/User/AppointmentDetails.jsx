@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -15,10 +16,10 @@ const AppointmentDetails = () => {
   useEffect(() => {
     const fetchAppointment = async () => {
       try {
-        const res = await fetch(`http://localhost:9999/api/appointments/${id}`);
-        const data = await res.json();
+        const res = await axios.get(`http://localhost:9999/api/appointments/${id}`,{withCredentials:true});
+        const data = res.data.data;
 
-        if (res.ok) {
+        if (data) {
           setAppointment(data);
         } else {
           setError(data.error || "Failed to fetch appointment");
@@ -36,28 +37,23 @@ const AppointmentDetails = () => {
 
   const handleApprove = async () => {
     try {
-      const res = await fetch(
+      const res = await axios.put(
         `http://localhost:9999/api/appointments/approve/${id}`,
         {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
             appointmentDate,
             appointmentTime,
-          }),
-        }
+          
+        },{withCredentials:true}
       );
 
-      const data = await res.json();
-
-      if (res.ok) {
+      const data = res.data.data;
+console.log("data:",data)
+      if (data) {
         setSuccessMessage("Appointment approved successfully!");
         navigate(-1);
-        setAppointment(data.appointment);
+        setAppointment(data);
       } else {
-        setError(data.error || "Failed to approve appointment");
+        setError(data.error );
       }
     } catch (err) {
       console.error("Approval error:", err);

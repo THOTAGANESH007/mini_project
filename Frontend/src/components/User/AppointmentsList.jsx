@@ -1,8 +1,10 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const AppointmentsList = () => {
-  const department = 'Electrical'; // This can also come from useParams if needed
+   // This can also come from useParams if needed
+   const department=JSON.parse(localStorage.getItem("user")).role;
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -10,15 +12,16 @@ const AppointmentsList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch(
+       
+        const res = await axios.get(
           `http://localhost:9999/api/appointments/department/${department}`
-        );
-        const data = await response.json();
-
-        if (response.ok) {
+        ,{withCredentials:true});
+        const data = res.data.data;
+        console.log("all appointment by department",data)
+        if (data) {
           setAppointments(data);
         } else {
-          setError(data.error || "Failed to fetch appointments");
+          setError(res.error );
         }
       } catch (err) {
         console.error("Fetch error:", err);
@@ -29,7 +32,7 @@ const AppointmentsList = () => {
     };
 
     fetchAppointments();
-  }, [department]);
+  }, []);
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">

@@ -1,15 +1,18 @@
+import mongoose from "mongoose";
 import AppointMentModel from "../models/AppointMent.js";
 
 // 1. Book a new appointment
 export const bookAppointment = async (req, res) => {
   try {
-    const { userId,department, description } = req.body;
-    // const userId = req.user._id;
+    const { department, description } = req.body;
+    const userId = req.userId;
 
-    const appointment = await AppointMentModel.create({
+    const appointment = await AppointMentModel.insertOne({
       userId,
       department,
       description,
+    
+
     });
 
     // Mock notification to the department authority
@@ -47,13 +50,13 @@ export const getAllAppointments = async (req, res) => {
 // 3. Get appointments of the logged-in user
 export const getAppointmentsByTheUserId = async (req, res) => {
   try {
-    const userId = "661f9f72e13fdd57b7095a10";
-    console.log("hello");
-    const appointments = await AppointMentModel.find({ userId:userId });
+    const userId = req.userId;
+    console.log("userid:",userId);
+    const appointments = await AppointMentModel.find( {userId:new mongoose.Types.ObjectId(userId)} )
     console.log("Appointments sent:", appointments);
 // res.status(200).json(appointments);
 
-    res.status(200).json(appointments);
+    res.status(200).json({msg:"all appointments ",data:appointments});
   } catch (error) {
     console.error("Error fetching user appointments:", error);
     res.status(500).json({ error: "Failed to get user's appointments" });
@@ -63,12 +66,13 @@ export const getAppointmentsByTheUserId = async (req, res) => {
 //get appointments by id
 export const getAppointmentById = async (req, res) => {
   try {
+    const userId = req.userId;
     const { id } = req.params;
-    const appointment = await AppointMentModel.findById(id);
+    const appointment = await AppointMentModel.findById( new mongoose.Types.ObjectId(id));
     if (!appointment) {
       return res.status(404).json({ error: "Appointment not found" });
     }
-    res.status(200).json(appointment);
+    res.status(200).json({data:appointment});
   } catch (error) {
     console.error("Error fetching appointment by ID:", error);
     res.status(500).json({ error: "Failed to get appointment" });
@@ -85,7 +89,10 @@ export const getAppointmentById = async (req, res) => {
 // 4. Get appointments by department
 export const getAppointmentsByDepartment = async (req, res) => {
   try {
+    // const userId=req.userId;
+    
     const { department } = req.params;
+
 console.log(department)
     const validDepartments = ["Electrical", "Sanitation", "Water_Service"];
     if (!validDepartments.includes(department)) {
@@ -97,7 +104,7 @@ console.log(department)
 console.log(appointments);
 
     console.log(appointments);
-    res.status(200).json(appointments);
+    res.status(200).json({data:appointments});
   } catch (error) {
     console.error("Error fetching department appointments:", error);
     res
@@ -123,7 +130,7 @@ export const approveAppointment = async (req, res) => {
     appointment.appointmentStatus="Accepted";
     await appointment.save();
 
-    res.status(200).json({ message: "Appointment approved", appointment });
+    res.status(200).json({ message: "Appointment approved", data:appointment });
   } catch (error) {
     console.error("Error approving appointment:", error);
     res.status(500).json({ error: "Failed to approve appointment" });
