@@ -37,11 +37,11 @@ const Login = ({ setAuthStep }) => {
         if (user.email === "admin@gmail.com") {
           navigate("/admin/allPlaces");
         } else if (user.email === "waterOfficer123@gmail.com") {
-          navigate("/officer/water");
+          navigate("/user/complaints");
         } else if (user.email === "sanitizationOfficer123@gmail.com") {
-          navigate("/officer/sanitation");
+          navigate("/user/complaints");
         } else if (user.email === "electricOfficer123@gmail.com") {
-          navigate("/officer/electric");
+          navigate("/user/complaints");
         } else {
           navigate("/"); // Default user homepage
         }
@@ -63,12 +63,15 @@ const Login = ({ setAuthStep }) => {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Don't have an account yet?{" "}
-            <Link to="/signup" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link
+              to="/signup"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
               Create an account
             </Link>
           </p>
         </div>
-        
+
         <div className="bg-white shadow-2xl rounded-xl p-8">
           {message && (
             <div
@@ -81,17 +84,37 @@ const Login = ({ setAuthStep }) => {
               <div className="flex">
                 <div className="flex-shrink-0">
                   {isError ? (
-                    <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    <svg
+                      className="h-5 w-5 text-red-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   ) : (
-                    <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    <svg
+                      className="h-5 w-5 text-green-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   )}
                 </div>
                 <div className="ml-3">
-                  <p className={`text-sm font-medium ${isError ? "text-red-800" : "text-green-800"}`}>
+                  <p
+                    className={`text-sm font-medium ${
+                      isError ? "text-red-800" : "text-green-800"
+                    }`}
+                  >
                     {message}
                   </p>
                 </div>
@@ -101,7 +124,10 @@ const Login = ({ setAuthStep }) => {
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email address
               </label>
               <div className="mt-1">
@@ -119,7 +145,10 @@ const Login = ({ setAuthStep }) => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <div className="mt-1">
@@ -138,7 +167,7 @@ const Login = ({ setAuthStep }) => {
 
             <div className="flex items-center justify-end">
               <div className="text-sm">
-                <span 
+                <span
                   onClick={() => navigate("/auth/forgot-password")}
                   className="font-medium text-blue-600 hover:text-blue-500 cursor-pointer"
                 >
@@ -156,9 +185,25 @@ const Login = ({ setAuthStep }) => {
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150`}
               >
                 {loading ? (
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                 ) : null}
                 {loading ? "Signing in..." : "Sign in"}

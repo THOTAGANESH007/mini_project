@@ -35,3 +35,24 @@ export const getPaymentHistory = async (req, res) => {
     });
   }
 };
+
+// 🔹 Get payments filtered by department (billType)
+export const getPaymentsByDepartment = async (req, res) => {
+  try {
+    const { department } = req.params;
+
+    // Validate department value
+    const validDepartments = ["Electricity", "Water", "Sanitation"];
+    if (!validDepartments.includes(department)) {
+      return res.status(400).json({ message: "Invalid department" });
+    }
+
+    const paymentHistory = await fetchPaymentHistory({ billType: department });
+    res.json(paymentHistory);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching department payment history",
+      error: error.message,
+    });
+  }
+};

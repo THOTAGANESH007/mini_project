@@ -1,4 +1,3 @@
-
 import ComplaintModel from "../models/Complaint.js";
 import UserModel from "../models/user.js";
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
@@ -11,10 +10,7 @@ export async function addComplaints(req, res) {
     // if (!req.userId) {
     //   return res.status(401).json({ message: "User not authenticated" });
     // }
-    console.log("image file:", req.file);
-    const { userId,category, email, phone,status, description } = req.body;
-    // const userId = req.userId; // ✅ Fix: Get userId from req.user
-    console.log("uid1", userId);
+    const { userId, category, email, phone, status, description } = req.body;
     const image = req.file; //multer middleware
     if (!image) {
       return res
@@ -37,7 +33,7 @@ export async function addComplaints(req, res) {
     await complaint.save();
     res
       .status(201)
-      .json({ message: "Complaint submitted successfully", data:complaint });
+      .json({ message: "Complaint submitted successfully", data: complaint });
   } catch (error) {
     res
       .status(500)
@@ -48,12 +44,12 @@ export async function addComplaints(req, res) {
 // Get All Complaints
 export async function getComplaints(req, res) {
   try {
-    const  userId  = req.userId; // Get userId from query parameter
-    const { email} = await UserModel.findOne({ _id: userId });
-    console.log("userid",email)
-    const complaints = await ComplaintModel.find({ email })
-     
-   console.log("userid,complaints",userId,complaints)
+    const userId = req.userId; // Get userId from query parameter
+    const { email } = await UserModel.findOne({ _id: userId });
+    console.log("userid", email);
+    const complaints = await ComplaintModel.find({ email });
+
+    console.log("userid,complaints", userId, complaints);
     res.json(complaints);
   } catch (error) {
     res.status(500).json({
@@ -64,33 +60,41 @@ export async function getComplaints(req, res) {
 }
 
 //getOneComplaint
-export async function getOneComplaint(req,res){
+export async function getOneComplaint(req, res) {
   try {
     const { id } = req.params;
     console.log("Requested Complaint ID:", id);
 
     // ✅ Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: "Invalid complaint ID" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid complaint ID" });
     }
 
     const complaint = await ComplaintModel.findById(id);
 
     if (!complaint) {
-      return res.status(404).json({ success: false, message: "Complaint not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Complaint not found" });
     }
 
     res.json({ success: true, data: complaint });
   } catch (error) {
     console.error("Error fetching complaint:", error); // Logs the real error
-    res.status(500).json({ success: false, message: "Error fetching complaint", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching complaint",
+      error: error.message,
+    });
   }
 }
 
 // Update Complaint Status
 export const updateComplaints = async (req, res) => {
   try {
-    const id  = req.params;
+    const id = req.params;
     const { status } = req.body;
     console.log(id);
     const updatedComplaint = await ComplaintModel.findByIdAndUpdate(
@@ -98,10 +102,12 @@ export const updateComplaints = async (req, res) => {
       { status },
       { new: true }
     );
-    console.log("updated complaint",updatedComplaint)
+    console.log("updated complaint", updatedComplaint);
 
     if (!updatedComplaint) {
-      return res.status(404).json({ success: false, message: "Complaint not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Complaint not found" });
     }
 
     res.json({ success: true, data: updatedComplaint });
@@ -110,3 +116,41 @@ export const updateComplaints = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
+// Get Complaints by Category
+export async function getComplaintByDepartment(req, res) {
+  try {
+    const { category } = req.params;
+
+    // Check if the category is valid
+    const validCategories = ["Electrical", "Sanitation", "Water_Service"];
+    if (!validCategories.includes(category)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid category. Must be one of Electrical, Sanitation, or Water_Service",
+      });
+    }
+
+    const complaints = await ComplaintModel.find({ category });
+
+    if (complaints.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: `No complaints found in the ${category} category`,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: complaints,
+    });
+  } catch (error) {
+    console.error("Error fetching complaints by category:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching complaints by category",
+      error: error.message,
+    });
+  }
+}

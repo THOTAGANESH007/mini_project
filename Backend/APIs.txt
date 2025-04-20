@@ -7,3 +7,9 @@ http://localhost:9999/api/user/forgot-password  --put
 http://localhost:9999/api/user/forgot-password-otp  --put
 http://localhost:9999/api/user/reset-password  --put
 http://localhost:9999/api/user/verify-email  --post
+
+//get complaints by department
+http://localhost:9999/api/complaints/department/:department  --get
+
+//get payments by department
+http://localhost:9999/api/payment/department/:department  --get

@@ -47,15 +47,19 @@ import Cancel from "./components/payment/Cancel";
 import AppointmentsList from "./components/User/AppointmentsList";
 import AppointmentDetails from "./components/User/AppointmentDetails";
 import AdminLayout from "./components/Admin/AdminLayout";
+import Layout from "./components/User/Layout";
 
 function App() {
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isDashboardRoute =
+    location.pathname.startsWith("/admin") ||
+    location.pathname.startsWith("/user");
 
   return (
     <>
       <Provider store={store}>
-        {!isAdminRoute && <Header />}
+        {!isDashboardRoute && <Header />}
+
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -95,14 +99,22 @@ function App() {
 
           {/* Admin routes */}
           <Route path="/admin/*" element={<AdminLayout />} />
-          <Route path="/user/complaints" element={<ComplaintsCards />} />
+          {/* <Route path="/user/complaints" element={<ComplaintsCards />} />
           <Route
             path="/user/complaints/:id"
             element={<UpdateComplaintStatus />}
           />
           <Route path="/user/appointment" element={<AppointmentsList />} />
           <Route path="/user/appointment/:id" element={<AppointmentDetails />} />
-          <Route path="/user/bills" element={<BillsPage />} />
+          <Route path="/user/bills" element={<BillsPage />} /> */}
+
+          <Route path="/user" element={<Layout />}>
+            <Route path="complaints" element={<ComplaintsCards />} />
+            <Route path="complaints/:id" element={<UpdateComplaintStatus />} />
+            <Route path="appointment" element={<AppointmentsList />} />
+            <Route path="appointment/:id" element={<AppointmentDetails />} />
+            <Route path="bills" element={<BillsPage />} />
+          </Route>
 
           {/* Stripe Checkout route wrapped in StripeWrapper */}
           <Route
