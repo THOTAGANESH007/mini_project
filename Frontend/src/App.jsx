@@ -79,8 +79,9 @@ function App() {
           <Route path="/appointments" element={<AppointmentsPage />} />
           <Route path="/complaints/:id" element={<ComplaintDetails />} />
           <Route path="/appointments/all" element={<AllAppointments />} />
+          <Route path="/bills/history" element={<PaymentHistory />} />
           {/* <Route path="/bills/pay" element={<PaymentForm />} /> */}
-          {/* <Route path="/bills/history" element={<PaymentHistory />} />
+          {/* 
           
           <Route path="/admin/addPlace" element={<AddPlace />} />
           <Route path="/admin/allPlaces" element={<ShowPlaces />} />
