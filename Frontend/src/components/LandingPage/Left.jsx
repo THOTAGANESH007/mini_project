@@ -1,28 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import '../../style/Home.css';
-import allEvents from '../Events/events';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 function Left() {
-  const cards = [
-    { title: "Card 1", description: "This is card 1" },
-    { title: "Card 2", description: "This is card 2" },
-    { title: "Card 3", description: "This is card 3" },
-    { title: "Card 4", description: "This is card 4" },
-    { title: "Card 5", description: "This is card 5" },
-    { title: "Card 6", description: "This is card 6" },
-  ];
+  const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await axios.get('http://localhost:9999/admin/events');
+        setEvents(res.data); // assumes response is an array of events
+      } catch (err) {
+        console.error('Error fetching events:', err);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  const handleCardClick = (id) => {
+    navigate(`/event/${id}`);
+  };
 
   return (
     <div className="scroll-container-left">
       <div className="scroll-content-left">
-        {/* Original cards */}
-        {allEvents.map((card, index) => (
-          <Card key={index} {...card} />
-        ))}
-
-        {/* Duplicate cards for seamless scrolling */}
-        {cards.map((card, index) => (
-          <Card key={`duplicate-${index}`} {...card} />
+        {[...events, ...events].map((event, index) => (
+          <Card
+            key={index}
+            image={event.img}
+            title={event.title}
+            description={event.description}
+            onClick={() => handleCardClick(event._id)}
+          />
         ))}
       </div>
     </div>

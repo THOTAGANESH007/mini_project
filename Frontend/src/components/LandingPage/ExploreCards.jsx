@@ -1,17 +1,36 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Card = ({ image }) => (
-  <div className="bg-white shadow-lg rounded-lg overflow-hidden flex-none w-[22.8%] h-96 mx-2 transition-transform duration-300 hover:-translate-y-6">
-    <img src={image} alt="Sample" className="w-full h-full object-cover cursor-pointer" />
+const Card = ({ image, id, onClick }) => (
+  <div
+    onClick={() => onClick(id)}
+    className="bg-white shadow-lg rounded-lg overflow-hidden flex-none w-[22.8%] h-96 mx-2 transition-transform duration-300 hover:-translate-y-6 cursor-pointer"
+  >
+    <img src={image} alt="Place" className="w-full h-full object-cover" />
   </div>
 );
 
 function ExploreCards() {
-  const images = ['lion.jpeg', 'lion.jpeg', 'lion.jpeg', 'lion.jpeg', 'lion.jpeg', 'lion.jpeg', 'lion.jpeg', 'lion.jpeg'];
-
+  const [places, setPlaces] = useState([]);
   const scrollRef = useRef(null);
+  const navigate = useNavigate();
 
+  // Fetch places from API on mount
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const res = await axios.get('http://localhost:9999/admin/places');
+        setPlaces(res.data); // Make sure the backend returns an array
+      } catch (err) {
+        console.error('Failed to fetch places:', err);
+      }
+    };
+    fetchPlaces();
+  }, []);
+
+  // Auto-scroll logic
   useEffect(() => {
     const interval = setInterval(() => {
       if (scrollRef.current) {
@@ -47,19 +66,20 @@ function ExploreCards() {
     }
   };
 
+  const handleCardClick = (id) => {
+    navigate(`/places/${id}`);
+  };
+
   return (
-    <div className="p-8  text-white flex flex-col items-center">
-      {/* Explore Section Title */}
+    <div className="p-8 text-white flex flex-col items-center">
       <h1 className="text-4xl font-bold text-gray-300 mb-6">Explore</h1>
 
-      {/* Cards Container */}
       <div ref={scrollRef} className="flex overflow-hidden scroll-smooth w-full max-w-5xl whitespace-nowrap">
-        {[...images, ...images].map((img, index) => (
-          <Card key={index} image={img} />
+        {[...places, ...places].map((place, index) => (
+          <Card key={index} image={place.imageUrl} id={place._id} onClick={handleCardClick} />
         ))}
       </div>
 
-      {/* Arrow Buttons */}
       <div className="flex mt-6 gap-4">
         <button onClick={scrollLeft} className="p-3 cursor-pointer bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition">
           <ChevronLeft />

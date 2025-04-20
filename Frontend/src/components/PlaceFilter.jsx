@@ -1,6 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const categories = [
+  "All",
   "Temples",
   "Theatres",
   "Parks",
@@ -13,12 +15,21 @@ const categories = [
 ];
 const moreCategories = ["Museums", "Cafes", "Malls", "Beaches", "Zoos"];
 
-const PlaceFilter = () => {
+const PlaceFilter = ({setplaces}) => {
   const [selected, setSelected] = useState(null);
 
-  const handleSelect = (category) => {
+  const handleSelect = async(category) => {
     setSelected(category);
-    alert(`Selected: ${category}`);
+    if (category === "All") {
+      const res = await axios.get("http://localhost:9999/admin/places");
+      console.log(res.data.data);
+      setplaces(res.data.data);
+      
+    }
+    const res=await axios.get(`http://localhost:9999/admin/places/category/${category}`);
+    console.log(res.data.data);
+    setplaces(res.data.data);
+    
   };
 
   return (

@@ -125,3 +125,24 @@ export const deletePlace = async (req, res) => {
     res.status(500).json({ error: "Failed to delete place" });
   }
 };
+
+export const getPlaceByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+    console.log("category", category);
+    if(category==="All"){
+      const allPlaces = await PlaceModel.find();
+      if (!allPlaces)
+        return res.status(404).json({ error: "Place not found" });
+      console.log("allplaces", allPlaces);
+      return res.json({ message: `All places is here`, data: allPlaces });
+    }
+    const categoryPlaces = await PlaceModel.find({category});
+    if (!categoryPlaces)
+      return res.status(404).json({ error: "Place not found" });
+    console.log("categoryplaces", categoryPlaces);
+    res.json({ message: `${category} places is here`, data: categoryPlaces });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch category place" });
+  }
+};
