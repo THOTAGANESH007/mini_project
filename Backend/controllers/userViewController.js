@@ -1,11 +1,16 @@
 import BillModel from "../models/Bill.js";
 import AppointMentModel from "../models/AppointMent.js";
 import ComplaintModel from "../models/Complaint.js";
+import UserModel from "../models/user.js";
 
 // View all bills (optionally filter with payment_status = "Paid")
 export const viewBills = async (req, res) => {
   try {
-    const bills = null;
+    let bills = null;
+    const userId = req.userId;
+
+    const { email, role } = await UserModel.findOne({ _id: userId });
+    console.log("User email and role:", email, role); // log email and role
     if (
       email === "sanitizationOfficer123@gmail.com" &&
       role == "Sanitation Officer"
@@ -22,9 +27,11 @@ export const viewBills = async (req, res) => {
     ) {
       bills = await BillModel.find({ billType: "Electricity" });
     } else {
-      bills = await BillModel.find();
+      console.log("in admin bill")
+      bills = await BillModel.find({});
+      console.log("bill",bills)
     }
-
+console.log("bill",bills)
     res.json({ success: true, data: bills });
   } catch (error) {
     res
@@ -36,8 +43,9 @@ export const viewBills = async (req, res) => {
 // View all appointments
 export const viewAppointments = async (req, res) => {
   try {
-    const { email, role } = req.body;
-    const appointments = null;
+    const userId = req.userId;
+    const { email, role } = await UserModel.findOne({ _id: userId });
+    let appointments = null;
     if (
       email === "sanitizationOfficer123@gmail.com" &&
       role == "Sanitation Officer"
@@ -73,10 +81,9 @@ export const viewAppointments = async (req, res) => {
 
 export const viewComplaints = async (req, res) => {
   try {
-    let complaints = [];
-    let { email, role } = req.query;
-    console.log("Received email:", email);
-    console.log("Received role:", role);
+    const userId = req.userId;
+    const { email, role } = await UserModel.findOne({ _id: userId });
+    let complaints  =null
 
     if (
       email === "sanitizationOfficer123@gmail.com" &&

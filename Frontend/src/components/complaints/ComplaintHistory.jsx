@@ -9,7 +9,7 @@ const ComplaintHistory = () => {
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('all');
 
-  const userId = '661f9f72e13fdd57b7095a10'; // Hardcoded userId for now
+  // Hardcoded userId for now
 
   // Fetch complaints from the backend
   useEffect(() => {
@@ -17,9 +17,7 @@ const ComplaintHistory = () => {
       try {
         const response = await axios.get(
           `http://localhost:9999/api/complaints`, // Adjust if needed
-          {
-            params: { userId }, // Pass userId as query parameter
-          }
+          { withCredentials: true }
         );
         setComplaintsData(response.data);
       } catch (err) {
@@ -30,7 +28,7 @@ const ComplaintHistory = () => {
     };
 
     fetchComplaints();
-  }, [userId]);
+  }, []);
 
   const handleViewDetails = (complaint) => {
     navigate(`/complaints/${complaint._id}`, { state: { complaint } });

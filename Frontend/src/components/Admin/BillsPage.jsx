@@ -1,38 +1,59 @@
-import React, { useState } from 'react';
-
-const dummyBills = Array.from({ length: 30 }, (_, i) => ({
-  sNo: i + 1,
-  userId: `user${i + 1}`,
-  userPhone: `9990000${(i + 1).toString().padStart(3, '0')}`,
-  category: ['Electricity', 'Water', 'Internet'][i % 3],
-  amount: (Math.random() * 1000 + 100).toFixed(2),
-  date: new Date(2025, 3, (i % 30) + 1).toLocaleDateString('en-CA'), // 'YYYY-MM-DD'
-}));
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const BillsPage = () => {
+  const [allBills, setAllBills] = useState([]);
+  const [filteredBills, setFilteredBills] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  // Filter States
+  // Filters
   const [filterCategory, setFilterCategory] = useState('');
   const [filterDate, setFilterDate] = useState('');
   const [filterPhone, setFilterPhone] = useState('');
   const [minAmount, setMinAmount] = useState('');
   const [maxAmount, setMaxAmount] = useState('');
 
-  // Apply Filters
-  const applyFilters = () => {
-    setCurrentPage(1);
-  };
+  useEffect(() => {
+    const fetchBills = async () => {
+      try {
+        const res = await axios.get(`http://localhost:9999/representatives/view/bills`, {
+          withCredentials: true,
+        });
+        const bills = res.data.data.map((bill) => ({
+          ...bill,
+          dueDate: bill.dueDate?.split('T')[0], // format to YYYY-MM-DD if needed
+        }));
+        setAllBills(bills);
+        setFilteredBills(bills);
+      } catch (err) {
+        console.error("Failed to fetch bills", err);
+        setError("Failed to fetch bills");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const filteredBills = dummyBills.filter((bill) => {
-    const matchCategory = filterCategory ? bill.category === filterCategory : true;
-    const matchDate = filterDate ? bill.date === filterDate : true;
-    const matchPhone = filterPhone ? bill.userPhone.includes(filterPhone) : true;
-    const matchMin = minAmount ? parseFloat(bill.amount) >= parseFloat(minAmount) : true;
-    const matchMax = maxAmount ? parseFloat(bill.amount) <= parseFloat(maxAmount) : true;
-    return matchCategory && matchDate && matchPhone && matchMin && matchMax;
-  });
+    fetchBills();
+  }, []);
+
+  useEffect(() => {
+    let filtered = allBills.filter((bill) => {
+      const matchCategory = filterCategory ? bill.billType === filterCategory : true;
+      const matchDate = filterDate ? bill.dueDate === filterDate : true;
+      const matchPhone = filterPhone ? bill.phone.includes(filterPhone) : true;
+      const matchMin = minAmount ? parseFloat(bill.total_amount) >= parseFloat(minAmount) : true;
+      const matchMax = maxAmount ? parseFloat(bill.total_amount) <= parseFloat(maxAmount) : true;
+      return matchCategory && matchDate && matchPhone && matchMin && matchMax;
+    });
+
+    setFilteredBills(filtered);
+    setCurrentPage(1);
+  }, [filterCategory, filterDate, filterPhone, minAmount, maxAmount, allBills]);
 
   const totalPages = Math.ceil(filteredBills.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
@@ -46,6 +67,11 @@ const BillsPage = () => {
   const goToPage = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
+
+  if (loading) return <div className="p-6 text-center">Loading bills...</div>;
+  if (error) return <div className="p-6 text-center text-red-600">{error}</div>;
+  if (!allBills || allBills.length === 0)
+    return <div className="p-6 text-center">No bills available.</div>;
 
   return (
     <div className="p-6">
@@ -107,18 +133,9 @@ const BillsPage = () => {
             className="w-full border px-2 py-1"
           />
         </div>
-
-        {/* <div className="flex items-end">
-          <button
-            onClick={applyFilters}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Apply Filters
-          </button>
-        </div> */}
       </div>
 
-      {/* Pagination Control */}
+      {/* Rows control */}
       <div className="mb-4 text-right">
         <label className="mr-2">Rows per page:</label>
         <select value={rowsPerPage} onChange={handleRowsChange} className="border px-2 py-1">
@@ -133,8 +150,8 @@ const BillsPage = () => {
         <thead className="bg-gray-100">
           <tr>
             <th className="border border-gray-400 p-2">S.No</th>
-            <th className="border border-gray-400 p-2">User ID</th>
             <th className="border border-gray-400 p-2">Phone</th>
+            <th className="border border-gray-400 p-2">Email</th>
             <th className="border border-gray-400 p-2">Category</th>
             <th className="border border-gray-400 p-2">Amount (₹)</th>
             <th className="border border-gray-400 p-2">Date of Payment</th>
@@ -142,14 +159,16 @@ const BillsPage = () => {
         </thead>
         <tbody>
           {currentBills.length > 0 ? (
-            currentBills.map((bill) => (
-              <tr key={bill.sNo}>
-                <td className="border text-center border-gray-400 p-2">{bill.sNo}</td>
-                <td className="border text-center border-gray-400 p-2">{bill.userId}</td>
-                <td className="border text-center border-gray-400 p-2">{bill.userPhone}</td>
-                <td className="border text-center border-gray-400 p-2">{bill.category}</td>
-                <td className="border text-center border-gray-400 p-2">₹{bill.amount}</td>
-                <td className="border text-center border-gray-400 p-2">{bill.date}</td>
+            currentBills.map((bill, index) => (
+              <tr key={index}>
+                <td className="border text-center border-gray-400 p-2">
+                  {startIndex + index + 1}
+                </td>
+                <td className="border text-center border-gray-400 p-2">{bill.phone}</td>
+                <td className="border text-center border-gray-400 p-2">{bill.email}</td>
+                <td className="border text-center border-gray-400 p-2">{bill.billType}</td>
+                <td className="border text-center border-gray-400 p-2">₹{bill.total_amount}</td>
+                <td className="border text-center border-gray-400 p-2">{bill.dueDate}</td>
               </tr>
             ))
           ) : (

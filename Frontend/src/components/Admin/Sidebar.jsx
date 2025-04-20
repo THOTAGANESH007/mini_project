@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FileText,
   MapPin,
@@ -9,10 +9,39 @@ import {
   MessageSquare,
   Plus,
   List,
+  ArrowRight,
+  ArrowLeft,
+  LogOut,
 } from "lucide-react";
+import axios from "axios";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
+  const [user, setUser] = useState(null);
+  const navigate=useNavigate();
+
+useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    setUser(JSON.parse(storedUser));
+  }
+}, []);
+
+const handleLogout = async () => {
+  try {
+    const res = await axios.get("http://localhost:9999/api/user/logout", {
+      withCredentials: true,
+    });
+
+    if (res.data.message) {
+      localStorage.removeItem("user");
+      alert(res.data.message);
+      navigate("/");
+    }
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+};
 
   const navigation = [
     {
@@ -78,7 +107,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         location.pathname.includes(path.split("/edit/")[0]))
     );
   };
-
+if(!user)return;
   return (
     <>
       {/* Toggle Button (Mobile) */}
@@ -104,22 +133,37 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-center h-16 border-b border-gray-800">
-          <h1
-            className={`text-xl font-bold transition-opacity duration-200 ${
-              isOpen ? "opacity-100" : "opacity-0 md:opacity-0"
-            }`}
-          >
-            Admin Panel
-          </h1>
-          <span
-            className={`text-xl font-bold ${
-              isOpen ? "hidden" : "hidden md:block"
-            }`}
-          >
-            AP
-          </span>
-        </div>
+        <div className="flex items-center justify-between h-16 border-b border-gray-800 px-4">
+  <div className="flex items-center space-x-4">
+    {user?.profile && (
+      <img
+        src={user.profile}
+        alt="User Profile"
+        className="w-10 h-10 rounded-full object-cover"
+      />
+    )}
+    <h1
+      className={` font-bold transition-opacity duration-200 ${
+        isOpen ? "opacity-100" : "opacity-0 md:opacity-0"
+      }`}
+    >
+      {user.name}
+    </h1>
+    <Link onClick={handleLogout} className="block w-full ml-34">
+                      <span className="flex items-center gap-2">
+                         <LogOut />
+                      </span>
+                    </Link>
+    <span
+      className={`text-xl font-bold ${
+        isOpen ? "hidden" : "hidden md:block"
+      }`}
+    >
+      AP
+    </span>
+  </div>
+</div>
+
 
         {/* Navigation */}
         <nav className="mt-6 px-2">
@@ -183,10 +227,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 isOpen ? "opacity-100" : "opacity-0 hidden"
               }`}
             >
-              Collapse
+              <ArrowLeft/>
             </span>
             <span className={`${isOpen ? "hidden" : "hidden md:block"}`}>
-              Expand
+             <ArrowRight/>
             </span>
           </button>
         </div>

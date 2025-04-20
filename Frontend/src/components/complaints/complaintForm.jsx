@@ -60,7 +60,7 @@ const ComplaintForm = () => {
     if (image) {
       data.append("image", image);
     }
-
+  console.log("form data",data)
     try {
       const response = await axios.post(
         "http://localhost:9999/api/complaints",

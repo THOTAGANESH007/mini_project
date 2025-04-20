@@ -75,11 +75,13 @@ function App() {
           {/* <Route path="/admin/tenders" element={<TenderForm />} /> */}
           <Route path="/bills" element={<BillsHome />} />
           <Route path="/profile" element={<Profile />} />
+
+          <Route path="/appointments" element={<AppointmentsPage />} />
+          <Route path="/complaints/:id" element={<ComplaintDetails />} />
+          <Route path="/appointments/all" element={<AllAppointments />} />
           {/* <Route path="/bills/pay" element={<PaymentForm />} /> */}
           {/* <Route path="/bills/history" element={<PaymentHistory />} />
-          <Route path="/appointments" element={<AppointmentsPage />} />
-          <Route path="/complaint/:id" element={<ComplaintDetails />} />
-          <Route path="/appointments/all" element={<AllAppointments />} />
+          
           <Route path="/admin/addPlace" element={<AddPlace />} />
           <Route path="/admin/allPlaces" element={<ShowPlaces />} />
           <Route path="/admin/place/edit/:id" element={<EditPlace />} />

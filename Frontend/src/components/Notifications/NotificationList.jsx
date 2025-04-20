@@ -8,7 +8,7 @@ const NotificationList = () => {
   const fetchNotifications = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:9999/api/notifications"
+        "http://localhost:9999/api/notifications",{withCredintials:true}
       );
       setNotifications(data);
     } catch (error) {
@@ -19,7 +19,7 @@ const NotificationList = () => {
   const handleDelete = async (notificationId, messageIndex) => {
     try {
       await axios.delete(
-        `http://localhost:9999/api/notifications/${notificationId}/${messageIndex}`
+        `http://localhost:9999/api/notifications/${notificationId}/${messageIndex}`,{withCredentials:true}
       );
       fetchNotifications(); // Refresh list
     } catch (error) {

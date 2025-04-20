@@ -9,21 +9,20 @@ const ComplaintsCards = () => {
   const navigate = useNavigate();
 
   // Sample email and role – this would typically come from auth/session
-  const email = "electricOfficer123@gmail.com";
-  const role = "Electric Officer";
-
+ 
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
         const response = await axios.get(
           "http://localhost:9999/representatives/view/complaints",
           {
-            params: { email, role },
+          
             withCredentials: true, // if you are using cookies for authentication
           }
         );
 
         if (response.data.success) {
+          console.log("complaints",response.data)
           setComplaints(response.data.data);
         } else {
           console.error("Failed to fetch complaints.");

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProgressTracker from './ProgressTracker';
+import axios from 'axios';
 
 const ComplaintDetails = () => {
   const { id } = useParams();
@@ -12,14 +13,12 @@ const ComplaintDetails = () => {
   useEffect(() => {
     const fetchComplaint = async () => {
       try {
-        const res = await fetch(`http://localhost:9999/api/complaints/${id}`);
-        const result = await res.json();
+        const res = await axios.get(`http://localhost:9999/api/complaints/${id}`,{withCredentials:true});
+        
 
-        if (!res.ok || !result.success) {
-          throw new Error(result.message || 'Failed to fetch complaint');
-        }
+        
 
-        setComplaint(result.data);
+        setComplaint(res.data.data);
       } catch (err) {
         setError(err.message);
       } finally {

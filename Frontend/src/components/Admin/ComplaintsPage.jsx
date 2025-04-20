@@ -24,7 +24,7 @@ const ComplaintsPage = () => {
     const fetchComplaints = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('http://localhost:9999/representatives/view/complaints');
+        const res = await axios.get('http://localhost:9999/representatives/view/complaints',{withCredentials:true});
         if (res.data.success) {
           setComplaints(res.data.data);
         } else {

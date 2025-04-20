@@ -30,11 +30,12 @@ const Login = ({ setAuthStep }) => {
         const user = res.data.data.userObj;
         setMessage(res.data.message);
         setIsError(false);
+        localStorage.setItem("user", JSON.stringify(user));
         dispatch(addUser(user));
 
         // Redirect based on email
         if (user.email === "admin@gmail.com") {
-          navigate("/admin/dashboard");
+          navigate("/admin/allPlaces");
         } else if (user.email === "waterOfficer123@gmail.com") {
           navigate("/officer/water");
         } else if (user.email === "sanitizationOfficer123@gmail.com") {

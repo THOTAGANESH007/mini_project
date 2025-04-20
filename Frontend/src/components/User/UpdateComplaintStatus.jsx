@@ -14,7 +14,7 @@ const UpdateComplaintStatus = () => {
     const fetchComplaint = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:9999/api/complaints/${id}`);
+        const res = await axios.get(`http://localhost:9999/api/complaints/${id}`,{withCredentials:true});
         setComplaint(res.data.data);
         setNewStatus(res.data.data.status); // Initialize dropdown with current status
       } catch (err) {
@@ -31,7 +31,7 @@ const UpdateComplaintStatus = () => {
     try {
       const res = await axios.patch(`http://localhost:9999/api/complaints/${id}`, {
         status: newStatus,
-      });
+      },{withCredentials:true});
 
       if (res.data.success) {
         setComplaint({ ...complaint, status: newStatus });

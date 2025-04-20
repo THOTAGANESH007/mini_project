@@ -10,9 +10,9 @@ import upload from "../middlewares/multer.js";
 
 const complaintRouter = express.Router();
 
-complaintRouter.post("/", upload.single("image"), addComplaints);
-complaintRouter.get("/", getComplaints);
-complaintRouter.get('/:id',getOneComplaint);
-complaintRouter.patch("/:id",  updateComplaints);
+complaintRouter.post("/", auth,upload.single("image"), addComplaints);
+complaintRouter.get("/",auth, getComplaints);
+complaintRouter.get('/:id',auth,getOneComplaint);
+complaintRouter.patch("/:id",auth,  updateComplaints);
 
 export default complaintRouter;

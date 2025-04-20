@@ -1,4 +1,6 @@
-import Complaint from "../models/Complaint.js";
+
+import ComplaintModel from "../models/Complaint.js";
+import UserModel from "../models/user.js";
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 // const mongoose=require("mongoose");
 import mongoose from "mongoose";
@@ -22,7 +24,7 @@ export async function addComplaints(req, res) {
 
     const upload = await uploadImageCloudinary(image);
     console.log("url", upload.url);
-    const complaint = new Complaint({
+    const complaint = new ComplaintModel({
       userId,
       category,
       email,
@@ -35,7 +37,7 @@ export async function addComplaints(req, res) {
     await complaint.save();
     res
       .status(201)
-      .json({ message: "Complaint submitted successfully", complaint });
+      .json({ message: "Complaint submitted successfully", data:complaint });
   } catch (error) {
     res
       .status(500)
@@ -46,10 +48,12 @@ export async function addComplaints(req, res) {
 // Get All Complaints
 export async function getComplaints(req, res) {
   try {
-    const { userId } = req.query; // Get userId from query parameter
-    const complaints = await Complaint.find({ userId })
-      .populate("userId", "name email");
-
+    const  userId  = req.userId; // Get userId from query parameter
+    const { email} = await UserModel.findOne({ _id: userId });
+    console.log("userid",email)
+    const complaints = await ComplaintModel.find({ email })
+     
+   console.log("userid,complaints",userId,complaints)
     res.json(complaints);
   } catch (error) {
     res.status(500).json({
@@ -70,7 +74,7 @@ export async function getOneComplaint(req,res){
       return res.status(400).json({ success: false, message: "Invalid complaint ID" });
     }
 
-    const complaint = await Complaint.findById(id);
+    const complaint = await ComplaintModel.findById(id);
 
     if (!complaint) {
       return res.status(404).json({ success: false, message: "Complaint not found" });
@@ -86,14 +90,15 @@ export async function getOneComplaint(req,res){
 // Update Complaint Status
 export const updateComplaints = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id  = req.params;
     const { status } = req.body;
     console.log(id);
-    const updatedComplaint = await Complaint.findByIdAndUpdate(
-      id,
+    const updatedComplaint = await ComplaintModel.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(id),
       { status },
       { new: true }
     );
+    console.log("updated complaint",updatedComplaint)
 
     if (!updatedComplaint) {
       return res.status(404).json({ success: false, message: "Complaint not found" });

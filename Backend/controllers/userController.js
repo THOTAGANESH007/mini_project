@@ -142,6 +142,7 @@ export async function loginController(req, res) {
       email: existedUser.email,
       mobile: existedUser.mobile,
       profile: existedUser.profile,
+      role: existedUser.role,
     };
     return res.json({
       message: "Login Successful!!!",

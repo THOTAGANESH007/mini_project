@@ -10,7 +10,7 @@ const AdminNotificationSender = () => {
     try {
       await axios.post("http://localhost:9999/api/notifications/send", {
         message: [message],
-      });
+      },{withCredentials:true});
       alert("Notification sent to users!");
       setMessage("");
     } catch (error) {
