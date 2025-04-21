@@ -120,8 +120,9 @@ export const updateComplaints = async (req, res) => {
 // Get Complaints by Category
 export async function getComplaintByDepartment(req, res) {
   try {
-    const { category } = req.params;
-
+    
+    const { department:category } = req.params;
+   
     // Check if the category is valid
     const validCategories = ["Electrical", "Sanitation", "Water_Service"];
     if (!validCategories.includes(category)) {
@@ -133,7 +134,7 @@ export async function getComplaintByDepartment(req, res) {
     }
 
     const complaints = await ComplaintModel.find({ category });
-
+// console.log("complaints",category, complaints);
     if (complaints.length === 0) {
       return res.status(404).json({
         success: false,

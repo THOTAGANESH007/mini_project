@@ -48,6 +48,7 @@ import AppointmentsList from "./components/User/AppointmentsList";
 import AppointmentDetails from "./components/User/AppointmentDetails";
 import AdminLayout from "./components/Admin/AdminLayout";
 import Layout from "./components/User/Layout";
+import BillsByDept from "./components/User/BillsByDept";
 
 function App() {
   const location = useLocation();
@@ -113,7 +114,7 @@ function App() {
             <Route path="complaints/:id" element={<UpdateComplaintStatus />} />
             <Route path="appointment" element={<AppointmentsList />} />
             <Route path="appointment/:id" element={<AppointmentDetails />} />
-            <Route path="bills" element={<BillsPage />} />
+            <Route path="bills" element={<BillsByDept />} />
           </Route>
 
           {/* Stripe Checkout route wrapped in StripeWrapper */}

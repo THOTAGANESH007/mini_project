@@ -7,14 +7,14 @@ const ComplaintsCards = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const navigate = useNavigate();
-
+  const department=JSON.parse(localStorage.getItem("user")).role;
   // Sample email and role – this would typically come from auth/session
  
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:9999/representatives/view/complaints",
+          `http://localhost:9999/api/complaints/department/${department}`,
           {
           
             withCredentials: true, // if you are using cookies for authentication

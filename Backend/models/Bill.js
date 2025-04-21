@@ -7,7 +7,7 @@ const BillSchema = new mongoose.Schema({
   bill_number: { type: String, required: true, unique: true },
   billType: {
     type: String,
-    enum: ["Electricity", "Water", "Sanitation"],
+    enum: ["Electrical", "Sanitation", "Water_Service"],
     required: true,
   },
   total_amount: { type: Number, required: true },

@@ -10,11 +10,11 @@ export const fetchPaymentHistory = async () => {
     // Map the bills to the desired structure for the frontend
     return bills.map((bill, index) => ({
       sno: index + 1, // Serial number
-      category: bill.billType,
+      billType: bill.billType,
       amount: bill.total_amount,
       payment_status: bill.payment_status,
       payment_method: bill.payment_method || "N/A", // Default to 'N/A' if not available
-      due_date: bill.dueDate.toISOString().split("T")[0], // Format the date to 'YYYY-MM-DD'
+      dueDate: bill.dueDate.toISOString().split("T")[0], // Format the date to 'YYYY-MM-DD'
       user_email: bill.userId ? bill.userId.email : "N/A", // Assuming userId is populated
       user_phone: bill.userId ? bill.userId.mobile : "N/A", // Assuming userId is populated
     }));
@@ -40,15 +40,21 @@ export const getPaymentHistory = async (req, res) => {
 export const getPaymentsByDepartment = async (req, res) => {
   try {
     const { department } = req.params;
-
+    console.log("Department:", department);
     // Validate department value
-    const validDepartments = ["Electricity", "Water", "Sanitation"];
+    const validDepartments = ["Electrical", "Sanitation", "Water_Service"];
     if (!validDepartments.includes(department)) {
       return res.status(400).json({ message: "Invalid department" });
     }
 
-    const paymentHistory = await fetchPaymentHistory({ billType: department });
-    res.json(paymentHistory);
+    const paymentHistory = await BillModel.find({ billType: department });
+    console.log("Filtered Payment History:", paymentHistory);
+    // if (paymentHistory.length === 0) {
+    //   return res.status(404).json({
+    //     message: `No payment history found for department: ${department}`,
+    //   });
+    // }
+    res.json({data:paymentHistory});
   } catch (error) {
     res.status(500).json({
       message: "Error fetching department payment history",
