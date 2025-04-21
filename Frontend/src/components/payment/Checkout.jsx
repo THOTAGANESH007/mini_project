@@ -96,7 +96,7 @@ const Checkout = () => {
             className="form-input"
           >
             <option value="Electricity">Electricity</option>
-            <option value="Water">Water</option>
+            <option value="Water_Service">Water</option>
             <option value="Sanitation">Sanitation</option>
           </select>
         </div>

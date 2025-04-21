@@ -10,6 +10,7 @@ const PaymentHistory = () => {
     const fetchPaymentHistory = async () => {
       try {
         const response = await axios.get("http://localhost:9999/api/payment");
+        console.log(response);
         setPaymentData(response.data);
       } catch (err) {
         console.error("Error fetching payment history:", err);
@@ -55,7 +56,7 @@ const PaymentHistory = () => {
                     {item.sno}
                   </td>
                   <td className="border border-gray-400 px-4 text-center py-2">
-                    {item.category}
+                    {item.billType}
                   </td>
                   <td className="border border-gray-400 px-4 text-center py-2">
                     ₹{item.amount}
@@ -67,7 +68,7 @@ const PaymentHistory = () => {
                     {item.payment_method}
                   </td>
                   <td className="border border-gray-400 px-4 text-center py-2">
-                    {item.due_date}
+                    {item.dueDate}
                   </td>
                   <td className="border border-gray-400 px-4 text-center py-2">
                     {item.user_email}
