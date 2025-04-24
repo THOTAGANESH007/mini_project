@@ -11,6 +11,7 @@ import ShowEvents from "./Events/ShowEvents";
 import AddMember from "./AddMember";
 import BillsPage from "./BillsPage";
 import ComplaintsPage from "./ComplaintsPage";
+import AdminNotificationSender from "../Notifications/AdminNotificationSender";
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -49,6 +50,7 @@ const AdminLayout = () => {
           <Route path="/addRepresentative" element={<AddMember />} />
           <Route path="/bills" element={<BillsPage />} />
           <Route path="/complaints" element={<ComplaintsPage />} />
+          <Route path="/notifications" element={<AdminNotificationSender />} />
         </Routes>
       </div>
     </div>

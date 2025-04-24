@@ -1,69 +1,63 @@
 // src/components/NotificationList.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { CheckCheck } from "lucide-react";
 
 const NotificationList = () => {
   const [notifications, setNotifications] = useState([]);
 
   const fetchNotifications = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:9999/api/notifications",{withCredintials:true}
-      );
-      setNotifications(data);
+      const res = await axios.get("http://localhost:9999/api/notifications", {
+        withCredentials: true,
+      });
+      setNotifications(res.data.data);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
   };
 
-  const handleDelete = async (notificationId, messageIndex) => {
+  const handleDelete = async (notificationId) => {
     try {
-      await axios.delete(
-        `http://localhost:9999/api/notifications/${notificationId}/${messageIndex}`,{withCredentials:true}
-      );
-      fetchNotifications(); // Refresh list
+      const res = await axios.delete("http://localhost:9999/api/notifications", {
+        data: { notificationId },
+        withCredentials: true,
+      });
+      console.log(res);
+      fetchNotifications(); // Refresh after marking as read
     } catch (error) {
-      console.error("Error deleting notification:", error);
+      console.error("Error marking notification as read:",  error);
     }
   };
+  
+  
 
   useEffect(() => {
     fetchNotifications();
   }, []);
-
+if(!notifications)return;
   return (
-    <div style={{ padding: "1rem" }}>
-      <h2>User Notifications</h2>
+    <div className="absolute right-0 mt-2 w-80 bg-white text-black rounded-md shadow-lg p-4 z-50 max-h-96 overflow-y-auto">
+      <h3 className="font-semibold text-lg mb-2">Notifications</h3>
       {notifications.length === 0 ? (
-        <p>No notifications yet.</p>
+        <p className="text-sm text-gray-500">No notifications.</p>
       ) : (
-        notifications.map((n) => (
-          <div
-            key={n._id}
-            style={{
-              border: "1px solid #ddd",
-              padding: "1rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <p>
-              <strong>User:</strong> {n.userId?.email || "Unknown"}
-            </p>
-            {n.message.map((msg, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
+        notifications.map((n) =>
+          (Array.isArray(n.message) ? n.message : [n.message]).map((msg, idx) => (
+            <div
+              key={`${n._id}-${idx}`}
+              className="flex justify-between items-center py-1"
+            >
+              <span className="text-sm">{msg}</span>
+              <button
+                onClick={() => handleDelete(n._id)}
+                className="text-green-500 text-xs ml-2"
               >
-                <span>{msg}</span>
-                <button onClick={() => handleDelete(n._id, i)}>❌</button>
-              </div>
-            ))}
-          </div>
-        ))
+              <CheckCheck />
+              </button>
+            </div>
+          ))
+        )
       )}
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 
 const DisplayRepresentatives = ({ name, email, phoneNumber, designation, photo }) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 w-80 text-center transform transition-all hover:scale-105 hover:shadow-xl">
+    <div className="bg-white shadow-lg rounded-lg p-6 w-80 h-70 text-center transform transition-all hover:scale-105 hover:shadow-xl">
       <img 
         src={photo} 
         alt={name} 

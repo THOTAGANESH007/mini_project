@@ -4,7 +4,7 @@ import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 export const createRepresentative = async (req, res) => {
   try {
     const { name, designation, phoneNumber, email, officeAddress } = req.body;
-
+console.log("name :", name);
     const photo = req.file;
 
     if (!photo) {
@@ -40,6 +40,24 @@ export const createRepresentative = async (req, res) => {
       message: err.message,
       error: true,
       success: false,
+    });
+  }
+};
+
+
+export const viewRepresentatives = async (req, res) => {
+  try {
+    const reps = await RepresentativeModel.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: reps,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch representatives",
+      error: err.message,
     });
   }
 };

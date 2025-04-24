@@ -48,7 +48,7 @@ const AddMember = () => {
     const data = new FormData();
     for (let key in formData) {
       if (key === "photo" && formData[key]) {
-        data.append("image", formData[key]); // Changed to "image" as per backend
+        data.append("photo", formData[key]); // Changed to "image" as per backend
       } else {
         data.append(key, formData[key]);
       }
@@ -56,12 +56,12 @@ const AddMember = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:9999/admin/addRepresentative",
+        "http://localhost:9999/admin/representative/add",
         data,
         {
           headers: {
             "Content-Type": "multipart/form-data"
-          }
+          },withCredentials:true
         }
       );
 

@@ -3,54 +3,57 @@ import UserModel from "../models/user.js";
 
 // Create a new notification
 export const sendNotification = async (req, res) => {
-  const { message } = req.body;
-
-  // List of email addresses to exclude
-  const excludedEmails = [
-    "admin@gmail.com",
-    "electricOfficer123@gmail.com",
-    "sanitizationOfficer123@gmail.com",
-    "waterOfficer123@gmail.com",
-  ];
-
   try {
-    // Fetch all users except those whose emails are in the exclusion list
-    const users = await UserModel.find({ email: { $nin: excludedEmails } });
+    const { message } = req.body;
 
-    // Create a notification for each user
-    const notifications = users.map((user) => {
-      return new NotificationModel({
-        userId: user._id,
-        message: message,
+    if (!message) {
+      return res.status(400).json({
+        message: "Message is required",
+        success: false,
       });
+    }
+
+    // Create and save the notification
+    const newNotification = new NotificationModel({
+      message,
+      isReadBy: [], // optional, based on your schema
     });
 
-    // Save notifications to the database
-    await NotificationModel.insertMany(notifications);
+    const savedNotification = await newNotification.save();
 
-    res
-      .status(201)
-      .json({ message: "Notifications sent to all users successfully!" });
+    res.status(201).json({
+      message: "Notification created successfully",
+      data: savedNotification,
+      success: true,
+    });
   } catch (error) {
-    console.error("Error sending notifications:", error);
-    res.status(500).json({ message: "Error sending notifications." });
+    console.error("Error creating notification:", error);
+    res.status(500).json({
+      message: "Failed to create notification",
+      error: error.message,
+      success: false,
+    });
   }
 };
 
 export const getNotifications = async (req, res) => {
   try {
-    const { userId } = req.params;
-    // Fetch notifications for the logged-in user
-    const notifications = await NotificationModel.find({ userId })
-      .select("message") // This will only select the "message" field
-      .sort({ createdAt: -1 });
+    const userId = req.userId; // assuming req.userId is the ObjectId or string
 
-    res.status(200).json(notifications);
+    // Find notifications where isReadBy does NOT include this userId
+    const notifications = await NotificationModel.find({
+      isReadBy: { $ne: userId },
+    })
+      .select("message createdAt") // select only what you need
+      .sort({ createdAt: -1 });
+    console.log("Fetched notifications:", notifications);
+    res.status(200).json({data:notifications});
   } catch (error) {
     console.error("Error fetching notifications:", error);
     res.status(500).json({ message: "Failed to fetch notifications." });
   }
 };
+
 
 export const deleteNotification = async (req, res) => {
   const { notificationId, messageIndex } = req.params; // Get notificationId and messageIndex from URL
@@ -82,3 +85,38 @@ export const deleteNotification = async (req, res) => {
     res.status(500).json({ message: "Error deleting notification message." });
   }
 };
+
+// controller/notificationController.js
+export const markNotificationAsRead = async (req, res) => {
+  const { notificationId } = req.body;
+  const userId = req.userId; // assume this is set by auth middleware
+console.log("notificationId",notificationId);
+  try {
+    const notification = await NotificationModel.findById(notificationId);
+
+    if (!notification) {
+      return res.status(404).json({ message: "Notification not found." });
+    }
+
+    // Initialize isReadBy as an array if it doesn't exist
+    if (!notification.isReadBy) {
+      notification.isReadBy = [];
+    }
+
+    // Add userId if not already marked as read
+    if (!notification.isReadBy.includes(userId.toString())) {
+      notification.isReadBy.push(userId.toString());
+      await notification.save();
+    }
+
+    return res.status(200).json({
+      message: "Notification marked as read.",
+    });
+  } catch (error) {
+    console.error("Error marking notification as read:", error);
+    return res.status(500).json({
+      message: "Error marking notification as read.",
+    });
+  }
+};
+

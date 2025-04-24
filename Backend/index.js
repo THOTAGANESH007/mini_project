@@ -55,7 +55,7 @@ app.use("/api/complaints", complaintRouter);
 app.use("/admin/places", placesRouter);
 app.use("/admin/events", eventRouter);
 app.use("/representatives/view", userViewRouter);
-app.use("/admin/addRepresentative", representative);
+app.use("/admin/representative", representative);
 app.use("/admin/tenders", tenderRoute);
 app.use("/api/tenders", viewTenderRoute);
 app.use("/api/reviews", reviewRoute);

@@ -96,6 +96,11 @@ const handleLogout = async () => {
           path: "/admin/complaints",
           icon: <MessageSquare size={18} />,
         },
+        {
+          name: "Notifications",
+          path: "/admin/notifications",
+          icon: <MessageSquare size={18} />,
+        },
       ],
     },
   ];

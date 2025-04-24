@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BellDot, LogOut, User } from "lucide-react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import NotificationList from "./Notifications/NotificationList";
 
 const Header = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -12,31 +13,31 @@ const Header = () => {
   const [notifications, setNotifications] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const fetchNotifications = async () => {
-    try {
-      const { data } = await axios.get(
-        `http://localhost:9999/api/notifications/${user._id}`,
-        {
-          withCredentials: true,
-        }
-      );
-      setNotifications(data);
-    } catch (error) {
-      console.error("Failed to fetch notifications:", error);
-    }
-  };
+  // const fetchNotifications = async () => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       `http://localhost:9999/api/notifications`,
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     setNotifications(data);
+  //   } catch (error) {
+  //     console.error("Failed to fetch notifications:", error);
+  //   }
+  // };
 
-  const handleDelete = async (notificationId, messageIndex) => {
-    try {
-      await axios.delete(
-        `http://localhost:9999/api/notifications/${notificationId}/${messageIndex}`,
-        { withCredentials: true }
-      );
-      fetchNotifications(); // Refresh list
-    } catch (error) {
-      console.error("Failed to delete notification:", error);
-    }
-  };
+  // const handleDelete = async (notificationId, messageIndex) => {
+  //   try {
+  //     await axios.delete(
+  //       `http://localhost:9999/api/notifications/${notificationId}`,
+  //       { withCredentials: true }
+  //     );
+  //     fetchNotifications(); // Refresh list
+  //   } catch (error) {
+  //     console.error("Failed to delete notification:", error);
+  //   }
+  // };
 
   const handleLogout = async () => {
     try {
@@ -54,11 +55,11 @@ const Header = () => {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      fetchNotifications();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     fetchNotifications();
+  //   }
+  // }, []);
 
   return (
     <div className="sticky top-0 left-0 w-full z-50">
@@ -101,29 +102,30 @@ const Header = () => {
             </div>
 
             {showDropdown && (
-              <div className="absolute right-0 mt-2 w-80 bg-white text-black rounded-md shadow-lg p-4 z-50 max-h-96 overflow-y-auto">
-                <h3 className="font-semibold text-lg mb-2">Notifications</h3>
-                {notifications.length === 0 ? (
-                  <p className="text-sm text-gray-500">No notifications.</p>
-                ) : (
-                  notifications.map((n) =>
-                    n.message.map((msg, idx) => (
-                      <div
-                        key={`${n._id}-${idx}`}
-                        className="flex justify-between items-center border-b py-1"
-                      >
-                        <span className="text-sm">{msg}</span>
-                        <button
-                          onClick={() => handleDelete(n._id, idx)}
-                          className="text-red-500 text-xs ml-2"
-                        >
-                          ✖
-                        </button>
-                      </div>
-                    ))
-                  )
-                )}
-              </div>
+              // <div className="absolute right-0 mt-2 w-80 bg-white text-black rounded-md shadow-lg p-4 z-50 max-h-96 overflow-y-auto">
+              //   <h3 className="font-semibold text-lg mb-2">Notifications</h3>
+              //   {notifications.length === 0 ? (
+              //     <p className="text-sm text-gray-500">No notifications.</p>
+              //   ) : (
+              //     notifications.map((n) =>
+              //       n.message.map((msg, idx) => (
+              //         <div
+              //           key={`${n._id}-${idx}`}
+              //           className="flex justify-between items-center border-b py-1"
+              //         >
+              //           <span className="text-sm">{msg}</span>
+              //           <button
+              //             onClick={() => handleDelete(n._id, idx)}
+              //             className="text-red-500 text-xs ml-2"
+              //           >
+              //             ✖
+              //           </button>
+              //         </div>
+              //       ))
+              //     )
+              //   )}
+              // </div>
+              <NotificationList />
             )}
           </div>
 

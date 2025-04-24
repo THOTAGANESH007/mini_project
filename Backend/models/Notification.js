@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const notificationSchema = new mongoose.Schema(
   {
-    userId: {
+    isReadBy: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },
-    message: [
+    }],
+    message: 
       {
         type: String,
         // [isSent]: {
@@ -16,7 +16,7 @@ const notificationSchema = new mongoose.Schema(
         // },
         required: true,
       },
-    ],
+    
   },
   { timestamps: true }
 );
