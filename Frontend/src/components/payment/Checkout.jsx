@@ -9,7 +9,7 @@ const Checkout = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [billNumber, setBillNumber] = useState("");
-  const [billType, setBillType] = useState("Electricity");
+  const [billType, setBillType] = useState("Electrical");
   const [totalAmount, setTotalAmount] = useState(0);
   const [dueDate, setDueDate] = useState("");
 
@@ -116,7 +116,7 @@ const Checkout = () => {
             required
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
           >
-            <option value="Electricity">Electricity</option>
+            <option value="Electrical">Electricity</option>
             <option value="Water_Service">Water</option>
             <option value="Sanitation">Sanitation</option>
           </select>

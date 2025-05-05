@@ -10,7 +10,7 @@ const PaymentHistory = () => {
   useEffect(() => {
     const fetchPaymentHistory = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/api/payment");
+        const response = await axios.get("http://localhost:9999/api/payment",{withCredentials:true});
         console.log(response);
         setPaymentData(response.data);
       } catch (err) {
