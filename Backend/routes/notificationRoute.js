@@ -2,7 +2,7 @@ import express from "express";
 import {
   sendNotification,
   getNotifications,
-  deleteNotification,
+  
   markNotificationAsRead,
 } from "../controllers/notificationController.js";
 import auth from "../middlewares/auth.js";

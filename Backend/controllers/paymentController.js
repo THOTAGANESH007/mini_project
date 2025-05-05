@@ -40,7 +40,7 @@ export const getPaymentHistory = async (req, res) => {
 export const getPaymentsByDepartment = async (req, res) => {
   try {
     const { department } = req.params;
-    console.log("Department:", department);
+    
     // Validate department value
     const validDepartments = ["Electrical", "Sanitation", "Water_Service"];
     if (!validDepartments.includes(department)) {
@@ -48,7 +48,7 @@ export const getPaymentsByDepartment = async (req, res) => {
     }
 
     const paymentHistory = await BillModel.find({ billType: department });
-    console.log("Filtered Payment History:", paymentHistory);
+   
     // if (paymentHistory.length === 0) {
     //   return res.status(404).json({
     //     message: `No payment history found for department: ${department}`,

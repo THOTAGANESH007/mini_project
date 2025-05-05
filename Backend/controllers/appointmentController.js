@@ -49,12 +49,10 @@ export const getAllAppointments = async (req, res) => {
 export const getAppointmentsByTheUserId = async (req, res) => {
   try {
     const userId = req.userId;
-    console.log("userid:", userId);
-    let appointments = await AppointMentModel.find({
-      userId: new mongoose.Types.ObjectId(userId),
-    });
-    console.log("Appointments sent:", appointments);
-    // res.status(200).json(appointments);
+  
+    const appointments = await AppointMentModel.find( {userId:new mongoose.Types.ObjectId(userId)} )
+   
+// res.status(200).json(appointments);
 
     res.status(200).json({ msg: "all appointments ", data: appointments });
   } catch (error) {
@@ -88,7 +86,6 @@ export const getAppointmentsByDepartment = async (req, res) => {
 
     const { department } = req.params;
 
-    console.log(department);
     const validDepartments = ["Electrical", "Sanitation", "Water_Service"];
     if (!validDepartments.includes(department)) {
       return res.status(400).json({ error: "Invalid department" });
@@ -97,11 +94,11 @@ export const getAppointmentsByDepartment = async (req, res) => {
     const appointments = await AppointMentModel.find({
       department: department,
     });
-    console.log(department);
-    console.log(appointments);
+   
 
-    console.log(appointments);
-    res.status(200).json({ data: appointments });
+
+    
+    res.status(200).json({data:appointments})
   } catch (error) {
     console.error("Error fetching department appointments:", error);
     res

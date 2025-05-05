@@ -10,7 +10,7 @@ export const viewBills = async (req, res) => {
     const userId = req.userId;
 
     const { email, role } = await UserModel.findOne({ _id: userId });
-    console.log("User email and role:", email, role); // log email and role
+   
     if (
       email === "sanitizationOfficer123@gmail.com" &&
       role == "Sanitation Officer"
@@ -27,11 +27,11 @@ export const viewBills = async (req, res) => {
     ) {
       bills = await BillModel.find({ billType: "Electricity" });
     } else {
-      console.log("in admin bill")
+      
       bills = await BillModel.find({});
-      console.log("bill",bills)
+    
     }
-console.log("bill",bills)
+
     res.json({ success: true, data: bills });
   } catch (error) {
     res

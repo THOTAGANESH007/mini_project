@@ -46,7 +46,7 @@ export const getNotifications = async (req, res) => {
     })
       .select("message createdAt") // select only what you need
       .sort({ createdAt: -1 });
-    console.log("Fetched notifications:", notifications);
+   
     res.status(200).json({data:notifications});
   } catch (error) {
     console.error("Error fetching notifications:", error);
@@ -55,42 +55,11 @@ export const getNotifications = async (req, res) => {
 };
 
 
-export const deleteNotification = async (req, res) => {
-  const { notificationId, messageIndex } = req.params; // Get notificationId and messageIndex from URL
-
-  try {
-    // Find the notification by ID
-    const notification = await NotificationModel.findById(notificationId);
-
-    if (!notification) {
-      return res.status(404).json({ message: "Notification not found." });
-    }
-
-    // Check if the message index is valid
-    if (messageIndex < 0 || messageIndex >= notification.message.length) {
-      return res.status(400).json({ message: "Invalid message index." });
-    }
-
-    // Remove the specific message from the array
-    notification.message.splice(messageIndex, 1);
-
-    // Save the updated notification
-    await notification.save();
-
-    res
-      .status(200)
-      .json({ message: "Notification message deleted successfully." });
-  } catch (error) {
-    console.error("Error deleting notification message:", error);
-    res.status(500).json({ message: "Error deleting notification message." });
-  }
-};
-
 // controller/notificationController.js
 export const markNotificationAsRead = async (req, res) => {
   const { notificationId } = req.body;
   const userId = req.userId; // assume this is set by auth middleware
-console.log("notificationId",notificationId);
+
   try {
     const notification = await NotificationModel.findById(notificationId);
 

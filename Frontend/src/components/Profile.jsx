@@ -6,7 +6,7 @@ import { Pencil, Save } from "lucide-react";
 
 
 const Profile = () => {
-    const user=useSelector((store)=>store.user);
+    const user=JSON.parse(localStorage.getItem("user"));
     const dispatch=useDispatch();
   const [formData, setFormData] = useState({
     name: "",

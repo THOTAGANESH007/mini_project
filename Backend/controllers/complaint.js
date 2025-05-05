@@ -19,7 +19,7 @@ export async function addComplaints(req, res) {
     }
 
     const upload = await uploadImageCloudinary(image);
-    console.log("url", upload.url);
+    
     const complaint = new ComplaintModel({
       userId,
       category,
@@ -46,10 +46,9 @@ export async function getComplaints(req, res) {
   try {
     const userId = req.userId; // Get userId from query parameter
     const { email } = await UserModel.findOne({ _id: userId });
-    console.log("userid", email);
+    
     const complaints = await ComplaintModel.find({ email });
 
-    console.log("userid,complaints", userId, complaints);
     res.json(complaints);
   } catch (error) {
     res.status(500).json({
@@ -63,7 +62,7 @@ export async function getComplaints(req, res) {
 export async function getOneComplaint(req, res) {
   try {
     const { id } = req.params;
-    console.log("Requested Complaint ID:", id);
+   
 
     // ✅ Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -96,13 +95,13 @@ export const updateComplaints = async (req, res) => {
   try {
     const id = req.params;
     const { status } = req.body;
-    console.log(id);
+    
     const updatedComplaint = await ComplaintModel.findByIdAndUpdate(
       new mongoose.Types.ObjectId(id),
       { status },
       { new: true }
     );
-    console.log("updated complaint", updatedComplaint);
+   
 
     if (!updatedComplaint) {
       return res
