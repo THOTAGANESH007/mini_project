@@ -5,14 +5,7 @@ const TenderSchema = new mongoose.Schema({
   description: { type: String, required: true },
   category: {
     type: String,
-    enum: [
-      "Construction",
-      "IT",
-      "HealthCare",
-      "Transport",
-      "Education",
-      "Other",
-    ],
+    enum: ["Construction", "IT", "HealthCare", "Transport", "Event"],
     required: true,
   },
   opening_date: { type: Date, required: true },
