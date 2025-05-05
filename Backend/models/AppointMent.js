@@ -10,7 +10,7 @@ const AppointMentSchema = new mongoose.Schema(
     },
     description: { type: String, required: true },
 
-    appointmentDate: { type: Date, default: "" },
+    appointmentDate: { type: Date, default: new Date() },
     appointmentTime: { type: String, default: "" },
     appointmentStatus: {
       type: String,

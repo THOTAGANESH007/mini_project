@@ -49,6 +49,7 @@ import AppointmentDetails from "./components/User/AppointmentDetails";
 import AdminLayout from "./components/Admin/AdminLayout";
 import Layout from "./components/User/Layout";
 import BillsByDept from "./components/User/BillsByDept";
+import TenderHome from "./components/TenderHome";
 
 function App() {
   const location = useLocation();
@@ -71,7 +72,7 @@ function App() {
           <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/places" element={<AllPlaces />} />
           <Route path="/places/:id" element={<PlaceDetail />} />
-
+          <Route path="/tenders" element={<TenderHome />} />
           <Route path="/complaints" element={<ComplaintsHome />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/auth/*" element={<AuthPage />} />

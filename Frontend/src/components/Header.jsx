@@ -91,6 +91,12 @@ const Header = () => {
           >
             Appointments
           </Link>
+          <Link
+            to="/tenders"
+            className="text-white text-xl hover:text-gray-300"
+          >
+            Tenders
+          </Link>
 
           {/* Notification Bell */}
           <div className="relative">
