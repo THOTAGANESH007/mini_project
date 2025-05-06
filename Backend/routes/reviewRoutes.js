@@ -8,6 +8,6 @@ import auth from "../middlewares/auth.js";
 const reviewRoute = express.Router();
 
 reviewRoute.post("/:placeId", auth, createReview);
-reviewRoute.get("/:placeId", auth, getReviewsByPlace);
+reviewRoute.get("/:placeId", getReviewsByPlace);
 
 export default reviewRoute;
