@@ -31,7 +31,7 @@ const TenderForm = () => {
       ...prev,
       [name]: value,
     }));
-    
+
     // Clear any error messages when user makes changes
     setError("");
   };
@@ -41,7 +41,7 @@ const TenderForm = () => {
     if (selectedFile) {
       setFile(selectedFile);
       setStatus("");
-      
+
       // Display file name
       setFilePreview(selectedFile.name);
     }
@@ -100,12 +100,11 @@ const TenderForm = () => {
       });
       setFile(null);
       setFilePreview(null);
-      
+
       // Success notification that disappears after 3 seconds
       setTimeout(() => {
         setStatus("");
       }, 3000);
-      
     } catch (error) {
       console.error("Error:", error);
       setError("Failed to upload or create tender. Please try again.");
@@ -118,16 +117,27 @@ const TenderForm = () => {
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
-          <h2 className="text-2xl font-bold text-white text-center">Create New Tender</h2>
+          <h2 className="text-2xl font-bold text-white text-center">
+            Create New Tender
+          </h2>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  <svg
+                    className="h-5 w-5 text-red-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
                 <div className="ml-3">
@@ -136,13 +146,22 @@ const TenderForm = () => {
               </div>
             </div>
           )}
-          
+
           {status && !error && (
             <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  <svg
+                    className="h-5 w-5 text-green-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
                 <div className="ml-3">
@@ -151,9 +170,11 @@ const TenderForm = () => {
               </div>
             </div>
           )}
-          
+
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">Tender Title</label>
+            <label className="block text-gray-700 text-sm font-medium mb-2">
+              Tender Title
+            </label>
             <input
               name="title"
               type="text"
@@ -164,9 +185,11 @@ const TenderForm = () => {
               required
             />
           </div>
-          
+
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">Description</label>
+            <label className="block text-gray-700 text-sm font-medium mb-2">
+              Description
+            </label>
             <textarea
               name="description"
               placeholder="Enter tender description"
@@ -177,9 +200,11 @@ const TenderForm = () => {
               required
             />
           </div>
-          
+
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">Category</label>
+            <label className="block text-gray-700 text-sm font-medium mb-2">
+              Category
+            </label>
             <select
               name="category"
               value={formData.category}
@@ -195,10 +220,12 @@ const TenderForm = () => {
               ))}
             </select>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Opening Date</label>
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Opening Date
+              </label>
               <input
                 name="opening_date"
                 type="date"
@@ -208,9 +235,11 @@ const TenderForm = () => {
                 required
               />
             </div>
-            
+
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Deadline</label>
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Deadline
+              </label>
               <input
                 name="deadline"
                 type="date"
@@ -221,39 +250,62 @@ const TenderForm = () => {
               />
             </div>
           </div>
-          
+
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">Upload Document</label>
+            <label className="block text-gray-700 text-sm font-medium mb-2">
+              Upload Document
+            </label>
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
               <div className="space-y-1 text-center">
-                <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <svg
+                  className="mx-auto h-12 w-12 text-gray-400"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 48 48"
+                >
+                  <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
-                
+
                 <div className="flex text-sm text-gray-600">
-                  <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none">
+                  <label
+                    htmlFor="file-upload"
+                    className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none"
+                  >
                     <span>Upload a file</span>
-                    <input 
-                      id="file-upload" 
-                      name="file" 
-                      type="file" 
-                      className="sr-only" 
-                      onChange={handleFileChange} 
+                    <input
+                      id="file-upload"
+                      name="file"
+                      type="file"
+                      className="sr-only"
+                      onChange={handleFileChange}
                       required
                     />
                   </label>
                   <p className="pl-1">or drag and drop</p>
                 </div>
-                
+
                 <p className="text-xs text-gray-500">
                   PDF, DOC, DOCX up to 10MB
                 </p>
-                
+
                 {filePreview && (
                   <div className="mt-2 text-indigo-600 text-sm">
                     <div className="flex items-center">
-                      <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                      <svg
+                        className="h-4 w-4 mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                       {filePreview}
                     </div>
@@ -262,7 +314,7 @@ const TenderForm = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="pt-4">
             <button
               type="submit"
@@ -271,13 +323,31 @@ const TenderForm = () => {
             >
               {uploading ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Uploading...
                 </span>
-              ) : "Submit Tender"}
+              ) : (
+                "Submit Tender"
+              )}
             </button>
           </div>
         </form>

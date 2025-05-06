@@ -2,9 +2,26 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  mobile: { type: String, default: "" },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
+  },
+  password: {
+    type: String,
+    required: true,
+    match: [
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.^#()\-_=+])[A-Za-z\d@$!%*?&.^#()\-_=+]{8,}$/,
+      "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character",
+    ],
+  },
+
+  mobile: {
+    type: String,
+    default: "",
+    match: [/^\d{10}$/, "Please enter a valid 10-digit phone number"],
+  },
   profile: { type: String, default: "" },
   refresh_token: { type: String, default: "" },
   verify_email: { type: Boolean, default: false },

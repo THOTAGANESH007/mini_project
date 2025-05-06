@@ -44,7 +44,6 @@ export const createRepresentative = async (req, res) => {
   }
 };
 
-
 export const viewRepresentatives = async (req, res) => {
   try {
     const reps = await RepresentativeModel.find().sort({ createdAt: -1 });
@@ -58,6 +57,32 @@ export const viewRepresentatives = async (req, res) => {
       success: false,
       message: "Failed to fetch representatives",
       error: err.message,
+    });
+  }
+};
+export const deleteRepresentative = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedRep = await RepresentativeModel.findByIdAndDelete(id);
+
+    if (!deletedRep) {
+      return res.status(404).json({
+        message: "Representative not found",
+        success: false,
+        error: true,
+      });
+    }
+
+    res.status(200).json({
+      message: "Representative deleted successfully",
+      success: true,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+      error: true,
+      success: false,
     });
   }
 };

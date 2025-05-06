@@ -12,33 +12,43 @@ import jwt from "jsonwebtoken";
 export async function registerUserController(req, res) {
   try {
     const { name, email, password, mobile } = req.body;
-    if (!name || !email || !password)
+
+    // Basic input validation
+    if (!name || !email || !password) {
       return res.status(400).json({
-        message: "Please Provide Name or Email or Password",
+        message: "Please provide name, email, and password",
         error: true,
         success: false,
       });
-
-    const existingUser = await UserModel.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "User Already Exists", error: true, success: false });
     }
 
+    // Check if user already exists
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        message: "User already exists",
+        error: true,
+        success: false,
+      });
+    }
+
+    // Hash password
     const salt = await bcryptjs.genSalt(7);
-    const hashPassword = await bcryptjs.hash(password, salt);
-    const payload = {
-      //formatting
+    const hashedPassword = await bcryptjs.hash(password, salt);
+
+    // Create new user
+    const newUser = new UserModel({
       name,
       email,
-      password: hashPassword,
+      password: hashedPassword,
       mobile,
-    };
+    });
 
-    const newUser = new UserModel(payload);
-    const save = await newUser.save();
-    const verifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${save._id}`;
+    // Save to DB (this will also trigger schema validation)
+    const savedUser = await newUser.save();
+
+    // Generate verify email URL
+    const verifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${savedUser._id}`;
 
     // Send verification email
     const emailResponse = await sendEmail({
@@ -46,24 +56,33 @@ export async function registerUserController(req, res) {
       subject: "Verify your email",
       html: verifyEmailTemplate({ name, url: verifyEmailUrl }),
     });
-    
+
     if (!emailResponse) {
       return res.status(500).json({
-        message: "User registered, but email sending failed",
+        message: "User registered, but failed to send verification email",
         error: true,
         success: false,
       });
     }
 
-    return res.json({
+    return res.status(201).json({
       message: "User Registration Successful",
       error: false,
       success: true,
-      data: save,
+      data: savedUser,
     });
   } catch (error) {
+    // Handle schema validation errors
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        message: error.message,
+        error: true,
+        success: false,
+      });
+    }
+
     return res.status(500).json({
-      message: error.message,
+      message: "Internal Server Error",
       error: true,
       success: false,
     });
