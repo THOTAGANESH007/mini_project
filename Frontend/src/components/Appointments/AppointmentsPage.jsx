@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer,toast  } from "react-toastify";
 
 const AppointmentsPage = () => {
   const [dept, setDept] = useState("");
@@ -16,7 +17,6 @@ const AppointmentsPage = () => {
     e.preventDefault();
     if (dept && description) {
       setLoading(true);
-      setError("");
 
       try {
         const response = await axios.post(
@@ -24,37 +24,32 @@ const AppointmentsPage = () => {
           { department: dept, description },
           { withCredentials: true }
         );
-        console.log("new appoint:", response);
+
         const data = response.data;
 
-        if (response.data) {
-          // Optionally update local state if needed
+        if (data) {
           const newAppointment = {
             id: Date.now(),
             dept,
             description,
           };
           setAppointments([...appointments, newAppointment]);
-
-          // Clear form
           setDept("");
           setDescription("");
-          setSuccess(true);
-          setTimeout(() => setSuccess(false), 3000);
+          toast.success("Appointment booked successfully!");
         } else {
-          setError(data.error);
+          toast.error(data.error || "An unexpected error occurred.");
         }
       } catch (error) {
         console.error("Booking error:", error);
-        setError("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       } finally {
         setLoading(false);
       }
     } else {
-      setError("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
     }
   };
-
   const handleViewAppointments = () => {
     navigate("/appointments/all", {
       state: { appointments },
@@ -63,6 +58,15 @@ const AppointmentsPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-100">
+        <ToastContainer
+      position="top-center"
+      autoClose={3000}
+      hideProgressBar={false}
+      closeOnClick
+      pauseOnHover
+      draggable
+      pauseOnFocusLoss
+    />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
           {/* Header Section */}
@@ -185,6 +189,7 @@ const AppointmentsPage = () => {
                     placeholder="Please describe your issue in detail..."
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 resize-none"
                     rows={5}
+                    required
                   />
                   <p className="mt-1 text-xs text-gray-500">
                     Please provide enough detail for our team to understand your

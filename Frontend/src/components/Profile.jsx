@@ -103,7 +103,7 @@ const Profile = () => {
         user.profile && user.profile !== "" ? user.profile : "https://via.placeholder.com/150"
       );
     }
-  }, [user]);
+  }, []);
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mb-[60px] mt-[140px]">
