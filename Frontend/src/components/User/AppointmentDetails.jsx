@@ -37,6 +37,7 @@ const AppointmentDetails = () => {
 
   const handleApprove = async () => {
     try {
+      setLoading(true);
       const res = await axios.put(
         `http://localhost:9999/api/appointments/approve/${id}`,
         {
@@ -47,10 +48,13 @@ const AppointmentDetails = () => {
       );
 
       const data = res.data.data;
-console.log("data:",data)
+
       if (data) {
         setSuccessMessage("Appointment approved successfully!");
-        navigate(-1);
+        
+        setTimeout(() => {
+          navigate(-1);
+        }, 3000);
         setAppointment(data);
       } else {
         setError(data.error );
@@ -58,6 +62,8 @@ console.log("data:",data)
     } catch (err) {
       console.error("Approval error:", err);
       setError("Something went wrong during approval");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -172,7 +178,11 @@ console.log("data:",data)
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            Approve Appointment
+              {loading ? (
+    <CircularProgress size={24} style={{ color: 'white' }} />
+  ) : (
+    "Approve Appointment"
+  )}
           </button>
 
           {successMessage && (

@@ -35,9 +35,13 @@ const UpdateComplaintStatus = () => {
       },{withCredentials:true});
 
       if (res.data.success) {
-        setComplaint({ ...complaint, status: newStatus });
+       
         toast.success("Status updated successfully!");
-        navigate(-1);
+        setComplaint({ ...complaint, status: newStatus });
+      
+        setTimeout(() => {
+          navigate(-1);
+        }, 4000);
       }
     } catch (err) {
       console.error("Error updating complaint status", err);
