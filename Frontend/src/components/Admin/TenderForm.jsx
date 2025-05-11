@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
 
 const TenderForm = () => {
   const [formData, setFormData] = useState({
@@ -12,9 +14,7 @@ const TenderForm = () => {
 
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
-  const [status, setStatus] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState("");
 
   const categories = [
     "Construction",
@@ -31,34 +31,26 @@ const TenderForm = () => {
       ...prev,
       [name]: value,
     }));
-
-    // Clear any error messages when user makes changes
-    setError("");
   };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      setStatus("");
-
-      // Display file name
       setFilePreview(selectedFile.name);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     if (!file) {
-      setError("Please choose a file");
+      toast.error("Please choose a file");
       return;
     }
 
     try {
       setUploading(true);
-      setStatus("Uploading file...");
 
       const UPLOADCARE_PUBLIC_KEY = "f85ab610f3cc796fd9e8";
 
@@ -67,13 +59,14 @@ const TenderForm = () => {
       fileData.append("UPLOADCARE_PUB_KEY", UPLOADCARE_PUBLIC_KEY);
       fileData.append("file", file);
 
+      toast.info("Uploading file...");
+
       const uploadRes = await axios.post(
         "https://upload.uploadcare.com/base/",
         fileData
       );
 
       const uuid = uploadRes.data.file;
-      setStatus("File uploaded successfully. Creating tender...");
 
       const formattedData = {
         ...formData,
@@ -82,13 +75,9 @@ const TenderForm = () => {
         uuid,
       };
 
-      const backendRes = await axios.post(
-        "http://localhost:9999/admin/tenders",
-        formattedData
-      );
+      await axios.post("http://localhost:9999/admin/tenders", formattedData);
 
-      setStatus("Tender created successfully!");
-      console.log("Created Tender:", backendRes.data);
+      toast.success("Tender created successfully!");
 
       // Reset form
       setFormData({
@@ -100,14 +89,9 @@ const TenderForm = () => {
       });
       setFile(null);
       setFilePreview(null);
-
-      // Success notification that disappears after 3 seconds
-      setTimeout(() => {
-        setStatus("");
-      }, 3000);
     } catch (error) {
       console.error("Error:", error);
-      setError("Failed to upload or create tender. Please try again.");
+      toast.error("Failed to upload or create tender");
     } finally {
       setUploading(false);
     }
@@ -115,6 +99,15 @@ const TenderForm = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen py-8">
+     <ToastContainer
+               position="top-center"
+               autoClose={3000}
+               hideProgressBar={false}
+               closeOnClick
+               pauseOnHover
+               draggable
+               pauseOnFocusLoss
+             />
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
           <h2 className="text-2xl font-bold text-white text-center">
@@ -123,54 +116,7 @@ const TenderForm = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-red-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-red-700">{error}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {status && !error && (
-            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-green-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-green-700">{status}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
+          {/* Title */}
           <div>
             <label className="block text-gray-700 text-sm font-medium mb-2">
               Tender Title
@@ -186,6 +132,7 @@ const TenderForm = () => {
             />
           </div>
 
+          {/* Description */}
           <div>
             <label className="block text-gray-700 text-sm font-medium mb-2">
               Description
@@ -201,6 +148,7 @@ const TenderForm = () => {
             />
           </div>
 
+          {/* Category */}
           <div>
             <label className="block text-gray-700 text-sm font-medium mb-2">
               Category
@@ -221,6 +169,7 @@ const TenderForm = () => {
             </select>
           </div>
 
+          {/* Dates */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-700 text-sm font-medium mb-2">
@@ -251,6 +200,7 @@ const TenderForm = () => {
             </div>
           </div>
 
+          {/* File Upload */}
           <div>
             <label className="block text-gray-700 text-sm font-medium mb-2">
               Upload Document
@@ -274,7 +224,7 @@ const TenderForm = () => {
                 <div className="flex text-sm text-gray-600">
                   <label
                     htmlFor="file-upload"
-                    className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none"
+                    className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500"
                   >
                     <span>Upload a file</span>
                     <input
@@ -315,6 +265,7 @@ const TenderForm = () => {
             </div>
           </div>
 
+          {/* Submit */}
           <div className="pt-4">
             <button
               type="submit"

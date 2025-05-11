@@ -5,6 +5,7 @@ import { BellDot, LogOut, User } from "lucide-react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import NotificationList from "./Notifications/NotificationList";
+import { toast, ToastContainer } from "react-toastify";
 
 const Header = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -47,7 +48,7 @@ const Header = () => {
 
       if (res.data.message) {
         localStorage.removeItem("user");
-        alert(res.data.message);
+        toast.success(res.data.message);
         navigate("/");
       }
     } catch (error) {
@@ -63,6 +64,15 @@ const Header = () => {
 
   return (
     <div className="sticky top-0 left-0 w-full z-50">
+        <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
       <nav className="flex items-center justify-between px-6 py-3 header">
         <div className="flex items-center">
           <h1 className="text-white font-semibold">
@@ -171,7 +181,7 @@ const Header = () => {
                   </li>
                   <li className="hover:bg-gray-100 px-4 py-2">
                     <Link onClick={handleLogout} className="block w-full">
-                      <span className="flex items-center gap-2">
+                      <span className="flex items-center gap-15">
                         Logout <LogOut />
                       </span>
                     </Link>

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer,toast } from 'react-toastify';
 
 const AddEvent = () => {
   const navigate = useNavigate();
@@ -120,43 +121,20 @@ const AddEvent = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-
-      // Show success notification
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center';
-      notification.innerHTML = `
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-        <span>Event created successfully!</span>
-      `;
-      document.body.appendChild(notification);
-      
+    
+      toast.success('Event created successfully!');
+    
       setTimeout(() => {
-        document.body.removeChild(notification);
         navigate('/admin/allevents');
       }, 2000);
-      
+    
     } catch (error) {
       console.error('Error creating event:', error.response?.data || error.message);
-      
       setIsSubmitting(false);
-      
-      // Show error notification
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center';
-      notification.innerHTML = `
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-        <span>Failed to create event. Please try again.</span>
-      `;
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        document.body.removeChild(notification);
-      }, 3000);
+    
+      toast.error('Failed to create event. Please try again.');
     }
+    
   };
 
   // Form section tabs
@@ -170,6 +148,15 @@ const AddEvent = () => {
   const renderProgressSteps = () => {
     return (
       <div className="flex justify-between items-center mb-8 px-2">
+          <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
         {[1, 2, 3].map(step => (
           <div key={step} className="flex items-center">
             <div 

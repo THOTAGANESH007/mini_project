@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 const VerifyOTP = ({ setAuthStep, userEmail,setUserEmail }) => {
   const OTP_LENGTH = 6;
   const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
@@ -30,7 +31,7 @@ const VerifyOTP = ({ setAuthStep, userEmail,setUserEmail }) => {
     e.preventDefault();
     const enteredOtp = otp.join(""); // Convert array to string
     if (enteredOtp.length !== OTP_LENGTH) {
-      alert("Please enter the full OTP.");
+      toast.error("Please enter the full OTP.");
       return;
     }
 
@@ -42,12 +43,21 @@ const VerifyOTP = ({ setAuthStep, userEmail,setUserEmail }) => {
       setUserEmail(userEmail);
       navigate("/auth/reset-password");
     } catch (error) {
-      alert(error.response?.data?.message || "Invalid OTP");
+      toast.error(error.response?.data?.message || "Invalid OTP");
     }
   };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
+        <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
       <form onSubmit={handleVerifyOTP} className="bg-white p-8 rounded-lg shadow-md border border-black">
         <h2 className="text-3xl font-semibold mb-6 text-center">Verify OTP</h2>
         <div className="flex justify-center gap-2">

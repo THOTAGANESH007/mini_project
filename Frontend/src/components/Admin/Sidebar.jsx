@@ -14,6 +14,7 @@ import {
   LogOut,
 } from "lucide-react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
@@ -35,11 +36,12 @@ const handleLogout = async () => {
 
     if (res.data.message) {
       localStorage.removeItem("user");
-      alert(res.data.message);
+      toast.success(res.data.message);
       navigate("/");
     }
   } catch (error) {
     console.error("Logout failed:", error);
+    toast.error("Logout failed");
   }
 };
 
@@ -116,6 +118,15 @@ if(!user)return;
   return (
     <>
       {/* Toggle Button (Mobile) */}
+      <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="md:hidden fixed top-4 left-4 z-50 bg-indigo-600 text-white p-2 rounded-md"
@@ -171,7 +182,7 @@ if(!user)return;
 
 
         {/* Navigation */}
-        <nav className="mt-6 px-2">
+        <nav className="mt-2 px-2">
           {navigation.map((navGroup, index) => (
             <div key={index} className="mb-6">
               <div
@@ -220,7 +231,7 @@ if(!user)return;
         </nav>
 
         {/* Collapse Button (Desktop only) */}
-        <div className="absolute bottom-0 w-full border-t border-gray-800 p-4">
+        <div className="absolute bottom-0 w-full border-t border-gray-800 p-2">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className={`flex items-center justify-center w-full text-sm text-gray-400 hover:text-white transition-colors ${

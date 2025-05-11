@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const AddPlace = () => {
   const categories = [
@@ -59,28 +60,18 @@ const AddPlace = () => {
       const res = await axios.post("http://localhost:9999/admin/places", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-      
-      // Reset form fields
-      setForm({
-        name: "",
-        location: "",
-        description: "",
-        category: "",
-        rating: 0,
-      });
+    
+      toast.success("Place added successfully!");
+    
+      setForm({ name: "", location: "", description: "", category: "", rating: 0 });
       setImage(null);
       setPreview(null);
-
-      // Clear file input
-      if (imageInputRef.current) {
-        imageInputRef.current.value = "";
-      }
+      if (imageInputRef.current) imageInputRef.current.value = "";
     } catch (err) {
       console.error(err);
-      alert("Error uploading place.");
+      toast.error("Error uploading place.");
+    
+    
     } finally {
       setLoading(false);
     }
@@ -96,11 +87,20 @@ const AddPlace = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-8">
-      {success && (
+      <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
+      {/* {success && (
         <div className="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
           <p>Place added successfully!</p>
         </div>
-      )}
+      )} */}
       
       <form
         onSubmit={handleSubmit}

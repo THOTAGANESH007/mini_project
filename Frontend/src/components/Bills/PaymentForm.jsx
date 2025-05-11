@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 // import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const PaymentForm = () => {
   const navigate=useNavigate();
@@ -52,7 +53,7 @@ const PaymentForm = () => {
         }
       );
       console.log(response.data);
-      alert("Complaint submitted successfully!");
+      toast.success("Complaint submitted successfully!");
 
       // Reset form
       setFormData({
@@ -69,12 +70,21 @@ const PaymentForm = () => {
         "Error submitting complaint:",
         error.response?.data || error
       );
-      alert("Error submitting complaint. Please try again.");
+      toast.error("Error submitting complaint. Please try again.");
     }
   };
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-gray-50 shadow-lg rounded-lg mt-[140px] mb-[50px] border rounded">
+      <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
       <h2 className="text-2xl text-center font-bold mb-4">Payment Form</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">

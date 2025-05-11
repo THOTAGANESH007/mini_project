@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addUser,clearUser } from "../utils/UserSlice";
 import { Pencil, Save } from "lucide-react";
+import { toast, ToastContainer } from "react-toastify";
 
 
 const Profile = () => {
@@ -84,7 +85,7 @@ const Profile = () => {
       // Optionally show a success message or update Redux store
      dispatch(clearUser());
       dispatch(addUser(response.data.data));
-        alert("Profile updated successfully");
+        toast.success("Profile updated successfully");
     } catch (error) {
       console.error("Failed to update profile:", error);
     }
@@ -108,6 +109,15 @@ const Profile = () => {
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mb-[60px] mt-[140px]">
       {/* Profile Picture */}
+      <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
       <div className="flex flex-col items-center">
         <div className="relative">
           <img

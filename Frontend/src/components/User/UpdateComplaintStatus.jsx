@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const UpdateComplaintStatus = () => {
   const navigate = useNavigate();
@@ -35,11 +36,12 @@ const UpdateComplaintStatus = () => {
 
       if (res.data.success) {
         setComplaint({ ...complaint, status: newStatus });
+        toast.success("Status updated successfully!");
         navigate(-1);
       }
     } catch (err) {
       console.error("Error updating complaint status", err);
-      alert("Failed to update status.");
+      toast.error("Failed to update status.");
     }
   };
 
@@ -83,6 +85,15 @@ const UpdateComplaintStatus = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
+        <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
       <div className="flex justify-between items-start mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Complaint Details</h1>

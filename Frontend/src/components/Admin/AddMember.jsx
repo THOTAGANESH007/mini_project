@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const AddMember = () => {
   const [formData, setFormData] = useState({
@@ -65,12 +66,13 @@ const AddMember = () => {
           withCredentials: true,
         }
       );
+      toast.success("Team member added successfully!");
 
       console.log("Success:", response);
-      setMessage({
-        type: "success",
-        text: "Team member added successfully!",
-      });
+      // setMessage({
+      //   type: "success",
+      //   text: "Team member added successfully!",
+      // });
 
       // Reset form
       setFormData({
@@ -84,10 +86,12 @@ const AddMember = () => {
       setPreview(null);
     } catch (error) {
       console.error("Error submitting form:", error);
-      setMessage({
-        type: "error",
-        text: "Failed to add member. Please try again.",
-      });
+      toast.error("Failed to add member. Please try again.");
+
+      // setMessage({
+      //   type: "error",
+      //   text: "Failed to add member. Please try again.",
+      // });
     } finally {
       setLoading(false);
     }
@@ -95,6 +99,15 @@ const AddMember = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+        <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
           <h2 className="text-2xl font-semibold text-gray-700">
@@ -239,7 +252,7 @@ const AddMember = () => {
           </div>
 
           {/* Status message */}
-          {message.text && (
+          {/* {message.text && (
             <div
               className={`mt-6 p-3 rounded-lg ${
                 message.type === "success"
@@ -249,7 +262,7 @@ const AddMember = () => {
             >
               {message.text}
             </div>
-          )}
+          )} */}
 
           <div className="mt-6 flex justify-end space-x-3">
             <button

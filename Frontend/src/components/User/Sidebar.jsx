@@ -9,6 +9,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
@@ -30,7 +31,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
       if (res.data.message) {
         localStorage.removeItem("user");
-        alert(res.data.message);
+      toast.success(res.data.message);
         navigate("/");
       }
     } catch (error) {
@@ -72,6 +73,15 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   return (
     <>
       {/* Toggle Button (Mobile) */}
+      <ToastContainer
+           position="top-center"
+           autoClose={3000}
+           hideProgressBar={false}
+           closeOnClick
+           pauseOnHover
+           draggable
+           pauseOnFocusLoss
+         />
       <button
         aria-label="Toggle Sidebar"
         onClick={() => setIsOpen(!isOpen)}
@@ -120,7 +130,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           <button
             aria-label="Logout"
             onClick={handleLogout}
-            className="text-red-500 hover:text-red-700"
+            className="text-gray-400 hover:text-white"
           >
             <LogOut size={20} />
           </button>
