@@ -7,9 +7,7 @@ import mongoose from "mongoose";
 
 export async function addComplaints(req, res) {
   try {
-    // if (!req.userId) {
-    //   return res.status(401).json({ message: "User not authenticated" });
-    // }
+    console.log(req.body);
     const { userId, category, email, phone, status, description } = req.body;
     const image = req.file; //multer middleware
     if (!image) {
@@ -19,7 +17,8 @@ export async function addComplaints(req, res) {
     }
 
     const upload = await uploadImageCloudinary(image);
-    
+    console.log("Cloudinary Upload Result", upload);
+
     const complaint = new ComplaintModel({
       userId,
       category,
