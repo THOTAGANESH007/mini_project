@@ -17,7 +17,7 @@ const Header = () => {
   // const fetchNotifications = async () => {
   //   try {
   //     const { data } = await axios.get(
-  //       `http://localhost:9999/api/notifications`,
+  //       `${process.env.REACT_APP_API_BASE_URL}/api/notifications`,
   //       {
   //         withCredentials: true,
   //       }
@@ -31,7 +31,7 @@ const Header = () => {
   // const handleDelete = async (notificationId, messageIndex) => {
   //   try {
   //     await axios.delete(
-  //       `http://localhost:9999/api/notifications/${notificationId}`,
+  //       `${process.env.REACT_APP_API_BASE_URL}/api/notifications/${notificationId}`,
   //       { withCredentials: true }
   //     );
   //     fetchNotifications(); // Refresh list
@@ -42,9 +42,12 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.get("http://localhost:9999/api/user/logout", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/logout`,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.data.message) {
         localStorage.removeItem("user");
@@ -64,15 +67,15 @@ const Header = () => {
 
   return (
     <div className="sticky top-0 left-0 w-full z-50">
-        <ToastContainer
-           position="top-center"
-           autoClose={3000}
-           hideProgressBar={false}
-           closeOnClick
-           pauseOnHover
-           draggable
-           pauseOnFocusLoss
-         />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
       <nav className="flex items-center justify-between px-6 py-3 header">
         <div className="flex items-center">
           <h1 className="text-white font-semibold">

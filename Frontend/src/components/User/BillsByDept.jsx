@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const BillsByDept = () => {
   const [allBills, setAllBills] = useState([]);
@@ -10,24 +10,27 @@ const BillsByDept = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const department=JSON.parse(localStorage.getItem("user")).role;
+  const department = JSON.parse(localStorage.getItem("user")).role;
   // Filters
-  const [filterCategory, setFilterCategory] = useState('');
-  const [filterDate, setFilterDate] = useState('');
-  const [filterPhone, setFilterPhone] = useState('');
-  const [minAmount, setMinAmount] = useState('');
-  const [maxAmount, setMaxAmount] = useState('');
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterDate, setFilterDate] = useState("");
+  const [filterPhone, setFilterPhone] = useState("");
+  const [minAmount, setMinAmount] = useState("");
+  const [maxAmount, setMaxAmount] = useState("");
 
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const res = await axios.get(`http://localhost:9999/api/payment/department/${department} `, {
-          withCredentials: true,
-        });
-        console.log("all bills by department",res.data.data)
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/api/payment/department/${department} `,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("all bills by department", res.data.data);
         const bills = res.data.data.map((bill) => ({
           ...bill,
-          dueDate: bill.dueDate?.split('T')[0], // format to YYYY-MM-DD if needed
+          dueDate: bill.dueDate?.split("T")[0], // format to YYYY-MM-DD if needed
         }));
         setAllBills(bills);
         setFilteredBills(bills);
@@ -44,11 +47,17 @@ const BillsByDept = () => {
 
   useEffect(() => {
     let filtered = allBills.filter((bill) => {
-      const matchCategory = filterCategory ? bill.billType === filterCategory : true;
+      const matchCategory = filterCategory
+        ? bill.billType === filterCategory
+        : true;
       const matchDate = filterDate ? bill.dueDate === filterDate : true;
       const matchPhone = filterPhone ? bill.phone.includes(filterPhone) : true;
-      const matchMin = minAmount ? parseFloat(bill.total_amount) >= parseFloat(minAmount) : true;
-      const matchMax = maxAmount ? parseFloat(bill.total_amount) <= parseFloat(maxAmount) : true;
+      const matchMin = minAmount
+        ? parseFloat(bill.total_amount) >= parseFloat(minAmount)
+        : true;
+      const matchMax = maxAmount
+        ? parseFloat(bill.total_amount) <= parseFloat(maxAmount)
+        : true;
       return matchCategory && matchDate && matchPhone && matchMin && matchMax;
     });
 
@@ -58,7 +67,10 @@ const BillsByDept = () => {
 
   const totalPages = Math.ceil(filteredBills.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
-  const currentBills = filteredBills.slice(startIndex, startIndex + rowsPerPage);
+  const currentBills = filteredBills.slice(
+    startIndex,
+    startIndex + rowsPerPage
+  );
 
   const handleRowsChange = (e) => {
     setRowsPerPage(Number(e.target.value));
@@ -76,7 +88,9 @@ const BillsByDept = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold text-center mb-6">All Payments History</h1>
+      <h1 className="text-2xl font-semibold text-center mb-6">
+        All Payments History
+      </h1>
 
       {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
@@ -139,7 +153,11 @@ const BillsByDept = () => {
       {/* Rows control */}
       <div className="mb-4 text-right">
         <label className="mr-2">Rows per page:</label>
-        <select value={rowsPerPage} onChange={handleRowsChange} className="border px-2 py-1">
+        <select
+          value={rowsPerPage}
+          onChange={handleRowsChange}
+          className="border px-2 py-1"
+        >
           <option value={10}>10</option>
           <option value={50}>50</option>
           <option value={100}>100</option>
@@ -165,11 +183,21 @@ const BillsByDept = () => {
                 <td className="border text-center border-gray-400 p-2">
                   {startIndex + index + 1}
                 </td>
-                <td className="border text-center border-gray-400 p-2">{bill.phone}</td>
-                <td className="border text-center border-gray-400 p-2">{bill.email}</td>
-                <td className="border text-center border-gray-400 p-2">{bill.billType}</td>
-                <td className="border text-center border-gray-400 p-2">₹{bill.total_amount}</td>
-                <td className="border text-center border-gray-400 p-2">{bill.dueDate}</td>
+                <td className="border text-center border-gray-400 p-2">
+                  {bill.phone}
+                </td>
+                <td className="border text-center border-gray-400 p-2">
+                  {bill.email}
+                </td>
+                <td className="border text-center border-gray-400 p-2">
+                  {bill.billType}
+                </td>
+                <td className="border text-center border-gray-400 p-2">
+                  ₹{bill.total_amount}
+                </td>
+                <td className="border text-center border-gray-400 p-2">
+                  {bill.dueDate}
+                </td>
               </tr>
             ))
           ) : (

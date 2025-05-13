@@ -15,7 +15,10 @@ const UpdateComplaintStatus = () => {
     const fetchComplaint = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:9999/api/complaints/${id}`,{withCredentials:true});
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/api/complaints/${id}`,
+          { withCredentials: true }
+        );
         setComplaint(res.data.data);
         setNewStatus(res.data.data.status); // Initialize dropdown with current status
       } catch (err) {
@@ -30,15 +33,18 @@ const UpdateComplaintStatus = () => {
 
   const handleUpdateStatus = async () => {
     try {
-      const res = await axios.patch(`http://localhost:9999/api/complaints/${id}`, {
-        status: newStatus,
-      },{withCredentials:true});
+      const res = await axios.patch(
+        `${process.env.REACT_APP_API_BASE_URL}/api/complaints/${id}`,
+        {
+          status: newStatus,
+        },
+        { withCredentials: true }
+      );
 
       if (res.data.success) {
-       
         toast.success("Status updated successfully!");
         setComplaint({ ...complaint, status: newStatus });
-      
+
         setTimeout(() => {
           navigate(-1);
         }, 4000);
@@ -71,39 +77,60 @@ const UpdateComplaintStatus = () => {
     );
   }
 
-  if (!complaint) return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10 text-center py-12">
-      <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <h3 className="mt-2 text-lg font-medium text-gray-900">No complaint found</h3>
-      <p className="mt-1 text-gray-500">We couldn't find the complaint you're looking for.</p>
-      <button 
-        onClick={() => navigate(-1)} 
-        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        Go Back
-      </button>
-    </div>
-  );
+  if (!complaint)
+    return (
+      <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10 text-center py-12">
+        <svg
+          className="mx-auto h-12 w-12 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <h3 className="mt-2 text-lg font-medium text-gray-900">
+          No complaint found
+        </h3>
+        <p className="mt-1 text-gray-500">
+          We couldn't find the complaint you're looking for.
+        </p>
+        <button
+          onClick={() => navigate(-1)}
+          className="mt-6 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Go Back
+        </button>
+      </div>
+    );
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
-        <ToastContainer
-           position="top-center"
-           autoClose={3000}
-           hideProgressBar={false}
-           closeOnClick
-           pauseOnHover
-           draggable
-           pauseOnFocusLoss
-         />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
       <div className="flex justify-between items-start mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Complaint Details</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Complaint Details
+          </h1>
           <p className="text-gray-500">ID: {id}</p>
         </div>
-        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(complaint.status)}`}>
+        <span
+          className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+            complaint.status
+          )}`}
+        >
           {complaint.status}
         </span>
       </div>
@@ -117,8 +144,18 @@ const UpdateComplaintStatus = () => {
           />
         ) : (
           <div className="w-full h-80 bg-gray-100 flex items-center justify-center text-gray-400">
-            <svg className="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <svg
+              className="w-16 h-16"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
             </svg>
           </div>
         )}
@@ -130,12 +167,12 @@ const UpdateComplaintStatus = () => {
             <p className="text-sm text-gray-500 mb-1">User ID</p>
             <p className="font-medium text-gray-900">{complaint.userId}</p>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="text-sm text-gray-500 mb-1">Email</p>
             <p className="font-medium text-gray-900">{complaint.email}</p>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="text-sm text-gray-500 mb-1">Phone</p>
             <p className="font-medium text-gray-900">{complaint.phone}</p>
@@ -148,8 +185,10 @@ const UpdateComplaintStatus = () => {
         </div>
 
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Update Status</h3>
-          
+          <h3 className="text-lg font-medium text-gray-900 mb-4">
+            Update Status
+          </h3>
+
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <select
               value={newStatus}
@@ -162,7 +201,7 @@ const UpdateComplaintStatus = () => {
               <option value="Processing">Processing</option>
               <option value="Resolved">Resolved</option>
             </select>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => navigate(-1)}
@@ -170,7 +209,7 @@ const UpdateComplaintStatus = () => {
               >
                 Cancel
               </button>
-              
+
               <button
                 onClick={handleUpdateStatus}
                 className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-sm"

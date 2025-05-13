@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
 const PaymentForm = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userId: "",
     category: "Electrical",
@@ -14,8 +14,7 @@ const PaymentForm = () => {
   });
 
   const [image, setImage] = useState(null);
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,7 +42,7 @@ const PaymentForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:9999/api/complaints",
+        `${process.env.REACT_APP_API_BASE_URL}/api/complaints`,
         data,
         {
           headers: {
@@ -77,14 +76,14 @@ const PaymentForm = () => {
   return (
     <div className="max-w-lg mx-auto p-6 bg-gray-50 shadow-lg rounded-lg mt-[140px] mb-[50px] border rounded">
       <ToastContainer
-           position="top-center"
-           autoClose={3000}
-           hideProgressBar={false}
-           closeOnClick
-           pauseOnHover
-           draggable
-           pauseOnFocusLoss
-         />
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
       <h2 className="text-2xl text-center font-bold mb-4">Payment Form</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
@@ -136,10 +135,6 @@ const PaymentForm = () => {
             required
           />
         </div>
-
-       
-
-       
 
         <button
           type="submit"

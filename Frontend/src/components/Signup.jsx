@@ -20,7 +20,7 @@ const Signup = () => {
     try {
       console.log("Signup Attempt:", { email, password, username });
       const res = await axios.post(
-        "http://localhost:9999/api/user/register",
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/register`,
         {
           email,
           password,

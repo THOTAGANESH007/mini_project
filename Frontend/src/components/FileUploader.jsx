@@ -70,7 +70,7 @@ const TenderForm = () => {
       };
 
       const backendRes = await axios.post(
-        "http://localhost:9999/admin/tenders",
+        `${process.env.REACT_APP_API_BASE_URL}/admin/tenders`,
         formattedData
       );
 

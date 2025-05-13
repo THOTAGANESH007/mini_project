@@ -3,8 +3,20 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const categories = [
-  "Temples", "Theatres", "Parks", "Hotels", "Lodges", "Restaurants",
-  "Gyms", "Aquariums", "Art Galleries", "Museums", "Cafes", "Malls", "Beaches", "Zoos"
+  "Temples",
+  "Theatres",
+  "Parks",
+  "Hotels",
+  "Lodges",
+  "Restaurants",
+  "Gyms",
+  "Aquariums",
+  "Art Galleries",
+  "Museums",
+  "Cafes",
+  "Malls",
+  "Beaches",
+  "Zoos",
 ];
 
 const EditPlace = () => {
@@ -33,7 +45,9 @@ const EditPlace = () => {
   const fetchPlaceDetails = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:9999/admin/places/${id}`);
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/admin/places/${id}`
+      );
       const data = res.data;
 
       setForm({
@@ -44,7 +58,7 @@ const EditPlace = () => {
         rating: data.rating || 0,
         imageUrl: data.imageUrl,
       });
-      
+
       setPreviewUrl(data.imageUrl);
       setError(null);
     } catch (error) {
@@ -71,7 +85,7 @@ const EditPlace = () => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
-      
+
       // Create preview URL
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -87,7 +101,7 @@ const EditPlace = () => {
     if (previewUrl === form.imageUrl) {
       setPreviewUrl(null);
     }
-    
+
     // Reset file input
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -112,7 +126,7 @@ const EditPlace = () => {
     if (imageFile) {
       formData.append("image", imageFile);
     }
-    
+
     // Add a flag if the image should be removed
     if (!previewUrl && form.imageUrl) {
       formData.append("removeImage", "true");
@@ -120,7 +134,7 @@ const EditPlace = () => {
 
     try {
       await axios.put(
-        `http://localhost:9999/admin/places/${id}`,
+        `${process.env.REACT_APP_API_BASE_URL}/admin/places/${id}`,
         formData
       );
 
@@ -150,38 +164,51 @@ const EditPlace = () => {
           <p>{error}</p>
         </div>
       )}
-      
+
       {success && (
         <div className="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
           <p>Place updated successfully! Redirecting...</p>
         </div>
       )}
-      
+
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-xl shadow-lg overflow-hidden"
       >
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6">
           <h2 className="text-2xl font-bold text-white">Edit Place</h2>
-          <p className="text-blue-100 mt-1">Update details for this tourist attraction</p>
+          <p className="text-blue-100 mt-1">
+            Update details for this tourist attraction
+          </p>
         </div>
-        
+
         <div className="p-6 space-y-6">
           {/* Preview Image */}
           {previewUrl && (
             <div className="relative mb-4">
-              <img 
-                src={previewUrl} 
-                alt="Place Preview" 
+              <img
+                src={previewUrl}
+                alt="Place Preview"
                 className="rounded-lg w-full h-64 object-cover"
               />
-              <button 
+              <button
                 type="button"
                 onClick={handleRemoveImage}
                 className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -189,7 +216,9 @@ const EditPlace = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Name</label>
+              <label className="block text-gray-700 font-medium mb-2">
+                Name
+              </label>
               <input
                 type="text"
                 name="name"
@@ -202,7 +231,9 @@ const EditPlace = () => {
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Location</label>
+              <label className="block text-gray-700 font-medium mb-2">
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
@@ -216,7 +247,9 @@ const EditPlace = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Category</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Category
+            </label>
             <select
               name="category"
               value={form.category}
@@ -226,13 +259,17 @@ const EditPlace = () => {
             >
               <option value="">Select category</option>
               {categories.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
               ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Description</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Description
+            </label>
             <textarea
               name="description"
               value={form.description}
@@ -245,7 +282,9 @@ const EditPlace = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Rating</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Rating
+            </label>
             <div className="flex items-center space-x-2">
               <input
                 type="range"
@@ -265,11 +304,23 @@ const EditPlace = () => {
 
           {!previewUrl && (
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Upload New Image</label>
+              <label className="block text-gray-700 font-medium mb-2">
+                Upload New Image
+              </label>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
                 <div className="text-center">
-                  <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg
+                    className="mx-auto h-12 w-12 text-gray-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                  >
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                   <div className="mt-2">
                     <input
@@ -286,16 +337,20 @@ const EditPlace = () => {
                     >
                       Select an image
                     </label>
-                    <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      PNG, JPG, GIF up to 10MB
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           )}
-          
+
           {previewUrl && (
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Change Image</label>
+              <label className="block text-gray-700 font-medium mb-2">
+                Change Image
+              </label>
               <input
                 type="file"
                 accept="image/*"
@@ -306,7 +361,7 @@ const EditPlace = () => {
             </div>
           )}
         </div>
-        
+
         <div className="px-6 py-4 bg-gray-50 flex justify-end space-x-3">
           <button
             type="button"
@@ -319,15 +374,31 @@ const EditPlace = () => {
             type="submit"
             disabled={saving}
             className={`flex items-center px-6 py-3 rounded-lg font-medium ${
-              saving 
-                ? "bg-gray-400 cursor-not-allowed" 
+              saving
+                ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300"
             } text-white transition-all`}
           >
             {saving && (
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <svg
+                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
             )}
             {saving ? "Saving..." : "Update Place"}

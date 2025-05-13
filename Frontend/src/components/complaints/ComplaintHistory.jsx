@@ -17,7 +17,7 @@ const ComplaintHistory = () => {
     const fetchComplaints = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:9999/api/complaints`, // Adjust if needed
+          `${process.env.REACT_APP_API_BASE_URL}/api/complaints`, // Adjust if needed
           { withCredentials: true }
         );
         setComplaintsData(response.data);

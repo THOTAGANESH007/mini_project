@@ -11,7 +11,9 @@ const EventDetail = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await fetch(`http://localhost:9999/admin/events/${id}`);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_BASE_URL}/admin/events/${id}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch event");
         }
@@ -30,7 +32,9 @@ const EventDetail = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-pulse text-lg text-gray-600">Loading event details...</div>
+        <div className="animate-pulse text-lg text-gray-600">
+          Loading event details...
+        </div>
       </div>
     );
   }
@@ -80,7 +84,9 @@ const EventDetail = () => {
                   ₹{event.ticket_price}
                 </span>
               )}
-              <h1 className="text-3xl md:text-4xl font-bold mt-2">{event.title}</h1>
+              <h1 className="text-3xl md:text-4xl font-bold mt-2">
+                {event.title}
+              </h1>
             </div>
           </div>
         </div>
@@ -89,7 +95,9 @@ const EventDetail = () => {
         <div className="p-6">
           {/* Description */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-3 text-gray-800">About This Event</h2>
+            <h2 className="text-xl font-semibold mb-3 text-gray-800">
+              About This Event
+            </h2>
             <p className="text-gray-600 leading-relaxed">{event.description}</p>
           </div>
 
@@ -111,7 +119,9 @@ const EventDetail = () => {
                 <MapPin className="text-blue-500 mr-2" size={20} />
                 <h3 className="font-medium text-gray-800">Location</h3>
               </div>
-              <p className="text-gray-600">{event.location || "Location TBA"}</p>
+              <p className="text-gray-600">
+                {event.location || "Location TBA"}
+              </p>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">

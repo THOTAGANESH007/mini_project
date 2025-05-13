@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Card from './Card';
-import '../../style/Home.css';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import Card from "./Card";
+import "../../style/Home.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Left() {
   const [events, setEvents] = useState([]);
@@ -11,10 +11,12 @@ function Left() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get('http://localhost:9999/admin/events');
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/admin/events`
+        );
         setEvents(res.data); // assumes response is an array of events
       } catch (err) {
-        console.error('Error fetching events:', err);
+        console.error("Error fetching events:", err);
       }
     };
 

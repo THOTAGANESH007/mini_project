@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FileText,
@@ -19,31 +19,34 @@ import { toast, ToastContainer } from "react-toastify";
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
   const [user, setUser] = useState(null);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-useEffect(() => {
-  const storedUser = localStorage.getItem("user");
-  if (storedUser) {
-    setUser(JSON.parse(storedUser));
-  }
-}, []);
-
-const handleLogout = async () => {
-  try {
-    const res = await axios.get("http://localhost:9999/api/user/logout", {
-      withCredentials: true,
-    });
-
-    if (res.data.message) {
-      localStorage.removeItem("user");
-      toast.success(res.data.message);
-      navigate("/");
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
-  } catch (error) {
-    console.error("Logout failed:", error);
-    toast.error("Logout failed");
-  }
-};
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/logout`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.message) {
+        localStorage.removeItem("user");
+        toast.success(res.data.message);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Logout failed");
+    }
+  };
 
   const navigation = [
     {
@@ -114,19 +117,19 @@ const handleLogout = async () => {
         location.pathname.includes(path.split("/edit/")[0]))
     );
   };
-if(!user)return;
+  if (!user) return;
   return (
     <>
       {/* Toggle Button (Mobile) */}
       <ToastContainer
-           position="top-center"
-           autoClose={3000}
-           hideProgressBar={false}
-           closeOnClick
-           pauseOnHover
-           draggable
-           pauseOnFocusLoss
-         />
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="md:hidden fixed top-4 left-4 z-50 bg-indigo-600 text-white p-2 rounded-md"
@@ -150,36 +153,35 @@ if(!user)return;
       >
         {/* Header */}
         <div className="flex items-center justify-between h-16 border-b border-gray-800 px-4">
-  <div className="flex items-center space-x-4">
-    {user?.profile && (
-      <img
-        src={user.profile}
-        alt="User Profile"
-        className="w-10 h-10 rounded-full object-cover"
-      />
-    )}
-    <h1
-      className={` font-bold transition-opacity duration-200 ${
-        isOpen ? "opacity-100" : "opacity-0 md:opacity-0"
-      }`}
-    >
-      {user.name}
-    </h1>
-    <Link onClick={handleLogout} className="block w-full ml-34">
-                      <span className="flex items-center gap-2">
-                         <LogOut />
-                      </span>
-                    </Link>
-    <span
-      className={`text-xl font-bold ${
-        isOpen ? "hidden" : "hidden md:block"
-      }`}
-    >
-      AP
-    </span>
-  </div>
-</div>
-
+          <div className="flex items-center space-x-4">
+            {user?.profile && (
+              <img
+                src={user.profile}
+                alt="User Profile"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            )}
+            <h1
+              className={` font-bold transition-opacity duration-200 ${
+                isOpen ? "opacity-100" : "opacity-0 md:opacity-0"
+              }`}
+            >
+              {user.name}
+            </h1>
+            <Link onClick={handleLogout} className="block w-full ml-34">
+              <span className="flex items-center gap-2">
+                <LogOut />
+              </span>
+            </Link>
+            <span
+              className={`text-xl font-bold ${
+                isOpen ? "hidden" : "hidden md:block"
+              }`}
+            >
+              AP
+            </span>
+          </div>
+        </div>
 
         {/* Navigation */}
         <nav className="mt-2 px-2">
@@ -243,10 +245,10 @@ if(!user)return;
                 isOpen ? "opacity-100" : "opacity-0 hidden"
               }`}
             >
-              <ArrowLeft/>
+              <ArrowLeft />
             </span>
             <span className={`${isOpen ? "hidden" : "hidden md:block"}`}>
-             <ArrowRight/>
+              <ArrowRight />
             </span>
           </button>
         </div>

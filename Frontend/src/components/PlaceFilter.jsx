@@ -25,12 +25,14 @@ const PlaceFilter = ({ setplaces }) => {
 
     try {
       if (category === "All") {
-        const res = await axios.get("http://localhost:9999/admin/places");
-        
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/admin/places`
+        );
+
         setplaces(res.data);
       } else {
         const res = await axios.get(
-          `http://localhost:9999/admin/places/category/${category}`
+          `${process.env.REACT_APP_API_BASE_URL}/admin/places/category/${category}`
         );
         setplaces(res.data.data);
       }

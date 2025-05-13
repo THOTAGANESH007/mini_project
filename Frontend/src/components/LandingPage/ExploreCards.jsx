@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useRef, useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Card = ({ image, id, onClick }) => (
   <div
@@ -21,10 +21,12 @@ function ExploreCards() {
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const res = await axios.get('http://localhost:9999/admin/places');
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/admin/places`
+        );
         setPlaces(res.data); // Make sure the backend returns an array
       } catch (err) {
-        console.error('Failed to fetch places:', err);
+        console.error("Failed to fetch places:", err);
       }
     };
     fetchPlaces();
@@ -37,10 +39,10 @@ function ExploreCards() {
         const maxScrollLeft = scrollRef.current.scrollWidth / 2;
 
         if (scrollRef.current.scrollLeft >= maxScrollLeft) {
-          scrollRef.current.scrollTo({ left: 0, behavior: 'instant' });
+          scrollRef.current.scrollTo({ left: 0, behavior: "instant" });
         }
 
-        scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+        scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
       }
     }, 4000);
 
@@ -50,9 +52,12 @@ function ExploreCards() {
   const scrollLeft = () => {
     if (scrollRef.current) {
       if (scrollRef.current.scrollLeft === 0) {
-        scrollRef.current.scrollTo({ left: scrollRef.current.scrollWidth / 2, behavior: 'instant' });
+        scrollRef.current.scrollTo({
+          left: scrollRef.current.scrollWidth / 2,
+          behavior: "instant",
+        });
       }
-      scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+      scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
     }
   };
 
@@ -60,9 +65,9 @@ function ExploreCards() {
     if (scrollRef.current) {
       const maxScrollLeft = scrollRef.current.scrollWidth / 2;
       if (scrollRef.current.scrollLeft >= maxScrollLeft) {
-        scrollRef.current.scrollTo({ left: 0, behavior: 'instant' });
+        scrollRef.current.scrollTo({ left: 0, behavior: "instant" });
       }
-      scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+      scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
 
@@ -74,17 +79,31 @@ function ExploreCards() {
     <div className="p-8 text-white flex flex-col items-center">
       <h1 className="text-4xl font-bold text-gray-300 mb-6">Explore</h1>
 
-      <div ref={scrollRef} className="flex overflow-hidden scroll-smooth w-full max-w-5xl whitespace-nowrap">
+      <div
+        ref={scrollRef}
+        className="flex overflow-hidden scroll-smooth w-full max-w-5xl whitespace-nowrap"
+      >
         {[...places, ...places].map((place, index) => (
-          <Card key={index} image={place.imageUrl} id={place._id} onClick={handleCardClick} />
+          <Card
+            key={index}
+            image={place.imageUrl}
+            id={place._id}
+            onClick={handleCardClick}
+          />
         ))}
       </div>
 
       <div className="flex mt-6 gap-4">
-        <button onClick={scrollLeft} className="p-3 cursor-pointer bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition">
+        <button
+          onClick={scrollLeft}
+          className="p-3 cursor-pointer bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition"
+        >
           <ChevronLeft />
         </button>
-        <button onClick={scrollRight} className="p-3 cursor-pointer bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition">
+        <button
+          onClick={scrollRight}
+          className="p-3 cursor-pointer bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition"
+        >
           <ChevronRight />
         </button>
       </div>

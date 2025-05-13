@@ -70,10 +70,14 @@ const ComplaintForm = () => {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:9999/api/complaints", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/api/complaints`,
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
 
       toast.success("Complaint submitted successfully!");
       setFormData({
@@ -96,21 +100,29 @@ const ComplaintForm = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-20 mb-10">
-        <ToastContainer
-      position="top-center"
-      autoClose={3000}
-      hideProgressBar={false}
-      closeOnClick
-      pauseOnHover
-      draggable
-      pauseOnFocusLoss
-    />
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Submit a Complaint</h2>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        Submit a Complaint
+      </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6" encType="multipart/form-data">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-6"
+        encType="multipart/form-data"
+      >
         {/* Category */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Category</label>
+          <label className="block text-gray-700 font-medium mb-2">
+            Category
+          </label>
           <select
             name="category"
             value={formData.category}
@@ -127,7 +139,9 @@ const ComplaintForm = () => {
         {/* Email and Phone */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -139,7 +153,9 @@ const ComplaintForm = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Phone</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Phone
+            </label>
             <input
               type="tel"
               name="phone"
@@ -154,7 +170,9 @@ const ComplaintForm = () => {
 
         {/* Description */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Description</label>
+          <label className="block text-gray-700 font-medium mb-2">
+            Description
+          </label>
           <textarea
             name="description"
             value={formData.description}
@@ -168,7 +186,9 @@ const ComplaintForm = () => {
 
         {/* Image Upload */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">Upload Image</label>
+          <label className="block text-gray-700 font-medium mb-2">
+            Upload Image
+          </label>
           <input
             type="file"
             accept="image/*"
@@ -179,7 +199,11 @@ const ComplaintForm = () => {
           {imagePreview && (
             <div className="mt-4 relative">
               <p className="text-sm text-gray-600 mb-2">Image Preview:</p>
-              <img src={imagePreview} alt="Preview" className="max-h-40 border rounded" />
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="max-h-40 border rounded"
+              />
               <button
                 type="button"
                 onClick={() => {
@@ -204,7 +228,11 @@ const ComplaintForm = () => {
               : "bg-blue-600 hover:bg-blue-700 text-white"
           }`}
         >
-          {loading ? <CircularProgress className="mx-auto" />: "Submit Complaint"}
+          {loading ? (
+            <CircularProgress className="mx-auto" />
+          ) : (
+            "Submit Complaint"
+          )}
         </button>
       </form>
     </div>

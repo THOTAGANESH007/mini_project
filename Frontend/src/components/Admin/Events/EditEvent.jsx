@@ -25,9 +25,11 @@ const EditEvent = () => {
     const fetchEvent = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch(`http://localhost:9999/admin/events/${id}`);
+        const res = await fetch(
+          `${process.env.REACT_APP_API_BASE_URL}/admin/events/${id}`
+        );
         if (!res.ok) throw new Error("Failed to fetch event data");
-        
+
         const data = await res.json();
         setForm({
           title: data.title || "",
@@ -47,7 +49,7 @@ const EditEvent = () => {
         setIsLoading(false);
       }
     };
-  
+
     fetchEvent();
   }, [id]);
 
@@ -75,44 +77,50 @@ const EditEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       const updatedForm = { ...form };
-      
+
       // Upload image to Cloudinary if a new image is selected
       if (imageFile) {
         const imageData = new FormData();
         imageData.append("file", imageFile);
         imageData.append("upload_preset", "your_cloudinary_preset");
-    
-        const imageRes = await fetch("https://api.cloudinary.com/v1_1/your_cloud_name/image/upload", {
-          method: "POST",
-          body: imageData,
-        });
-    
+
+        const imageRes = await fetch(
+          "https://api.cloudinary.com/v1_1/your_cloud_name/image/upload",
+          {
+            method: "POST",
+            body: imageData,
+          }
+        );
+
         if (!imageRes.ok) {
           throw new Error("Failed to upload image");
         }
-        
+
         const imageData2 = await imageRes.json();
         updatedForm.img = imageData2.secure_url;
       }
-    
+
       // Convert "yes"/"no" to boolean for is_free
       updatedForm.is_free = updatedForm.is_free === "yes";
-    
-      const res = await fetch(`http://localhost:9999/admin/events/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedForm),
-      });
-    
+
+      const res = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/admin/events/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedForm),
+        }
+      );
+
       if (!res.ok) {
         throw new Error("Failed to update event");
       }
-    
+
       navigate("/admin/allevents"); // Redirect after success
     } catch (error) {
       console.error("Update failed:", error);
@@ -139,7 +147,7 @@ const EditEvent = () => {
       <div className="max-w-2xl mx-auto p-8 bg-red-50 rounded-lg border border-red-200">
         <h2 className="text-xl font-semibold text-red-600 mb-2">Error</h2>
         <p className="text-red-500">{error}</p>
-        <button 
+        <button
           onClick={() => navigate("/admin/allevents")}
           className="mt-4 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 transition"
         >
@@ -155,17 +163,19 @@ const EditEvent = () => {
         <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4">
           <h2 className="text-2xl font-bold text-white">Edit Event</h2>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
               <p className="text-red-700">{error}</p>
             </div>
           )}
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Event Name</label>
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Event Name
+              </label>
               <input
                 type="text"
                 name="title"
@@ -178,7 +188,9 @@ const EditEvent = () => {
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Location</label>
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
@@ -192,7 +204,9 @@ const EditEvent = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">Description</label>
+            <label className="block text-gray-700 text-sm font-medium mb-2">
+              Description
+            </label>
             <textarea
               name="description"
               value={form.description}
@@ -206,7 +220,9 @@ const EditEvent = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Organizer Name</label>
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Organizer Name
+              </label>
               <input
                 type="text"
                 name="organizer_name"
@@ -219,7 +235,9 @@ const EditEvent = () => {
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Date</label>
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Date
+              </label>
               <input
                 type="date"
                 name="date"
@@ -233,7 +251,9 @@ const EditEvent = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">Is the Event Free?</label>
+              <label className="block text-gray-700 text-sm font-medium mb-2">
+                Is the Event Free?
+              </label>
               <select
                 name="is_free"
                 value={form.is_free}
@@ -248,7 +268,10 @@ const EditEvent = () => {
 
             <div>
               <label className="block text-gray-700 text-sm font-medium mb-2">
-                Ticket Price {form.is_free === "yes" && <span className="text-gray-400">(N/A for free events)</span>}
+                Ticket Price{" "}
+                {form.is_free === "yes" && (
+                  <span className="text-gray-400">(N/A for free events)</span>
+                )}
               </label>
               <input
                 type="number"
@@ -257,8 +280,8 @@ const EditEvent = () => {
                 onChange={handleChange}
                 disabled={form.is_free === "yes"}
                 className={`w-full px-4 py-2 border border-gray-300 rounded-lg transition ${
-                  form.is_free === "yes" 
-                    ? "bg-gray-100 text-gray-500" 
+                  form.is_free === "yes"
+                    ? "bg-gray-100 text-gray-500"
                     : "focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 }`}
                 placeholder="0.00"
@@ -267,7 +290,9 @@ const EditEvent = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">Event Image</label>
+            <label className="block text-gray-700 text-sm font-medium mb-2">
+              Event Image
+            </label>
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
               <div className="space-y-1 text-center">
                 {imagePreview ? (
@@ -282,35 +307,63 @@ const EditEvent = () => {
                       onClick={() => {
                         setImageFile(null);
                         setImagePreview(null);
-                        setForm(prev => ({ ...prev, img: "" }));
+                        setForm((prev) => ({ ...prev, img: "" }));
                       }}
                       className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
                 ) : (
-                  <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg
+                    className="mx-auto h-12 w-12 text-gray-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                  >
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 )}
                 <div className="flex text-sm text-gray-600">
-                  <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
-                    <span>{imagePreview ? "Replace image" : "Upload an image"}</span>
-                    <input 
-                      id="file-upload" 
-                      name="file-upload" 
+                  <label
+                    htmlFor="file-upload"
+                    className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500"
+                  >
+                    <span>
+                      {imagePreview ? "Replace image" : "Upload an image"}
+                    </span>
+                    <input
+                      id="file-upload"
+                      name="file-upload"
                       type="file"
                       accept="image/*"
                       onChange={handleImageChange}
-                      className="sr-only" 
+                      className="sr-only"
                     />
                   </label>
                   <p className="pl-1">or drag and drop</p>
                 </div>
-                <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                <p className="text-xs text-gray-500">
+                  PNG, JPG, GIF up to 10MB
+                </p>
               </div>
             </div>
           </div>
@@ -332,13 +385,31 @@ const EditEvent = () => {
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Updating...
                 </span>
-              ) : "Update Event"}
+              ) : (
+                "Update Event"
+              )}
             </button>
           </div>
         </form>

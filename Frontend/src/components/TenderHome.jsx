@@ -45,9 +45,12 @@ const TenderHome = () => {
     const fetchTenders = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:9999/api/tenders", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_BASE_URL}/api/tenders`,
+          {
+            credentials: "include",
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`Failed to fetch tenders: ${response.statusText}`);
@@ -109,7 +112,7 @@ const TenderHome = () => {
       setLoadingDetails(true);
       setDetailsError(null);
       const response = await fetch(
-        `http://localhost:9999/api/tenders/${tenderId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/api/tenders/${tenderId}`,
         { credentials: "include" }
       );
 

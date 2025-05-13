@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
-import { toast, ToastContainer } from "react-toastify";  // Import Toastify & ToastContainer
+import { toast, ToastContainer } from "react-toastify"; // Import Toastify & ToastContainer
 import { CircularProgress } from "@mui/material";
 
 const AddRating = () => {
@@ -13,7 +13,6 @@ const AddRating = () => {
   const [submitting, setSubmitting] = useState(false);
 
   // Toastify setup
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +31,7 @@ const AddRating = () => {
     try {
       setSubmitting(true);
       const res = await axios.post(
-        `http://localhost:9999/api/reviews/${id}`,
+        `${process.env.REACT_APP_API_BASE_URL}/api/reviews/${id}`,
         {
           rating,
           review,
@@ -53,17 +52,19 @@ const AddRating = () => {
 
   return (
     <div className="max-w-xl mx-auto bg-white shadow-md rounded-lg p-6 mt-10">
-       {/* ToastContainer for displaying toast messages */}
-        <ToastContainer
-      position="top-center"
-      autoClose={3000}
-      hideProgressBar={false}
-      closeOnClick
-      pauseOnHover
-      draggable
-      pauseOnFocusLoss
-    />
-      <h2 className="text-2xl font-semibold mb-4 text-center">Leave a Review</h2>
+      {/* ToastContainer for displaying toast messages */}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
+      <h2 className="text-2xl font-semibold mb-4 text-center">
+        Leave a Review
+      </h2>
       <form onSubmit={handleSubmit}>
         <div className="flex px-4 mb-4">
           Rating:
@@ -91,12 +92,18 @@ const AddRating = () => {
           disabled={submitting}
           className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-200"
         >
-          {submitting ? <CircularProgress className="mx-auto" color="inherit" thickness={5} size={25}/>: "Submit Review"}
+          {submitting ? (
+            <CircularProgress
+              className="mx-auto"
+              color="inherit"
+              thickness={5}
+              size={25}
+            />
+          ) : (
+            "Submit Review"
+          )}
         </button>
       </form>
-
-     
-     
     </div>
   );
 };

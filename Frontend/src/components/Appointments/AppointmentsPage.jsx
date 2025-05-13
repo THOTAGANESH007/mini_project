@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer,toast  } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 const AppointmentsPage = () => {
   const [dept, setDept] = useState("");
@@ -20,7 +20,7 @@ const AppointmentsPage = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:9999/api/appointments/book",
+          `${process.env.REACT_APP_API_BASE_URL}/api/appointments/book`,
           { department: dept, description },
           { withCredentials: true }
         );
@@ -43,10 +43,18 @@ const AppointmentsPage = () => {
       } catch (error) {
         console.error("Booking error:", error);
         // Check if validation error exists from backend
-        if (error.response && error.response.data && error.response.data.errors) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errors
+        ) {
           // Display each validation message as a toast
           error.response.data.errors.forEach((errMsg) => toast.error(errMsg));
-        } else if (error.response && error.response.data && error.response.data.message) {
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           // Display generic error from backend
           toast.error(error.response.data.message);
         } else {
@@ -68,15 +76,15 @@ const AppointmentsPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-100">
-        <ToastContainer
-      position="top-center"
-      autoClose={3000}
-      hideProgressBar={false}
-      closeOnClick
-      pauseOnHover
-      draggable
-      pauseOnFocusLoss
-    />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
           {/* Header Section */}

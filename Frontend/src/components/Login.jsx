@@ -20,7 +20,7 @@ const Login = ({ setAuthStep }) => {
 
     try {
       const res = await axios.post(
-        "http://localhost:9999/api/user/login",
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/login`,
         { email, password },
         { withCredentials: true }
       );

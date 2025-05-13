@@ -14,7 +14,7 @@ const AdminNotificationSender = () => {
     }
     try {
       await axios.post(
-        "http://localhost:9999/api/notifications/send",
+        `${process.env.REACT_APP_API_BASE_URL}/api/notifications/send`,
         { message },
         { withCredentials: true }
       );

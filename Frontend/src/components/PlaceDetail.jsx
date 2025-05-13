@@ -16,7 +16,9 @@ const PlaceDetail = () => {
   useEffect(() => {
     const fetchPlace = async () => {
       try {
-        const res = await axios.get(`http://localhost:9999/admin/places/${id}`);
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/admin/places/${id}`
+        );
         setPlace(res.data);
       } catch (err) {
         console.error("Failed to fetch place", err);
@@ -32,7 +34,9 @@ const PlaceDetail = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get(`http://localhost:9999/api/reviews/${id}`);
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/api/reviews/${id}`
+        );
         console.log(res.data);
         setReviews(res.data);
       } catch (err) {

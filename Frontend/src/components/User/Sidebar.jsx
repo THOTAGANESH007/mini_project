@@ -25,13 +25,16 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.get("http://localhost:9999/api/user/logout", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/logout`,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.data.message) {
         localStorage.removeItem("user");
-      toast.success(res.data.message);
+        toast.success(res.data.message);
         navigate("/");
       }
     } catch (error) {
@@ -74,14 +77,14 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     <>
       {/* Toggle Button (Mobile) */}
       <ToastContainer
-           position="top-center"
-           autoClose={3000}
-           hideProgressBar={false}
-           closeOnClick
-           pauseOnHover
-           draggable
-           pauseOnFocusLoss
-         />
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
       <button
         aria-label="Toggle Sidebar"
         onClick={() => setIsOpen(!isOpen)}

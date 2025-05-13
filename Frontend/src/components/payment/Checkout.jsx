@@ -62,7 +62,7 @@ const Checkout = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:9999/api/stripe/create-checkout-session",
+        `${process.env.REACT_APP_API_BASE_URL}/api/stripe/create-checkout-session`,
         {
           userId: "user-id-placeholder",
           email,
@@ -116,7 +116,9 @@ const Checkout = () => {
         <div className="space-y-1">
           <div className="flex items-center mb-1">
             <Mail size={16} className="text-blue-500 mr-2" />
-            <label className="text-sm font-medium text-gray-700">Email Address</label>
+            <label className="text-sm font-medium text-gray-700">
+              Email Address
+            </label>
           </div>
           <input
             type="email"
@@ -132,7 +134,9 @@ const Checkout = () => {
         <div className="space-y-1">
           <div className="flex items-center mb-1">
             <Phone size={16} className="text-blue-500 mr-2" />
-            <label className="text-sm font-medium text-gray-700">Phone Number</label>
+            <label className="text-sm font-medium text-gray-700">
+              Phone Number
+            </label>
           </div>
           <input
             type="tel"
@@ -148,7 +152,9 @@ const Checkout = () => {
         <div className="space-y-1">
           <div className="flex items-center mb-1">
             <Hash size={16} className="text-blue-500 mr-2" />
-            <label className="text-sm font-medium text-gray-700">Bill Number</label>
+            <label className="text-sm font-medium text-gray-700">
+              Bill Number
+            </label>
           </div>
           <input
             type="text"
@@ -164,7 +170,9 @@ const Checkout = () => {
         <div className="space-y-1">
           <div className="flex items-center mb-1">
             <Tag size={16} className="text-blue-500 mr-2" />
-            <label className="text-sm font-medium text-gray-700">Bill Type</label>
+            <label className="text-sm font-medium text-gray-700">
+              Bill Type
+            </label>
           </div>
           <select
             value={billType}
@@ -182,7 +190,9 @@ const Checkout = () => {
         <div className="space-y-1">
           <div className="flex items-center mb-1">
             <DollarSign size={16} className="text-blue-500 mr-2" />
-            <label className="text-sm font-medium text-gray-700">Total Amount</label>
+            <label className="text-sm font-medium text-gray-700">
+              Total Amount
+            </label>
           </div>
           <div className="relative">
             <span className="absolute left-3 top-3 text-gray-500">$</span>
@@ -203,7 +213,9 @@ const Checkout = () => {
         <div className="space-y-1">
           <div className="flex items-center mb-1">
             <Calendar size={16} className="text-blue-500 mr-2" />
-            <label className="text-sm font-medium text-gray-700">Due Date</label>
+            <label className="text-sm font-medium text-gray-700">
+              Due Date
+            </label>
           </div>
           <input
             type="date"

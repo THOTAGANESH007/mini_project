@@ -2,11 +2,11 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-const VerifyOTP = ({ setAuthStep, userEmail,setUserEmail }) => {
+const VerifyOTP = ({ setAuthStep, userEmail, setUserEmail }) => {
   const OTP_LENGTH = 6;
   const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
   const inputRefs = useRef([]);
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleChange = (index, e) => {
     const value = e.target.value.replace(/\D/, ""); // Allow only numbers
     if (value.length > 1) return;
@@ -38,7 +38,10 @@ const VerifyOTP = ({ setAuthStep, userEmail,setUserEmail }) => {
     try {
       console.log(userEmail);
       console.log(enteredOtp);
-      await axios.put("http://localhost:9999/api/user/verify-forgot-password-otp", { email: userEmail, otp: enteredOtp });
+      await axios.put(
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/verify-forgot-password-otp`,
+        { email: userEmail, otp: enteredOtp }
+      );
       setAuthStep("resetPassword");
       setUserEmail(userEmail);
       navigate("/auth/reset-password");
@@ -49,16 +52,19 @@ const VerifyOTP = ({ setAuthStep, userEmail,setUserEmail }) => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-        <ToastContainer
-           position="top-center"
-           autoClose={3000}
-           hideProgressBar={false}
-           closeOnClick
-           pauseOnHover
-           draggable
-           pauseOnFocusLoss
-         />
-      <form onSubmit={handleVerifyOTP} className="bg-white p-8 rounded-lg shadow-md border border-black">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
+      <form
+        onSubmit={handleVerifyOTP}
+        className="bg-white p-8 rounded-lg shadow-md border border-black"
+      >
         <h2 className="text-3xl font-semibold mb-6 text-center">Verify OTP</h2>
         <div className="flex justify-center gap-2">
           {otp.map((digit, index) => (
@@ -74,7 +80,10 @@ const VerifyOTP = ({ setAuthStep, userEmail,setUserEmail }) => {
             />
           ))}
         </div>
-        <button type="submit" className="w-full mt-6 bg-blue-600 text-white py-3 rounded hover:bg-black transition">
+        <button
+          type="submit"
+          className="w-full mt-6 bg-blue-600 text-white py-3 rounded hover:bg-black transition"
+        >
           Verify OTP
         </button>
       </form>

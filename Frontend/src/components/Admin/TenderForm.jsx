@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-
 const TenderForm = () => {
   const [formData, setFormData] = useState({
     title: "",
@@ -75,7 +74,10 @@ const TenderForm = () => {
         uuid,
       };
 
-      await axios.post("http://localhost:9999/admin/tenders", formattedData);
+      await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/admin/tenders`,
+        formattedData
+      );
 
       toast.success("Tender created successfully!");
 
@@ -99,15 +101,15 @@ const TenderForm = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen py-8">
-     <ToastContainer
-               position="top-center"
-               autoClose={3000}
-               hideProgressBar={false}
-               closeOnClick
-               pauseOnHover
-               draggable
-               pauseOnFocusLoss
-             />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
           <h2 className="text-2xl font-bold text-white text-center">

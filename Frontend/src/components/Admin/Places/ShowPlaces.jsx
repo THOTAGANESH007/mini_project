@@ -10,18 +10,20 @@ const ShowPlaces = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const navigate = useNavigate();
-  
+
   // Get unique categories from places
-  const categories = [...new Set(places.map(place => place.category))].sort();
-  
+  const categories = [...new Set(places.map((place) => place.category))].sort();
+
   useEffect(() => {
     fetchPlaces();
   }, []);
-  
+
   const fetchPlaces = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:9999/admin/places");
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/admin/places`
+      );
       setPlaces(res.data);
       setError(null);
     } catch (err) {
@@ -36,9 +38,11 @@ const ShowPlaces = () => {
     navigate(`/admin/place/edit/${id}`);
   };
 
-  const handleRemove = async(id) => {
+  const handleRemove = async (id) => {
     try {
-      await axios.delete(`http://localhost:9999/admin/places/${id}`);
+      await axios.delete(
+        `${process.env.REACT_APP_API_BASE_URL}/admin/places/${id}`
+      );
       setPlaces((prev) => prev.filter((place) => place._id !== id));
       setDeleteConfirmId(null);
     } catch (err) {
@@ -52,10 +56,12 @@ const ShowPlaces = () => {
   };
 
   // Filter places based on search term and category
-  const filteredPlaces = places.filter(place => {
-    const matchesSearch = place.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         place.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "" || place.category === selectedCategory;
+  const filteredPlaces = places.filter((place) => {
+    const matchesSearch =
+      place.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      place.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "" || place.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -77,8 +83,17 @@ const ShowPlaces = () => {
           onClick={handleAddNewClick}
           className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium flex items-center transition-colors"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 mr-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clipRule="evenodd"
+            />
           </svg>
           Add New Place
         </button>
@@ -88,8 +103,16 @@ const ShowPlaces = () => {
         <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
           <div className="flex">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              <svg
+                className="h-5 w-5 text-red-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <div className="ml-3">
@@ -103,8 +126,16 @@ const ShowPlaces = () => {
         <div className="md:w-2/3">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+              <svg
+                className="h-5 w-5 text-gray-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <input
@@ -123,8 +154,10 @@ const ShowPlaces = () => {
             className="py-3 px-4 block w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">All Categories</option>
-            {categories.map(category => (
-              <option key={category} value={category}>{category}</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
           </select>
         </div>
@@ -132,14 +165,27 @@ const ShowPlaces = () => {
 
       {filteredPlaces.length === 0 ? (
         <div className="bg-gray-50 rounded-lg p-10 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-16 w-16 mx-auto text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
-          <h3 className="text-lg font-medium text-gray-900 mt-4">No places found</h3>
+          <h3 className="text-lg font-medium text-gray-900 mt-4">
+            No places found
+          </h3>
           <p className="text-gray-500 mt-2">
-            {places.length === 0 ? 
-              "You haven't added any places yet. Click 'Add New Place' to get started." : 
-              "No places match your search criteria. Try adjusting your filters."}
+            {places.length === 0
+              ? "You haven't added any places yet. Click 'Add New Place' to get started."
+              : "No places match your search criteria. Try adjusting your filters."}
           </p>
         </div>
       ) : (
@@ -166,15 +212,29 @@ const ShowPlaces = () => {
                     {place.name}
                   </h2>
                   <div className="flex items-center">
-                    <svg className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg
+                      className="h-5 w-5 text-yellow-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
-                    <span className="ml-1 text-gray-600 font-medium">{place.rating || 0}</span>
+                    <span className="ml-1 text-gray-600 font-medium">
+                      {place.rating || 0}
+                    </span>
                   </div>
                 </div>
                 <p className="text-gray-600 mb-3 flex items-center">
-                  <svg className="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  <svg
+                    className="h-4 w-4 text-gray-400 mr-1"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   {place.location}
                 </p>
