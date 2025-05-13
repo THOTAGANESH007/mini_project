@@ -42,7 +42,17 @@ const AppointmentsPage = () => {
         }
       } catch (error) {
         console.error("Booking error:", error);
-        toast.error("Something went wrong. Please try again.");
+        // Check if validation error exists from backend
+        if (error.response && error.response.data && error.response.data.errors) {
+          // Display each validation message as a toast
+          error.response.data.errors.forEach((errMsg) => toast.error(errMsg));
+        } else if (error.response && error.response.data && error.response.data.message) {
+          // Display generic error from backend
+          toast.error(error.response.data.message);
+        } else {
+          // Fallback error message
+          toast.error("Something went wrong. Please try again.");
+        }
       } finally {
         setLoading(false);
       }

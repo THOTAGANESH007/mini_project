@@ -8,11 +8,13 @@ import {
   approveAppointment,
 } from "../controllers/appointmentController.js";
 import auth from "../middlewares/auth.js";
+import validate from '../middlewares/validate.js'
+import { appointmentSchema } from "../validations/Appointment.validation.js";
 
 
 const appointmentRoute = express.Router();
 
-appointmentRoute.post("/book",auth, bookAppointment);
+appointmentRoute.post("/book",auth,validate(appointmentSchema), bookAppointment);
 appointmentRoute.get("/all", auth, getAllAppointments);
 appointmentRoute.get("/byUser",auth, getAppointmentsByTheUserId);
 appointmentRoute.get("/:id",auth,getAppointmentById);
