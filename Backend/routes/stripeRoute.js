@@ -2,12 +2,13 @@ import express from "express";
 import Stripe from "stripe";
 import dotenv from "dotenv";
 import auth from "../middlewares/auth.js";
-
+import validate from "../middlewares/validate.js";
+import billSchema from '../validations/Bill.validation.js'
 dotenv.config();
 const stripeRouter = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-stripeRouter.post("/create-checkout-session", auth, async (req, res) => {
+stripeRouter.post("/create-checkout-session", auth,validate(billSchema), async (req, res) => {
   //const userId = req.userId; // Assuming userId is set in the request object
   const userId = req.userId;
   console.log(" id:", req.userId);
