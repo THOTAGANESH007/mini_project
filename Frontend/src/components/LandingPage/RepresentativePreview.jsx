@@ -15,6 +15,7 @@ const RepresentativesPreview = () => {
             withCredentials: true,
           }
         );
+        console.log(res)
         setData(res.data.data);
       } catch (err) {
         console.error("Failed to fetch members:", err);

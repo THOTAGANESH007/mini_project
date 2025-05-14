@@ -8,9 +8,9 @@ const DisplayRepresentatives = ({
   photo,
 }) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 w-full text-center transform transition-all hover:scale-105 hover:shadow-xl flex flex-col items-center">
+    <div className="bg-white shadow-lg rounded-lg p-6 md:w-80 w-full text-center transform transition-all hover:scale-105 hover:shadow-xl flex flex-col items-center">
       <img
-        src={photo || "https://via.placeholder.com/96?text=Photo"}
+        src={photo }
         alt={name}
         className="w-24 h-24 mx-auto rounded-full border-4 border-blue-500 object-cover mb-4"
       />

@@ -17,8 +17,12 @@ export async function addComplaints(req, res) {
     }
 
     const upload = await uploadImageCloudinary(image);
+<<<<<<< Updated upstream
     console.log("Cloudinary Upload Result", upload);
 
+=======
+    
+>>>>>>> Stashed changes
     const complaint = new ComplaintModel({
       userId,
       category,

@@ -56,7 +56,11 @@ export async function registerUserController(req, res) {
       subject: "Verify your email",
       html: verifyEmailTemplate({ name, url: verifyEmailUrl }),
     });
+<<<<<<< Updated upstream
 
+=======
+    
+>>>>>>> Stashed changes
     if (!emailResponse) {
       return res.status(500).json({
         message: "User registered, but failed to send verification email",

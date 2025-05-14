@@ -86,19 +86,31 @@ export const getAppointmentsByDepartment = async (req, res) => {
 
     const { department } = req.params;
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     const validDepartments = ["Electrical", "Sanitation", "Water_Service"];
     if (!validDepartments.includes(department)) {
       return res.status(400).json({ error: "Invalid department" });
     }
 
+<<<<<<< Updated upstream
     const appointments = await AppointMentModel.find({
       department: department,
     });
+=======
+    const appointments = await AppointMentModel.find({ department:department });
+>>>>>>> Stashed changes
    
 
 
     
+<<<<<<< Updated upstream
     res.status(200).json({data:appointments})
+=======
+    res.status(200).json({data:appointments});
+>>>>>>> Stashed changes
   } catch (error) {
     console.error("Error fetching department appointments:", error);
     res

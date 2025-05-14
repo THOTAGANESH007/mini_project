@@ -23,7 +23,7 @@ const NotificationList = ({
             `${import.meta.env.VITE_API_BASE_URL}/api/notifications`,
             { withCredentials: true }
           );
-          setNotifications(res.data.data || []);
+          setNotifications(res.data.data );
         } catch (error) {
           console.error("Error fetching notifications in list:", error);
           setNotifications([]);

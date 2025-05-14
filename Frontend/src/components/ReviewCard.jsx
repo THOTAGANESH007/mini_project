@@ -9,11 +9,11 @@ const formatDate = (dateString) => {
 
 const ReviewCard = ({ review }) => {
   return (
-    <div className="bg-white shadow-lg rounded-xl p-4 w-full max-w-md mx-20 mt-5 mb-5">
+    <div className="bg-white shadow-lg rounded-xl p-4 w-full max-w-md mx-auto mt-5 mb-5">
       {/* Profile and Name */}
       <div className="flex items-center gap-3">
         <img
-          src={"https://i.pravatar.cc/50"}
+          src={review.profile}
           alt={review.name}
           className="w-10 h-10 rounded-full object-cover"
         />
