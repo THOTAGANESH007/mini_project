@@ -69,7 +69,7 @@ const AddPlace = () => {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/places`,
+        `${import.meta.env.VITE_API_BASE_URL}/admin/places`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },

@@ -22,7 +22,7 @@ const ShowPlaces = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/places`
+        `${import.meta.env.VITE_API_BASE_URL}/admin/places`
       );
       setPlaces(res.data);
       setError(null);
@@ -41,7 +41,7 @@ const ShowPlaces = () => {
   const handleRemove = async (id) => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/places/${id}`
+        `${import.meta.env.VITE_API_BASE_URL}/admin/places/${id}`
       );
       setPlaces((prev) => prev.filter((place) => place._id !== id));
       setDeleteConfirmId(null);

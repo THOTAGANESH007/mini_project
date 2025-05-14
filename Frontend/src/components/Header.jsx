@@ -17,7 +17,7 @@ const Header = () => {
   // const fetchNotifications = async () => {
   //   try {
   //     const { data } = await axios.get(
-  //       `${process.env.REACT_APP_API_BASE_URL}/api/notifications`,
+  //       `${import.meta.env.VITE_API_BASE_URL}/api/notifications`,
   //       {
   //         withCredentials: true,
   //       }
@@ -31,7 +31,7 @@ const Header = () => {
   // const handleDelete = async (notificationId, messageIndex) => {
   //   try {
   //     await axios.delete(
-  //       `${process.env.REACT_APP_API_BASE_URL}/api/notifications/${notificationId}`,
+  //       `${import.meta.env.VITE_API_BASE_URL}/api/notifications/${notificationId}`,
   //       { withCredentials: true }
   //     );
   //     fetchNotifications(); // Refresh list
@@ -43,7 +43,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/api/user/logout`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/user/logout`,
         {
           withCredentials: true,
         }

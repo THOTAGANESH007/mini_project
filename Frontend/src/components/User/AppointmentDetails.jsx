@@ -17,7 +17,7 @@ const AppointmentDetails = () => {
     const fetchAppointment = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/appointments/${id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/appointments/${id}`,
           { withCredentials: true }
         );
         const data = res.data.data;
@@ -42,7 +42,7 @@ const AppointmentDetails = () => {
     try {
       setLoading(true);
       const res = await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/api/appointments/approve/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/appointments/approve/${id}`,
         {
           appointmentDate,
           appointmentTime,

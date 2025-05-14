@@ -46,7 +46,7 @@ const EditPlace = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/places/${id}`
+        `${import.meta.env.VITE_API_BASE_URL}/admin/places/${id}`
       );
       const data = res.data;
 
@@ -134,7 +134,7 @@ const EditPlace = () => {
 
     try {
       await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/places/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/admin/places/${id}`,
         formData
       );
 

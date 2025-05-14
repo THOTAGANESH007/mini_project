@@ -31,7 +31,7 @@ const AddRating = () => {
     try {
       setSubmitting(true);
       const res = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/reviews/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/reviews/${id}`,
         {
           rating,
           review,

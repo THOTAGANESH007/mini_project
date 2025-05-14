@@ -22,7 +22,9 @@ const BillsByDept = () => {
     const fetchBills = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/payment/department/${department} `,
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/payment/department/${department} `,
           {
             withCredentials: true,
           }

@@ -127,7 +127,7 @@ const AddEvent = () => {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/events`,
+        `${import.meta.env.VITE_API_BASE_URL}/admin/events`,
         data,
         {
           headers: {

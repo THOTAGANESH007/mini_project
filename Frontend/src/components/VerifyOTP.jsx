@@ -39,7 +39,9 @@ const VerifyOTP = ({ setAuthStep, userEmail, setUserEmail }) => {
       console.log(userEmail);
       console.log(enteredOtp);
       await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/api/user/verify-forgot-password-otp`,
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/user/verify-forgot-password-otp`,
         { email: userEmail, otp: enteredOtp }
       );
       setAuthStep("resetPassword");

@@ -57,7 +57,7 @@ const AddMember = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/representative/add`,
+        `${import.meta.env.VITE_API_BASE_URL}/admin/representative/add`,
         data,
         {
           headers: {

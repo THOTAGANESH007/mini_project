@@ -25,7 +25,9 @@ const ComplaintsPage = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/representatives/view/complaints`,
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/representatives/view/complaints`,
           { withCredentials: true }
         );
         if (res.data.success) {

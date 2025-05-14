@@ -15,7 +15,7 @@ const ShowEvents = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/admin/events`
+          `${import.meta.env.VITE_API_BASE_URL}/admin/events`
         );
         setEvents(response.data);
       } catch (err) {
@@ -42,7 +42,7 @@ const ShowEvents = () => {
     try {
       setDeletingId(id);
       const res = await axios.delete(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/events/${id}`
+        `${import.meta.env.VITE_API_BASE_URL}/admin/events/${id}`
       );
       setEvents((prev) => prev.filter((event) => event._id !== id));
 

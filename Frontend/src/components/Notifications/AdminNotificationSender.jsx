@@ -14,7 +14,7 @@ const AdminNotificationSender = () => {
     }
     try {
       await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/notifications/send`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/notifications/send`,
         { message },
         { withCredentials: true }
       );

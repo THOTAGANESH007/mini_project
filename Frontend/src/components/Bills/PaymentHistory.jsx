@@ -11,7 +11,7 @@ const PaymentHistory = () => {
     const fetchPaymentHistory = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/payment`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/payment`,
           { withCredentials: true }
         );
         console.log(response);

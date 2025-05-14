@@ -10,7 +10,7 @@ const ForgotPassword = ({ setAuthStep, setUserEmail }) => {
     try {
       console.log("email:", email);
       const res = await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/api/user/forgot-password`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/user/forgot-password`,
         { email }
       );
       console.log("res:", res);

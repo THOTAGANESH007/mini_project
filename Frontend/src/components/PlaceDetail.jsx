@@ -17,7 +17,7 @@ const PlaceDetail = () => {
     const fetchPlace = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/admin/places/${id}`
+          `${import.meta.env.VITE_API_BASE_URL}/admin/places/${id}`
         );
         setPlace(res.data);
       } catch (err) {
@@ -35,7 +35,7 @@ const PlaceDetail = () => {
     const fetchReviews = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/reviews/${id}`
+          `${import.meta.env.VITE_API_BASE_URL}/api/reviews/${id}`
         );
         console.log(res.data);
         setReviews(res.data);

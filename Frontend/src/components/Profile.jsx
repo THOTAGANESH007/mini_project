@@ -40,7 +40,7 @@ const Profile = () => {
 
       try {
         const response = await axios.put(
-          `${process.env.REACT_APP_API_BASE_URL}/api/user/upload-profile`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/user/upload-profile`,
           formDataObj,
           {
             headers: {
@@ -80,7 +80,7 @@ const Profile = () => {
       };
 
       const response = await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/api/user/update-user`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/user/update-user`,
         payload,
         { withCredentials: true }
       );

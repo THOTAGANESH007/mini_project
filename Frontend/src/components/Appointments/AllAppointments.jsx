@@ -15,7 +15,7 @@ const AllAppointments = () => {
       setIsLoading(true);
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/appointments/byUser`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/appointments/byUser`,
           {
             withCredentials: true,
           }

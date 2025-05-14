@@ -16,7 +16,7 @@ const UpdateComplaintStatus = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/complaints/${id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/complaints/${id}`,
           { withCredentials: true }
         );
         setComplaint(res.data.data);
@@ -34,7 +34,7 @@ const UpdateComplaintStatus = () => {
   const handleUpdateStatus = async () => {
     try {
       const res = await axios.patch(
-        `${process.env.REACT_APP_API_BASE_URL}/api/complaints/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/complaints/${id}`,
         {
           status: newStatus,
         },

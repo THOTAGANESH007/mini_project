@@ -12,7 +12,7 @@ function Left() {
     const fetchEvents = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/admin/events`
+          `${import.meta.env.VITE_API_BASE_URL}/admin/events`
         );
         setEvents(res.data); // assumes response is an array of events
       } catch (err) {

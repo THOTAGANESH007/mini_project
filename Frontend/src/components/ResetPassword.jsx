@@ -15,7 +15,7 @@ const ResetPassword = ({ setAuthStep, userEmail }) => {
     try {
       console.log(userEmail, password);
       const res = await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/api/user/reset-password`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/user/reset-password`,
         {
           email: userEmail,
           newPassword: password,

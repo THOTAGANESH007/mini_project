@@ -12,7 +12,7 @@ const EventDetail = () => {
     const fetchEvent = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/admin/events/${id}`
+          `${import.meta.env.VITE_API_BASE_URL}/admin/events/${id}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch event");

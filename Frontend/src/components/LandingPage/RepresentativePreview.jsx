@@ -10,7 +10,7 @@ const RepresentativesPreview = () => {
     const fetchMembers = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/admin/representative/view`,
+          `${import.meta.env.VITE_API_BASE_URL}/admin/representative/view`,
           {
             withCredentials: true,
           }

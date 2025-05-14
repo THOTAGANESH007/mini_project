@@ -14,7 +14,9 @@ const ComplaintsCards = () => {
     const fetchComplaints = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/complaints/department/${department}`,
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/complaints/department/${department}`,
           {
             withCredentials: true, // if you are using cookies for authentication
           }

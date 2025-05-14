@@ -22,7 +22,7 @@ function ExploreCards() {
     const fetchPlaces = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/admin/places`
+          `${import.meta.env.VITE_API_BASE_URL}/admin/places`
         );
         setPlaces(res.data); // Make sure the backend returns an array
       } catch (err) {

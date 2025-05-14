@@ -46,7 +46,7 @@ const TenderHome = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/api/tenders`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/tenders`,
           {
             credentials: "include",
           }
@@ -112,7 +112,7 @@ const TenderHome = () => {
       setLoadingDetails(true);
       setDetailsError(null);
       const response = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/api/tenders/${tenderId}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/tenders/${tenderId}`,
         { credentials: "include" }
       );
 

@@ -22,7 +22,7 @@ const BillsPage = () => {
     const fetchBills = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/representatives/view/bills`,
+          `${import.meta.env.VITE_API_BASE_URL}/representatives/view/bills`,
           {
             withCredentials: true,
           }

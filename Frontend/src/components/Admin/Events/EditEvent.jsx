@@ -26,7 +26,7 @@ const EditEvent = () => {
       setIsLoading(true);
       try {
         const res = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/admin/events/${id}`
+          `${import.meta.env.VITE_API_BASE_URL}/admin/events/${id}`
         );
         if (!res.ok) throw new Error("Failed to fetch event data");
 
@@ -107,7 +107,7 @@ const EditEvent = () => {
       updatedForm.is_free = updatedForm.is_free === "yes";
 
       const res = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/events/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/admin/events/${id}`,
         {
           method: "PUT",
           headers: {
