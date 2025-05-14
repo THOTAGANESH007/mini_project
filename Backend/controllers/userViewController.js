@@ -10,7 +10,7 @@ export const viewBills = async (req, res) => {
     const userId = req.userId;
 
     const { email, role } = await UserModel.findOne({ _id: userId });
-   
+
     if (
       email === "sanitizationOfficer123@gmail.com" &&
       role == "Sanitation Officer"
@@ -27,9 +27,7 @@ export const viewBills = async (req, res) => {
     ) {
       bills = await BillModel.find({ billType: "Electricity" });
     } else {
-      
       bills = await BillModel.find({});
-    
     }
 
     res.json({ success: true, data: bills });
@@ -83,7 +81,7 @@ export const viewComplaints = async (req, res) => {
   try {
     const userId = req.userId;
     const { email, role } = await UserModel.findOne({ _id: userId });
-    let complaints  =null
+    let complaints = null;
 
     if (
       email === "sanitizationOfficer123@gmail.com" &&
@@ -106,7 +104,7 @@ export const viewComplaints = async (req, res) => {
 
     res.json({ success: true, data: complaints });
   } catch (error) {
-    console.error("Error in viewComplaints:", error); // log full error
+    //console.error("Error in viewComplaints:", error); // log full error
     res.status(500).json({
       success: false,
       message: "Error fetching complaints",
@@ -114,4 +112,3 @@ export const viewComplaints = async (req, res) => {
     });
   }
 };
-

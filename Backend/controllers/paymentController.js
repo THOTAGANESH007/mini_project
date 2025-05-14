@@ -19,7 +19,7 @@ export const fetchPaymentHistory = async () => {
       user_phone: bill.userId ? bill.userId.mobile : "N/A", // Assuming userId is populated
     }));
   } catch (error) {
-    console.error("Error fetching payment history:", error);
+    //console.error("Error fetching payment history:", error);
     throw new Error("Error fetching payment history");
   }
 };
@@ -40,7 +40,7 @@ export const getPaymentHistory = async (req, res) => {
 export const getPaymentsByDepartment = async (req, res) => {
   try {
     const { department } = req.params;
-    
+
     // Validate department value
     const validDepartments = ["Electrical", "Sanitation", "Water_Service"];
     if (!validDepartments.includes(department)) {
@@ -48,13 +48,13 @@ export const getPaymentsByDepartment = async (req, res) => {
     }
 
     const paymentHistory = await BillModel.find({ billType: department });
-   
+
     // if (paymentHistory.length === 0) {
     //   return res.status(404).json({
     //     message: `No payment history found for department: ${department}`,
     //   });
     // }
-    res.json({data:paymentHistory});
+    res.json({ data: paymentHistory });
   } catch (error) {
     res.status(500).json({
       message: "Error fetching department payment history",

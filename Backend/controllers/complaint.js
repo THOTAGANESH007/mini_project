@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 
 export async function addComplaints(req, res) {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     const { userId, category, email, phone, status, description } = req.body;
     const image = req.file; //multer middleware
     if (!image) {
@@ -17,12 +17,8 @@ export async function addComplaints(req, res) {
     }
 
     const upload = await uploadImageCloudinary(image);
-<<<<<<< Updated upstream
     console.log("Cloudinary Upload Result", upload);
 
-=======
-    
->>>>>>> Stashed changes
     const complaint = new ComplaintModel({
       userId,
       category,
@@ -49,7 +45,7 @@ export async function getComplaints(req, res) {
   try {
     const userId = req.userId; // Get userId from query parameter
     const { email } = await UserModel.findOne({ _id: userId });
-    
+
     const complaints = await ComplaintModel.find({ email });
 
     res.json(complaints);
@@ -65,7 +61,6 @@ export async function getComplaints(req, res) {
 export async function getOneComplaint(req, res) {
   try {
     const { id } = req.params;
-   
 
     // ✅ Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -84,7 +79,7 @@ export async function getOneComplaint(req, res) {
 
     res.json({ success: true, data: complaint });
   } catch (error) {
-    console.error("Error fetching complaint:", error); // Logs the real error
+    //console.error("Error fetching complaint:", error); // Logs the real error
     res.status(500).json({
       success: false,
       message: "Error fetching complaint",
@@ -98,13 +93,12 @@ export const updateComplaints = async (req, res) => {
   try {
     const id = req.params;
     const { status } = req.body;
-    
+
     const updatedComplaint = await ComplaintModel.findByIdAndUpdate(
       new mongoose.Types.ObjectId(id),
       { status },
       { new: true }
     );
-   
 
     if (!updatedComplaint) {
       return res
@@ -114,7 +108,7 @@ export const updateComplaints = async (req, res) => {
 
     res.json({ success: true, data: updatedComplaint });
   } catch (error) {
-    console.error("Error updating complaint:", error);
+    //console.error("Error updating complaint:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
@@ -122,9 +116,8 @@ export const updateComplaints = async (req, res) => {
 // Get Complaints by Category
 export async function getComplaintByDepartment(req, res) {
   try {
-    
-    const { department:category } = req.params;
-   
+    const { department: category } = req.params;
+
     // Check if the category is valid
     const validCategories = ["Electrical", "Sanitation", "Water_Service"];
     if (!validCategories.includes(category)) {
@@ -136,7 +129,7 @@ export async function getComplaintByDepartment(req, res) {
     }
 
     const complaints = await ComplaintModel.find({ category });
-// console.log("complaints",category, complaints);
+    // console.log("complaints",category, complaints);
     if (complaints.length === 0) {
       return res.status(404).json({
         success: false,
@@ -149,7 +142,7 @@ export async function getComplaintByDepartment(req, res) {
       data: complaints,
     });
   } catch (error) {
-    console.error("Error fetching complaints by category:", error);
+    //console.error("Error fetching complaints by category:", error);
     res.status(500).json({
       success: false,
       message: "Error fetching complaints by category",

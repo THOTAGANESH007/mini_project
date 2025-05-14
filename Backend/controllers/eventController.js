@@ -56,7 +56,7 @@ export const createEvent = async (req, res) => {
       date,
       organizer_name,
       is_free,
-      ticket_price: is_free === 'yes' ? 0 : ticket_price,
+      ticket_price: is_free === "yes" ? 0 : ticket_price,
       registration_link,
       status,
       img: upload.url,
@@ -64,8 +64,8 @@ export const createEvent = async (req, res) => {
 
     const newEvent = new EventModel(payload);
     const savedEvent = await newEvent.save();
-    if(savedEvent)
-        console.log("success");
+    // if(savedEvent)
+    //     console.log("success");
     res.json({
       message: "Event created successfully",
       data: {
@@ -92,7 +92,7 @@ export const updateEvent = async (req, res) => {
     );
     if (!updatedEvent)
       return res.status(404).json({ error: "Event not found" });
-    console.log("updated successfully");
+    //console.log("updated successfully");
     res.json(updatedEvent);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -106,7 +106,7 @@ export const deleteEvent = async (req, res) => {
     if (!deletedEvent)
       return res.status(404).json({ error: "Event not found" });
     res.json({ message: "Event deleted successfully" });
-    console.log("successfully deleted");
+    //console.log("successfully deleted");
     // res.redirect('');
   } catch (err) {
     res.status(500).json({ error: "Failed to delete event" });

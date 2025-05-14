@@ -26,7 +26,7 @@ export const bookAppointment = async (req, res) => {
 
     res.status(201).json({ message: "Appointment booked", appointment });
   } catch (error) {
-    console.error("Error booking appointment:", error);
+    // console.error("Error booking appointment:", error);
     res.status(500).json({ error: "Failed to book appointment" });
   }
 };
@@ -40,7 +40,7 @@ export const getAllAppointments = async (req, res) => {
     );
     res.status(200).json(appointments);
   } catch (error) {
-    console.error("Error fetching appointments:", error);
+    // console.error("Error fetching appointments:", error);
     res.status(500).json({ error: "Failed to get appointments" });
   }
 };
@@ -49,14 +49,16 @@ export const getAllAppointments = async (req, res) => {
 export const getAppointmentsByTheUserId = async (req, res) => {
   try {
     const userId = req.userId;
-  
-    const appointments = await AppointMentModel.find( {userId:new mongoose.Types.ObjectId(userId)} )
-   
-// res.status(200).json(appointments);
+
+    const appointments = await AppointMentModel.find({
+      userId: new mongoose.Types.ObjectId(userId),
+    });
+
+    // res.status(200).json(appointments);
 
     res.status(200).json({ msg: "all appointments ", data: appointments });
   } catch (error) {
-    console.error("Error fetching user appointments:", error);
+    // console.error("Error fetching user appointments:", error);
     res.status(500).json({ error: "Failed to get user's appointments" });
   }
 };
@@ -74,7 +76,7 @@ export const getAppointmentById = async (req, res) => {
     }
     res.status(200).json({ data: appointment });
   } catch (error) {
-    console.error("Error fetching appointment by ID:", error);
+    //console.error("Error fetching appointment by ID:", error);
     res.status(500).json({ error: "Failed to get appointment" });
   }
 };
@@ -99,20 +101,13 @@ export const getAppointmentsByDepartment = async (req, res) => {
     const appointments = await AppointMentModel.find({
       department: department,
     });
-=======
-    const appointments = await AppointMentModel.find({ department:department });
->>>>>>> Stashed changes
    
 
 
     
-<<<<<<< Updated upstream
     res.status(200).json({data:appointments})
-=======
-    res.status(200).json({data:appointments});
->>>>>>> Stashed changes
   } catch (error) {
-    console.error("Error fetching department appointments:", error);
+    //console.error("Error fetching department appointments:", error);
     res
       .status(500)
       .json({ error: "Failed to get appointments for department" });
@@ -140,7 +135,7 @@ export const approveAppointment = async (req, res) => {
       .status(200)
       .json({ message: "Appointment approved", data: appointment });
   } catch (error) {
-    console.error("Error approving appointment:", error);
+    //console.error("Error approving appointment:", error);
     res.status(500).json({ error: "Failed to approve appointment" });
   }
 };

@@ -31,7 +31,7 @@ const Header = () => {
       setNotifications(fetchedNotifications);
       setUnreadCount(fetchedNotifications.length);
     } catch (error) {
-      console.error("Failed to fetch notifications:", error);
+      //console.error("Failed to fetch notifications:", error);
       setNotifications([]);
       setUnreadCount(0);
     }
@@ -65,7 +65,7 @@ const Header = () => {
         navigate("/");
       }
     } catch (error) {
-      console.error("Logout failed:", error);
+      //console.error("Logout failed:", error);
       toast.error("Logout failed. Please try again.");
     }
   };

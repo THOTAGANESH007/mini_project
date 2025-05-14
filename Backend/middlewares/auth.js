@@ -3,7 +3,7 @@ const auth = async (req, res, next) => {
   try {
     const token =
       req.cookies.accessToken || req.headers.authorization?.split(" ")[1]; //["Bearer","token"]
-    console.log("token", token);
+    //console.log("token", token);
     if (!token) {
       return res.status(401).json({
         message: "Provide Token",
@@ -18,7 +18,7 @@ const auth = async (req, res, next) => {
       });
     }
     req.userId = decode.id;
-    
+
     next();
   } catch (error) {
     res.json({ message: error.message || error, error: true, success: false });

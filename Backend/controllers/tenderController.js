@@ -64,7 +64,7 @@ export const createTender = async (req, res) => {
     await newTender.save();
     res.status(201).json({ success: true, tender: newTender });
   } catch (err) {
-    console.error("Error uploading tender:", err.message);
+    //console.error("Error uploading tender:", err.message);
     res.status(500).json({ error: "Tender upload failed" });
   }
 };
@@ -75,7 +75,7 @@ export const getAllTenders = async (req, res) => {
     const tenders = await TenderModel.find().sort({ opening_date: -1 });
     res.json(tenders);
   } catch (err) {
-    console.error("Error fetching tenders:", err.message);
+    //console.error("Error fetching tenders:", err.message);
     res.status(500).json({ error: "Failed to fetch tenders" });
   }
 };
@@ -91,7 +91,7 @@ export const getTenderById = async (req, res) => {
 
     res.json(tender);
   } catch (err) {
-    console.error("Error fetching tender by ID:", err.message);
+    //console.error("Error fetching tender by ID:", err.message);
     res.status(500).json({ error: "Failed to fetch tender" });
   }
 };
@@ -107,7 +107,7 @@ export const deleteTender = async (req, res) => {
 
     res.json({ success: true, message: "Tender deleted successfully" });
   } catch (err) {
-    console.error("Error deleting tender:", err.message);
+    //console.error("Error deleting tender:", err.message);
     res.status(500).json({ error: "Failed to delete tender" });
   }
 };

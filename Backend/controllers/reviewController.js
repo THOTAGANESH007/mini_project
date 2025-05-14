@@ -6,7 +6,6 @@ import { updatePlaceRating } from "../utils/updatePlaceRating.js";
 import PlaceModel from "../models/Place.js";
 import mongoose from "mongoose";
 
-
 export const createReview = async (req, res) => {
   try {
     const userId = req.userId;
@@ -25,7 +24,9 @@ export const createReview = async (req, res) => {
       await existingReview.save();
 
       await updatePlaceRating(placeId);
-      return res.status(200).json({ message: "Review updated", review: existingReview });
+      return res
+        .status(200)
+        .json({ message: "Review updated", review: existingReview });
     }
 
     const newReview = new ReviewModel({ userId, placeId, rating, review });
@@ -33,18 +34,17 @@ export const createReview = async (req, res) => {
 
     // Push review ID into the Place document's reviews array
     await PlaceModel.findByIdAndUpdate(placeId, {
-      $push: { reviews: newReview._id }
+      $push: { reviews: newReview._id },
     });
 
     await updatePlaceRating(placeId);
 
     res.status(201).json({ message: "Review created", review: newReview });
   } catch (err) {
-    console.error(err);
+    //console.error(err);
     res.status(400).json({ error: err.message });
   }
 };
-
 
 // Get all reviews for a place
 export const getReviewsByPlace = async (req, res) => {
@@ -66,4 +66,3 @@ export const getReviewsByPlace = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
