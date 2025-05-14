@@ -22,7 +22,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "https://mini-project-frontend-pi.vercel.app/",
+    origin: process.env.CLIENT_URL,
   })
 );
 
