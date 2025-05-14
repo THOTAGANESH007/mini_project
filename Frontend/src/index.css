@@ -1,23 +1,40 @@
-@import "tailwindcss";
-.header{
-  height: 90px;
-  background-color: #6290c3;
-  /* position: fixed; */
-  /* top: 0; */
-  /* left: 0; */
-  /* z-index: 10; */
-  
+@import "tailwindcss"; /* Main Tailwind import */
 
+.header {
+  /* height: 90px; -- Consider min-height or letting content define height */
+  min-height: 70px; /* Example: reduce fixed height slightly for mobile */
+  background-color: #6290c3;
 }
-.footer{
-  /* height: 250px; */
-  background-color: #393E41;
+
+.footer {
+  background-color: #393e41;
 }
-.about-page{
-  /* margin-top: 50px; */
+
+.about-page {
   background-color: black;
 }
-.about-inner{
+
+.about-inner {
   background-color: #262626;
   color: white;
+}
+
+/* Ensure Leaflet map popups are styled correctly */
+.leaflet-popup-content-wrapper {
+  background-color: white;
+  color: #333;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+}
+.leaflet-popup-content {
+  margin: 13px 19px;
+  line-height: 1.4;
+}
+.leaflet-popup-tip-container {
+  width: 40px;
+  height: 20px;
+}
+.leaflet-popup-tip {
+  background: white;
+  border: none;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
 }

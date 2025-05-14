@@ -1,65 +1,42 @@
+/* Frontend/src/style/Home.css */
 .homePage {
   min-height: 100vh;
 }
-
 .events {
   height: auto;
   padding-bottom: 80px;
   background-color: #0f0f0f;
 }
 
-/* Scrolling Animations */
 @keyframes scroll {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(-50%); /* For duplicated content */
   }
 }
 
 .scroll-container-left {
   width: 100%;
-  overflow: hidden;
   white-space: nowrap;
   position: relative;
   top: 40px;
+  padding: 20px 0;
+  overflow: hidden; /* <<< ALWAYS HIDDEN FOR ANIMATION TO WORK */
 }
 
 .scroll-content-left {
   display: flex;
   gap: 1.5rem;
-  animation: scroll 20s linear infinite;
+  animation: scroll 30s linear infinite; /* <<< ALWAYS ANIMATE */
 }
 
-@keyframes scroll-right {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-.scroll-container-right {
-  padding: 1.5rem 0;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  top: 50px;
-}
-
-.scroll-content-right {
-  display: flex;
-  gap: 1.5rem;
-  animation: scroll-right 20s linear infinite;
-}
-
-/* Card Styling */
 .card {
   cursor: pointer;
-  flex: 0 0 28%;
+  /* Adjust card width for different screen sizes if needed, even with auto-scroll */
+  flex: 0 0 85%; /* Default for small screens */
+  max-width: 320px;
   height: 300px;
   background-color: #262626;
   color: #fff;
@@ -68,14 +45,24 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: border 0.3s ease;
 }
-
 .card:hover {
   border: 2px solid #6290c3;
+  /* Optionally pause animation on hover for the parent container */
+  /* .scroll-content-left:hover { animation-play-state: paused; } */
 }
 
-/* Explore Section */
+/* --- REMOVED THE max-width: 767px MEDIA QUERY FOR .scroll-container-left --- */
+
+@media (min-width: 768px) {
+  /* md breakpoint - For adjusting card size if needed */
+  .card {
+    /* Example: Make cards smaller on larger screens if the row has many */
+    flex: 0 0 28%;
+    max-width: none; /* Remove max-width if using percentage flex-basis */
+  }
+}
+
 .explore-section {
   height: auto;
   padding-bottom: 2.6rem;
@@ -84,62 +71,32 @@
 }
 
 .explore-cards {
-  padding: 0 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: center;
-}
-
-.explore-cardsin {
-  transition: transform 0.3s ease-in-out;
-  margin-top: 30px;
-  max-width: 300px;
-}
-
-.explore-cardsin img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-.explore-cardsin:hover {
-  transform: translateY(-30px);
+  padding: 0 1rem;
 }
 
 .explore-section button {
   background-color: #393e41;
   padding: 10px 20px;
   border-radius: 20px;
-  margin-top: 1rem;
 }
 
-/* Info & Button Styling */
 .info-main {
   background-color: #393e41;
 }
-
 .select {
   color: black;
   background-color: white;
   border: 2px solid black;
 }
-
 .notselect {
   background-color: #262626;
   border: 1px solid white;
   color: white;
 }
-
-.buttom-one {
-  background-color: #262626;
-}
-
 .filter-btn {
-  padding: 5px 65px;
+  padding: 5px 15px;
+  font-size: 0.875rem;
 }
-
 .filter-btn::after,
 .filter-btn::before {
   content: none !important;
@@ -147,34 +104,13 @@
   display: none !important;
 }
 
-/* Last Section */
-.lastSection {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 1.5rem 2.5rem;
-  gap: 1rem;
-  background-color: #262626;
-}
-
-.last-left,
-.last-right {
-  flex: 1 1 100%;
-  max-width: 100%;
-  height: 500px;
-  background-color: #f1ffe7;
-  color: black;
-  border-radius: 20px;
-  padding: 0.75rem 1.2rem;
-}
-
 iframe {
   width: 100%;
-  height: 100%;
+  height: 300px;
   border: 0;
   border-radius: 20px;
 }
 
-/* Hide Scrollbars */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -183,59 +119,24 @@ iframe {
   scrollbar-width: none;
 }
 
-/* -------------------------------
-   Responsive Breakpoints
-----------------------------------*/
-
-@media (max-width: 1024px) {
-  .card {
-    flex: 0 0 40%;
+@media (min-width: 640px) {
+  .filter-btn {
+    padding: 5px 30px;
+    font-size: 1rem;
   }
-
-  .explore-cardsin {
-    max-width: 45%;
-  }
-
-  .last-left,
-  .last-right {
-    flex: 1 1 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .card {
-    flex: 0 0 70%;
-  }
-
   .explore-cards {
-    padding: 0 1rem;
+    padding: 0 2rem;
   }
-
-  .explore-cardsin {
-    max-width: 100%;
-  }
-
-  .scroll-content-left,
-  .scroll-content-right {
-    animation-duration: 30s;
-  }
-
-  .filter-btn {
-    padding: 5px 40px;
+  iframe {
+    height: 350px;
   }
 }
 
-@media (max-width: 480px) {
-  .card {
-    flex: 0 0 90%;
-  }
-
+@media (min-width: 1024px) {
   .filter-btn {
-    padding: 5px 20px;
+    padding: 5px 65px;
   }
-
-  .explore-section button {
-    padding: 8px 16px;
-    font-size: 0.9rem;
+  iframe {
+    height: 400px;
   }
 }
