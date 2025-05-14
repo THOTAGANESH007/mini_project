@@ -6,67 +6,114 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import NotificationList from "./Notifications/NotificationList";
 import { toast, ToastContainer } from "react-toastify";
-import { clearUser } from "../utils/UserSlice"; // IMPORT THE CORRECT ACTION
+import { clearUser } from "../utils/UserSlice";
 
 const Header = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // --- Robust User Parsing ---
+  let initialUser = null;
+  const userString = localStorage.getItem("user");
+  if (userString) {
+    try {
+      initialUser = JSON.parse(userString);
+    } catch (error) {
+      console.error("Error parsing user from localStorage:", error);
+      // localStorage.removeItem("user"); // Optionally remove corrupted item
+    }
+  }
+  // The 'user' variable will be derived from this logic on every render.
+  const user = initialUser;
+  // --- End Robust User Parsing ---
 
   const [showNotificationDropdown, setShowNotificationDropdown] =
     useState(false);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isLoadingNotifications, setIsLoadingNotifications] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobileUserProfileOpen, setIsMobileUserProfileOpen] = useState(false); // For mobile user profile dropdown
+  const [isMobileUserProfileOpen, setIsMobileUserProfileOpen] = useState(false);
 
   const fetchNotificationsData = async () => {
-    if (!user) return;
+    if (!user) {
+      setNotifications([]);
+      setUnreadCount(0);
+      setIsLoadingNotifications(false);
+      return;
+    }
+
+    // setIsLoadingNotifications(true); // This is now set in toggleNotificationDropdown before calling
     try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/notifications`,
-        { withCredentials: true }
-      );
+      const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/notifications`;
+      if (!import.meta.env.VITE_API_BASE_URL) {
+        console.error(
+          "VITE_API_BASE_URL is not defined. Cannot fetch notifications."
+        );
+        toast.error("Application configuration error. Please contact support.");
+        throw new Error("API base URL not configured");
+      }
+      const { data } = await axios.get(apiUrl, { withCredentials: true });
       const fetchedNotifications = data.data || [];
+      //console.log("Fetched notifications:", fetchedNotifications);
       setNotifications(fetchedNotifications);
       setUnreadCount(fetchedNotifications.length);
     } catch (error) {
-      //console.error("Failed to fetch notifications:", error);
+      // console.error("Failed to fetch notifications:", error.message);
+      if (error.message !== "API base URL not configured") {
+        // Avoid double toast
+        // toast.error("Could not load notifications.");
+      }
       setNotifications([]);
       setUnreadCount(0);
+    } finally {
+      setIsLoadingNotifications(false);
     }
   };
 
   useEffect(() => {
     if (user) {
-      fetchNotificationsData();
+      // Optionally, you might want to fetch notifications when the user logs in or app loads.
+      // If so, ensure isLoadingNotifications is set to true before this call.
+      // For instance:
+      // setIsLoadingNotifications(true);
+      // fetchNotificationsData();
+      // For now, we'll rely on the bell click to initiate fetch.
     } else {
+      // Clear notifications if user logs out or is not present
       setNotifications([]);
       setUnreadCount(0);
+      setShowNotificationDropdown(false); // Close dropdown if user logs out
+      setIsLoadingNotifications(false);
     }
-  }, [user]);
+  }, [user]); // Re-run if the user object identity changes
 
   const handleLogout = async () => {
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/user/logout`,
-        {
-          withCredentials: true,
-        }
-      );
+      const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/user/logout`;
+      if (!import.meta.env.VITE_API_BASE_URL) {
+        console.error("VITE_API_BASE_URL is not defined. Cannot logout.");
+        toast.error("Application configuration error for logout.");
+        // Still attempt local cleanup
+        localStorage.removeItem("user");
+        dispatch(clearUser());
+        closeAllDropdownsAndMenus();
+        navigate("/");
+        return;
+      }
+      const res = await axios.get(apiUrl, { withCredentials: true });
 
       if (res.data.message) {
-        localStorage.removeItem("user");
-        dispatch(clearUser()); // Dispatch clearUser action
         toast.success(res.data.message);
-        setIsMobileMenuOpen(false);
-        setShowNotificationDropdown(false);
-        setIsMobileUserProfileOpen(false);
-        navigate("/");
       }
     } catch (error) {
-      //console.error("Logout failed:", error);
+      console.error("Logout failed:", error);
       toast.error("Logout failed. Please try again.");
+    } finally {
+      localStorage.removeItem("user");
+      dispatch(clearUser());
+      closeAllDropdownsAndMenus();
+      navigate("/");
     }
   };
 
@@ -77,10 +124,26 @@ const Header = () => {
   };
 
   const toggleNotificationDropdown = () => {
-    if (!showNotificationDropdown && user) {
-      fetchNotificationsData();
+    const isOpening = !showNotificationDropdown;
+
+    if (isOpening) {
+      if (user) {
+        setIsLoadingNotifications(true); // Set loading true BEFORE showing
+        setShowNotificationDropdown(true); // Then show
+        fetchNotificationsData(); // Then fetch (fetchNotificationsData will set isLoading to false)
+      } else {
+        // No user, so show empty state, not loading
+        setNotifications([]);
+        setUnreadCount(0);
+        setIsLoadingNotifications(false);
+        setShowNotificationDropdown(true);
+      }
+    } else {
+      // Closing the dropdown
+      setShowNotificationDropdown(false);
     }
-    setShowNotificationDropdown((prev) => !prev);
+
+    // Close other mobile menus when toggling notifications
     setIsMobileMenuOpen(false);
     setIsMobileUserProfileOpen(false);
   };
@@ -96,6 +159,18 @@ const Header = () => {
     setShowNotificationDropdown(false);
     setIsMobileMenuOpen(false);
   };
+
+  const getUserDisplayName = () => {
+    if (!user) return "Guest";
+    if (user.name && typeof user.name === "string") {
+      return user.name.split(" ")[0];
+    }
+    if (user.username && typeof user.username === "string") {
+      return user.username;
+    }
+    return "User";
+  };
+  const displayName = getUserDisplayName();
 
   return (
     <div className="sticky top-0 left-0 w-full z-50">
@@ -126,30 +201,35 @@ const Header = () => {
           <Link
             to="/events"
             className="text-white text-sm lg:text-lg hover:text-gray-200 px-2 py-1 rounded-md"
+            onClick={closeAllDropdownsAndMenus}
           >
             Events
           </Link>
           <Link
             to="/complaints"
             className="text-white text-sm lg:text-lg hover:text-gray-200 px-2 py-1 rounded-md"
+            onClick={closeAllDropdownsAndMenus}
           >
             Complaints
           </Link>
           <Link
             to="/bills"
             className="text-white text-sm lg:text-lg hover:text-gray-200 px-2 py-1 rounded-md"
+            onClick={closeAllDropdownsAndMenus}
           >
             Bills
           </Link>
           <Link
             to="/appointments"
             className="text-white text-sm lg:text-lg hover:text-gray-200 px-2 py-1 rounded-md"
+            onClick={closeAllDropdownsAndMenus}
           >
             Appointments
           </Link>
           <Link
             to="/tenders"
             className="text-white text-sm lg:text-lg hover:text-gray-200 px-2 py-1 rounded-md"
+            onClick={closeAllDropdownsAndMenus}
           >
             Tenders
           </Link>
@@ -173,6 +253,7 @@ const Header = () => {
                   notifications={notifications}
                   fetchNotifications={fetchNotificationsData}
                   onClose={() => setShowNotificationDropdown(false)}
+                  isLoading={isLoadingNotifications}
                 />
               )}
             </div>
@@ -180,12 +261,16 @@ const Header = () => {
 
           {!user && (
             <div className="flex gap-2 ml-2">
-              <button className="text-white border border-white px-3 py-1.5 rounded-lg hover:bg-white hover:text-blue-600 transition text-xs lg:text-sm">
-                <Link to={"/auth"}>Login</Link>
-              </button>
-              <button className="text-white border border-white px-3 py-1.5 rounded-lg hover:bg-white hover:text-blue-600 transition text-xs lg:text-sm">
-                <Link to={"/signup"}>Signup</Link>
-              </button>
+              <Link to={"/auth"} onClick={closeAllDropdownsAndMenus}>
+                <button className="text-white border border-white px-3 py-1.5 rounded-lg hover:bg-white hover:text-blue-600 transition text-xs lg:text-sm">
+                  Login
+                </button>
+              </Link>
+              <Link to={"/signup"} onClick={closeAllDropdownsAndMenus}>
+                <button className="text-white border border-white px-3 py-1.5 rounded-lg hover:bg-white hover:text-blue-600 transition text-xs lg:text-sm">
+                  Signup
+                </button>
+              </Link>
             </div>
           )}
 
@@ -194,17 +279,22 @@ const Header = () => {
               <div className="relative group">
                 <img
                   alt="User Photo"
-                  src={user.profile || "https://via.placeholder.com/36"}
+                  src={
+                    user.profile && typeof user.profile === "string"
+                      ? user.profile
+                      : "https://via.placeholder.com/36"
+                  }
                   className="w-9 h-9 rounded-full ring-2 ring-white object-cover cursor-pointer"
                 />
                 <ul className="absolute right-0 mt-2 w-44 bg-white border text-gray-800 rounded-md shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 invisible">
                   <li className="px-3 py-2 mx-2 my-1 text-xs bg-blue-100 rounded text-center font-medium truncate">
-                    Welcome, {user.name.split(" ")[0]}
+                    Welcome, {displayName}
                   </li>
                   <li className="hover:bg-gray-100 text-xs">
                     <Link
                       to="/profile"
                       className="block px-3 py-2 flex justify-between items-center w-full"
+                      onClick={closeAllDropdownsAndMenus}
                     >
                       Profile <User size={14} />
                     </Link>
@@ -223,13 +313,11 @@ const Header = () => {
           )}
         </div>
 
-        {/* Mobile Area: Notification Bell + User Profile Icon (if logged in) / Hamburger Menu */}
+        {/* Mobile Area */}
         <div className="md:hidden flex items-center gap-2 sm:gap-3">
           {user && (
             <>
               <div className="relative">
-                {" "}
-                {/* Mobile Notification Bell */}
                 <button
                   onClick={toggleNotificationDropdown}
                   className="text-white hover:text-gray-200 cursor-pointer p-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
@@ -247,11 +335,11 @@ const Header = () => {
                     notifications={notifications}
                     fetchNotifications={fetchNotificationsData}
                     onClose={() => setShowNotificationDropdown(false)}
+                    isLoading={isLoadingNotifications}
                   />
                 )}
               </div>
 
-              {/* Mobile User Profile Icon & Dropdown */}
               <div className="relative">
                 <button
                   onClick={toggleMobileUserProfile}
@@ -260,14 +348,18 @@ const Header = () => {
                 >
                   <img
                     alt="User Photo"
-                    src={user.profile || "https://via.placeholder.com/32"} // Smaller placeholder for mobile
+                    src={
+                      user.profile && typeof user.profile === "string"
+                        ? user.profile
+                        : "https://via.placeholder.com/32"
+                    }
                     className="w-7 h-7 sm:w-8 sm:h-8 rounded-full ring-1 ring-white object-cover"
                   />
                 </button>
                 {isMobileUserProfileOpen && (
                   <ul className="absolute right-0 mt-2 w-40 bg-blue-700 border border-blue-600 text-white rounded-md shadow-lg z-50 py-1">
                     <li className="px-3 pt-2 pb-1 text-xs text-center border-b border-blue-500 font-medium">
-                      Hi, {user.name.split(" ")[0]}
+                      Hi, {displayName}
                     </li>
                     <li className="hover:bg-blue-600 text-xs transition-colors">
                       <Link
@@ -361,7 +453,6 @@ const Header = () => {
               </div>
             </div>
           )}
-          {/* If user is logged in, Profile/Logout are handled by the dedicated user profile icon dropdown */}
         </div>
       )}
     </div>

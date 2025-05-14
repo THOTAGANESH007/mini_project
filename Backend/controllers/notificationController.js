@@ -1,127 +1,106 @@
 import NotificationModel from "../models/Notification.js";
 import UserModel from "../models/user.js";
 
+//Get All Users
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await UserModel.find({}, "_id name email");
+    res.json({ success: true, users });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 // Send notification to all users
 export const sendNotification = async (req, res) => {
+  const { userIds, message } = req.body;
+
+  if (!Array.isArray(userIds) || !message) {
+    return res
+      .status(400)
+      .json({ success: false, error: "userIds and message are required" });
+  }
+
   try {
-    const { message } = req.body;
-
-    if (!message) {
-      return res.status(400).json({
-        message: "Message is required",
-        success: false,
-      });
-    }
-
-    // Get all users from the database
-    const allUsers = await UserModel.find({}, "_id");
-
-    // Create and save the notification with empty isReadBy array
-    // (users will be added to isReadBy as they mark it as read)
-    const newNotification = new NotificationModel({
+    const notifications = userIds.map((userId) => ({
+      userId,
       message,
-      isReadBy: [], // Start with empty array - no one has read it yet
-    });
+    }));
 
-    const savedNotification = await newNotification.save();
-
-    res.status(201).json({
-      message: `Notification created successfully and sent to ${allUsers.length} users`,
-      data: savedNotification,
-      success: true,
-    });
+    await NotificationModel.insertMany(notifications);
+    res.status(201).json({ success: true });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to create notification",
-      error: error.message,
-      success: false,
-    });
+    console.error("Notification insert error:", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
 // Get all unread notifications for the logged-in user
 export const getNotifications = async (req, res) => {
   try {
-    const userId = req.userId; // Set by auth middleware
-
-    // Find notifications where isReadBy does NOT include this userId
+    const userId = req.userId;
+    //console.log("User ID:", userId);
+    // Fetch only the message field from unread notifications
     const notifications = await NotificationModel.find({
-      isReadBy: { $ne: userId },
+      userId,
+      isRead: false,
     })
-      .select("message createdAt") // Select only needed fields
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
+    //console.log("Notifications:", notifications);
 
-    res.status(200).json({
-      data: notifications,
-      success: true,
-    });
+    // Extract message strings into an array
+    //const messages = notifications.map((notification) => notification.message);
+    //console.log("Messages:", messages);
+    // Send the messages array as the response
+    res.status(200).json({ data: notifications });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to fetch notifications.",
-      success: false,
-    });
+    res.status(500).json({ message: "Error fetching notifications" });
   }
 };
 
 // Mark a single notification as read for the current user
 export const markNotificationAsRead = async (req, res) => {
   const { notificationId } = req.body;
-  const userId = req.userId; // Set by auth middleware
+  console.log("Notification ID:", notificationId);
+  const userId = req.userId;
 
   try {
-    const notification = await NotificationModel.findById(notificationId);
+    const updatedNotification = await NotificationModel.findOneAndUpdate(
+      { _id: notificationId, userId },
+      { $set: { isRead: true } },
+      { new: true }
+    );
 
-    if (!notification) {
-      return res.status(404).json({
-        message: "Notification not found.",
-        success: false,
-      });
+    if (!updatedNotification) {
+      return res.status(404).json({ message: "Notification not found" });
     }
 
-    // Add userId to isReadBy array if not already there
-    if (!notification.isReadBy.includes(userId)) {
-      notification.isReadBy.push(userId);
-      await notification.save();
-    }
-
-    return res.status(200).json({
-      message: "Notification marked as read.",
-      success: true,
-    });
+    console.log("Notification marked as read:", notificationId);
+    res.status(200).json({ message: "Marked as read" });
   } catch (error) {
-    return res.status(500).json({
-      message: "Error marking notification as read.",
-      success: false,
-    });
+    console.error("Error marking notification as read:", error);
+    res.status(500).json({ message: "Error marking as read" });
   }
 };
 
 // Mark all notifications as read for the current user
 export const markAllNotificationsAsRead = async (req, res) => {
-  const userId = req.userId; // Set by auth middleware
+  const userId = req.userId;
+  console.log("User ID:", userId);
 
   try {
-    // Find all notifications where this user is NOT in isReadBy
-    const unreadNotifications = await NotificationModel.find({
-      isReadBy: { $ne: userId },
-    });
+    const result = await NotificationModel.updateMany(
+      { userId, isRead: false },
+      { $set: { isRead: true } }
+    );
 
-    // Add userId to isReadBy for each notification
-    const updatePromises = unreadNotifications.map((notification) => {
-      notification.isReadBy.push(userId);
-      return notification.save();
-    });
-
-    await Promise.all(updatePromises);
-
-    return res.status(200).json({
-      message: `${unreadNotifications.length} notifications marked as read.`,
-      success: true,
-    });
+    console.log("Marked all as read for user:", userId);
+    res
+      .status(200)
+      .json({ message: "All notifications marked as read", result });
   } catch (error) {
-    return res.status(500).json({
-      message: "Error marking all notifications as read.",
-      success: false,
-    });
+    console.error("Error updating notifications:", error);
+    res.status(500).json({ message: "Error updating notifications" });
   }
 };

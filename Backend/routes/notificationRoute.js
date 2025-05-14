@@ -4,12 +4,14 @@ import {
   getNotifications,
   markNotificationAsRead,
   markAllNotificationsAsRead,
+  getAllUsers,
 } from "../controllers/notificationController.js";
 import auth from "../middlewares/auth.js";
 
 const notificationRoute = express.Router();
 
 // POST: Send notifications to all users
+notificationRoute.get("/all-users", auth, getAllUsers);
 notificationRoute.post("/send", auth, sendNotification);
 
 // GET: Get unread notifications for the logged-in user

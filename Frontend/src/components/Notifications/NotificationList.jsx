@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { BellOff, Trash2, CheckCircle } from "lucide-react";
+import { BellOff, CheckCircle } from "lucide-react"; // Removed Trash2 as it's not used here
 
 const NotificationList = ({
   notifications: initialNotifications,
@@ -10,12 +10,16 @@ const NotificationList = ({
   const [notifications, setNotifications] = useState(
     initialNotifications || []
   );
-  const [isLoading, setIsLoading] = useState(!initialNotifications);
+  const [isLoading, setIsLoading] = useState(
+    initialNotifications === null || typeof initialNotifications === "undefined"
+  );
   const dropdownRef = useRef(null);
 
-  // Fetch notifications if not provided initially
   useEffect(() => {
-    if (!initialNotifications) {
+    if (
+      initialNotifications === null ||
+      typeof initialNotifications === "undefined"
+    ) {
       const fetchLocalNotifications = async () => {
         setIsLoading(true);
         try {
@@ -23,8 +27,9 @@ const NotificationList = ({
             `${import.meta.env.VITE_API_BASE_URL}/api/notifications`,
             { withCredentials: true }
           );
-          setNotifications(res.data.data );
+          setNotifications(res.data.data || []);
         } catch (error) {
+          console.error("Error fetching notifications:", error);
           setNotifications([]);
         } finally {
           setIsLoading(false);
@@ -33,10 +38,10 @@ const NotificationList = ({
       fetchLocalNotifications();
     } else {
       setNotifications(initialNotifications);
+      setIsLoading(false);
     }
   }, [initialNotifications]);
 
-  // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -55,6 +60,15 @@ const NotificationList = ({
   }, [onClose]);
 
   const handleMarkAsRead = async (notificationId) => {
+    // Store the original notifications in case we need to revert
+    const originalNotifications = [...notifications];
+    const notificationToMark = notifications.find(
+      (n) => n._id === notificationId
+    );
+
+    // Optimistically update the UI: remove the notification immediately
+    setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
+
     try {
       const response = await axios.patch(
         `${import.meta.env.VITE_API_BASE_URL}/api/notifications/read`,
@@ -63,20 +77,30 @@ const NotificationList = ({
       );
 
       if (response.status === 200) {
-        // Remove the notification from local state
+        // API call successful
         if (refreshNotificationsInHeader) {
-          refreshNotificationsInHeader();
-        } else {
-          // Fallback: local update
-          setNotifications((prev) =>
-            prev.filter((n) => n._id !== notificationId)
-          );
+          refreshNotificationsInHeader(); // Sync with parent/global state
         }
       } else {
-        console.error("Failed to mark notification as read:", response);
+        // API call failed, but not an exception (e.g., 4xx, 5xx handled by axios)
+        console.error(
+          "Failed to mark notification as read (server response):",
+          response
+        );
+        // Revert the optimistic update
+        setNotifications(originalNotifications);
+        // Optionally, show an error message to the user
+        alert("Could not mark notification as read. Please try again.");
       }
     } catch (error) {
-      console.error("Error marking notification as read:", error);
+      console.error(
+        "Error marking notification as read (network/exception):",
+        error
+      );
+      // Revert the optimistic update
+      setNotifications(originalNotifications);
+      // Optionally, show an error message to the user
+      alert("Could not mark notification as read. Please try again.");
     }
   };
 
@@ -86,6 +110,12 @@ const NotificationList = ({
     if (
       window.confirm("Are you sure you want to clear ALL your notifications?")
     ) {
+      // Store original notifications for potential revert
+      const originalNotifications = [...notifications];
+
+      // Optimistically update UI: clear all notifications immediately
+      setNotifications([]);
+
       try {
         const response = await axios.patch(
           `${import.meta.env.VITE_API_BASE_URL}/api/notifications/read-all`,
@@ -94,17 +124,27 @@ const NotificationList = ({
         );
 
         if (response.status === 200) {
-          // Successfully cleared all notifications
+          // API call successful
           if (refreshNotificationsInHeader) {
-            refreshNotificationsInHeader();
-          } else {
-            setNotifications([]);
+            refreshNotificationsInHeader(); // Sync with parent/global state
           }
         } else {
-          console.error("Failed to clear all notifications:", response);
+          console.error(
+            "Failed to clear all notifications (server response):",
+            response
+          );
+          // Revert the optimistic update
+          setNotifications(originalNotifications);
+          alert("Could not clear all notifications. Please try again.");
         }
       } catch (error) {
-        console.error("Error clearing all notifications:", error);
+        console.error(
+          "Error clearing all notifications (network/exception):",
+          error
+        );
+        // Revert the optimistic update
+        setNotifications(originalNotifications);
+        alert("Could not clear all notifications. Please try again.");
       }
     }
   };
@@ -163,9 +203,9 @@ const NotificationList = ({
                   <button
                     onClick={() => handleMarkAsRead(n._id)}
                     title="Mark as read"
-                    className="text-gray-400 hover:text-red-500 p-1.5 rounded-full hover:bg-red-50 flex-shrink-0 opacity-50 group-hover:opacity-100 transition-opacity"
+                    className="text-gray-400 hover:text-green-600 p-1.5 rounded-full hover:bg-green-100 flex-shrink-0 opacity-50 group-hover:opacity-100 transition-opacity"
                   >
-                    <Trash2 size={16} />
+                    <CheckCircle size={16} />
                   </button>
                 </div>
               </li>

@@ -6,13 +6,8 @@ import { Pencil, Save } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 
 const Profile = () => {
-<<<<<<< Updated upstream
   const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
-=======
-    const user=JSON.parse(localStorage.getItem("user"));
-    const dispatch=useDispatch();
->>>>>>> Stashed changes
   const [formData, setFormData] = useState({
     name: "",
     email: "",
