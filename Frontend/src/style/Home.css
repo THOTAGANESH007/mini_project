@@ -1,155 +1,145 @@
-.homePage{
-    min-height: 100vh;
+.homePage {
+  min-height: 100vh;
 }
-.events{
-    height: auto;
-    /* padding: 20px 0rem; */
-    padding-bottom: 80px;
-    background-color:#0f0f0f;
+
+.events {
+  height: auto;
+  padding-bottom: 80px;
+  background-color: #0f0f0f;
 }
+
+/* Scrolling Animations */
 @keyframes scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
+  from {
+    transform: translateX(0);
   }
-  
-  .scroll-container-left {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    position:relative;
-    top: 40px;
+  to {
+    transform: translateX(-50%);
   }
-  
-  .scroll-content-left {
-    display: flex;
-    gap: 1.5rem; /* Adds gap between cards */
-    animation: scroll 20s linear infinite;
-  }
-  
+}
 
+.scroll-container-left {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  top: 40px;
+}
 
-  @keyframes scroll-right {
-    from {
-        transform: translateX(-50%);
-      }
-      to {
-        transform: translateX(0);
-      }
-  }
-  
-  .scroll-container-right {
-    /* background-color: black; */
-    padding-top:1.5rem;
-    padding-bottom:1.5rem;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-    top: 50px;
-  }
-  
-  .scroll-content-right {
-    display: flex;
-    gap: 1.5rem; /* Adds gap between cards */
-    animation: scroll-right 20s linear infinite;
-  }
-  
+.scroll-content-left {
+  display: flex;
+  gap: 1.5rem;
+  animation: scroll 20s linear infinite;
+}
 
+@keyframes scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 
+.scroll-container-right {
+  padding: 1.5rem 0;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  top: 50px;
+}
 
-  .card {
-    cursor: pointer;
-    flex: 0 0 28%; /* Each card takes 28% width */
-    height: 300px; /* Same height for all cards */
-    background-color: #262626; /* Tailwind blue-600 */
-    color: #fff;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  }
-  .card:hover{
-    border: 2px solid #6290C3;
-  }
-  
-  /* explore section */
-  .explore-section{
-    /* background-image: url('/sky.jpg'); */
-    /* height: 700px; */
-    /* background-repeat: no-repeat; */
-    /* opacity: 0.6; */
-    height: auto;
-    padding-bottom:2.6rem ;
-    background-color:#262626;
-    color: white;
-    /* background-attachment: scroll; */
+.scroll-content-right {
+  display: flex;
+  gap: 1.5rem;
+  animation: scroll-right 20s linear infinite;
+}
 
-  }
-  .explore-cards{
-    padding: 0 2rem;
-    /* margin: 3rem 0; */
-  }
-  .explore-cardsin img{
-    height: 100%;
-  }
-  .explore-cardsin img{
-    cursor: pointer;
-  }
-  .explore-cardsin {
-    transition: transform 0.3s ease-in-out;
-    margin-top: 30px; /* Compensate for upward translation */
+/* Card Styling */
+.card {
+  cursor: pointer;
+  flex: 0 0 28%;
+  height: 300px;
+  background-color: #262626;
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: border 0.3s ease;
+}
+
+.card:hover {
+  border: 2px solid #6290c3;
+}
+
+/* Explore Section */
+.explore-section {
+  height: auto;
+  padding-bottom: 2.6rem;
+  background-color: #262626;
+  color: white;
+}
+
+.explore-cards {
+  padding: 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.explore-cardsin {
+  transition: transform 0.3s ease-in-out;
+  margin-top: 30px;
+  max-width: 300px;
+}
+
+.explore-cardsin img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .explore-cardsin:hover {
-    transform: translateY(-30px);
+  transform: translateY(-30px);
 }
 
-/* .explore-section h1{
-  color: #393E41;
-}
-.explore-section h2{
-  color: #393E41;
-  
-} */
-.explore-section button{
-  background-color: #393E41;
- 
-  padding: 10px;
+.explore-section button {
+  background-color: #393e41;
   padding: 10px 20px;
   border-radius: 20px;
-  /* margin-bottom: 20px; */
+  margin-top: 1rem;
 }
-.info-main{
-  /* height: 200px; */
-  /* margin-bottom: 20px; */
-  background-color: #393E41;
+
+/* Info & Button Styling */
+.info-main {
+  background-color: #393e41;
 }
-.select{
+
+.select {
   color: black;
   background-color: white;
   border: 2px solid black;
 }
-.notselect{
+
+.notselect {
   background-color: #262626;
   border: 1px solid white;
   color: white;
 }
-.buttom-one{
-  background-color: #262626;
 
+.buttom-one {
+  background-color: #262626;
 }
-.filter-btn{
-  padding:5px 65px ;
+
+.filter-btn {
+  padding: 5px 65px;
 }
-.filter-btn::after {
-  content: none !important;
-  background-image: none !important;
-}
+
 .filter-btn::after,
 .filter-btn::before {
   content: none !important;
@@ -157,46 +147,95 @@
   display: none !important;
 }
 
-
-
-
-/* last section */
-.lastSection{
-  height: auto;
+/* Last Section */
+.lastSection {
   display: flex;
+  flex-wrap: wrap;
   padding: 1.5rem 2.5rem;
   gap: 1rem;
   background-color: #262626;
 }
-.last-left{
-  width: 50%;
-  /* border: 2px solid black; */
+
+.last-left,
+.last-right {
+  flex: 1 1 100%;
+  max-width: 100%;
   height: 500px;
-  background-color: #F1FFE7;
+  background-color: #f1ffe7;
   color: black;
   border-radius: 20px;
   padding: 0.75rem 1.2rem;
 }
-.last-right{
-  width: 50%;
-  /* border: 2px solid black; */
-  height: 500px;
-  background-color: #F1FFE7;
-  color: black;
-  border-radius: 20px;
-}
 
 iframe {
   width: 100%;
-  height: 100%;  /* Ensure it takes full height of parent */
+  height: 100%;
   border: 0;
   border-radius: 20px;
 }
 
+/* Hide Scrollbars */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* -------------------------------
+   Responsive Breakpoints
+----------------------------------*/
+
+@media (max-width: 1024px) {
+  .card {
+    flex: 0 0 40%;
+  }
+
+  .explore-cardsin {
+    max-width: 45%;
+  }
+
+  .last-left,
+  .last-right {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex: 0 0 70%;
+  }
+
+  .explore-cards {
+    padding: 0 1rem;
+  }
+
+  .explore-cardsin {
+    max-width: 100%;
+  }
+
+  .scroll-content-left,
+  .scroll-content-right {
+    animation-duration: 30s;
+  }
+
+  .filter-btn {
+    padding: 5px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    flex: 0 0 90%;
+  }
+
+  .filter-btn {
+    padding: 5px 20px;
+  }
+
+  .explore-section button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
 }
