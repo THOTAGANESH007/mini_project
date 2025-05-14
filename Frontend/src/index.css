@@ -1,9 +1,15 @@
 @import "tailwindcss"; /* Main Tailwind import */
 
 .header {
-  /* height: 90px; -- Consider min-height or letting content define height */
-  min-height: 70px; /* Example: reduce fixed height slightly for mobile */
+  /* Consider min-height or letting content define height */
+  min-height: 60px; /* Reduced min-height for mobile */
   background-color: #6290c3;
+}
+@media (min-width: 768px) {
+  /* md */
+  .header {
+    min-height: 70px; /* Restore or adjust for larger screens */
+  }
 }
 
 .footer {

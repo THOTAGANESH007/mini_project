@@ -1,10 +1,10 @@
-/* Frontend/src/style/Home.css */
 .homePage {
   min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll on the entire page */
 }
 .events {
   height: auto;
-  padding-bottom: 80px;
+  padding-bottom: 60px; /* Adjusted padding */
   background-color: #0f0f0f;
 }
 
@@ -13,7 +13,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%); /* For duplicated content */
+    transform: translateX(-50%);
   }
 }
 
@@ -21,23 +21,25 @@
   width: 100%;
   white-space: nowrap;
   position: relative;
-  top: 40px;
-  padding: 20px 0;
-  overflow: hidden; /* <<< ALWAYS HIDDEN FOR ANIMATION TO WORK */
+  top: 20px; /* Adjusted */
+  padding: 10px 0;
+  overflow: hidden;
 }
 
 .scroll-content-left {
   display: flex;
-  gap: 1.5rem;
-  animation: scroll 30s linear infinite; /* <<< ALWAYS ANIMATE */
+  gap: 1rem; /* Adjusted gap */
+  animation: scroll 35s linear infinite; /* Slightly adjusted speed */
+}
+.scroll-container-left:hover .scroll-content-left {
+  animation-play-state: paused;
 }
 
 .card {
   cursor: pointer;
-  /* Adjust card width for different screen sizes if needed, even with auto-scroll */
-  flex: 0 0 85%; /* Default for small screens */
-  max-width: 320px;
-  height: 300px;
+  flex: 0 0 70%; /* Card takes up more space on mobile */
+  max-width: 280px; /* But not too wide */
+  height: 280px; /* Adjusted height */
   background-color: #262626;
   color: #fff;
   border-radius: 10px;
@@ -45,43 +47,58 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: border 0.2s ease-in-out; /* Smooth border transition */
 }
 .card:hover {
   border: 2px solid #6290c3;
-  /* Optionally pause animation on hover for the parent container */
-  /* .scroll-content-left:hover { animation-play-state: paused; } */
 }
 
-/* --- REMOVED THE max-width: 767px MEDIA QUERY FOR .scroll-container-left --- */
-
-@media (min-width: 768px) {
-  /* md breakpoint - For adjusting card size if needed */
+@media (min-width: 640px) {
+  /* sm */
   .card {
-    /* Example: Make cards smaller on larger screens if the row has many */
+    flex: 0 0 45%;
+    max-width: 320px;
+    height: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* lg */
+  .card {
     flex: 0 0 28%;
-    max-width: none; /* Remove max-width if using percentage flex-basis */
+    max-width: none;
   }
 }
 
 .explore-section {
   height: auto;
+  padding-top: 2rem; /* Added top padding */
   padding-bottom: 2.6rem;
   background-color: #262626;
   color: white;
 }
+.explore-section .exlore-heading {
+  /* Target specific h1 */
+  font-size: 2.5rem; /* Adjust for mobile */
+}
+.explore-section h2 {
+  font-size: 1.125rem; /* Adjust for mobile */
+}
 
 .explore-cards {
-  padding: 0 1rem;
+  padding: 0 0.5rem; /* Minimal padding for mobile */
 }
 
 .explore-section button {
   background-color: #393e41;
   padding: 10px 20px;
   border-radius: 20px;
+  font-size: 0.875rem; /* Adjust button text */
 }
 
 .info-main {
   background-color: #393e41;
+  padding: 1.5rem 1rem; /* Responsive padding */
 }
 .select {
   color: black;
@@ -94,8 +111,10 @@
   color: white;
 }
 .filter-btn {
-  padding: 5px 15px;
-  font-size: 0.875rem;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  flex-grow: 1; /* Allow buttons to grow */
+  min-width: 100px; /* Minimum width */
 }
 .filter-btn::after,
 .filter-btn::before {
@@ -106,7 +125,7 @@
 
 iframe {
   width: 100%;
-  height: 300px;
+  height: 250px; /* Base height for mobile */
   border: 0;
   border-radius: 20px;
 }
@@ -120,21 +139,39 @@ iframe {
 }
 
 @media (min-width: 640px) {
+  /* sm */
   .filter-btn {
-    padding: 5px 30px;
-    font-size: 1rem;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    flex-grow: 0; /* Don't grow as much on larger screens */
   }
   .explore-cards {
-    padding: 0 2rem;
+    padding: 0 1.5rem;
+  }
+  .explore-section .exlore-heading {
+    font-size: 3rem; /* Restore original or adjust */
+  }
+  .explore-section h2 {
+    font-size: 1.25rem;
+  }
+  .explore-section button {
+    font-size: 1rem;
   }
   iframe {
-    height: 350px;
+    height: 300px;
   }
 }
 
 @media (min-width: 1024px) {
+  /* lg */
   .filter-btn {
-    padding: 5px 65px;
+    padding: 10px 30px; /* Adjusted padding */
+  }
+  .explore-section .exlore-heading {
+    font-size: 3.75rem; /* Tailwind text-6xl */
+  }
+  .explore-section h2 {
+    font-size: 1.5rem; /* Tailwind text-2xl */
   }
   iframe {
     height: 400px;
