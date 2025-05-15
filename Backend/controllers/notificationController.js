@@ -45,7 +45,7 @@ export const getNotifications = async (req, res) => {
       userId,
       isRead: false,
     })
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: -1 }) 
       .lean();
     //console.log("Notifications:", notifications);
 
