@@ -24,7 +24,7 @@ const Login = ({ setAuthStep }) => {
         { email, password },
         { withCredentials: true }
       );
-      console.log(res.data.data);
+     
 
       if (res.data.success) {
         const user = res.data.data.userObj;
