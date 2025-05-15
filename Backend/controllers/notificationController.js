@@ -62,7 +62,7 @@ export const getNotifications = async (req, res) => {
 // Mark a single notification as read for the current user
 export const markNotificationAsRead = async (req, res) => {
   const { notificationId } = req.body;
-  console.log("Notification ID:", notificationId);
+ 
   const userId = req.userId;
 
   try {
@@ -87,7 +87,7 @@ export const markNotificationAsRead = async (req, res) => {
 // Mark all notifications as read for the current user
 export const markAllNotificationsAsRead = async (req, res) => {
   const userId = req.userId;
-  console.log("User ID:", userId);
+ 
 
   try {
     const result = await NotificationModel.updateMany(
