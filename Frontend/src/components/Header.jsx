@@ -396,7 +396,7 @@ const Header = () => {
 
       {/* Mobile Main Navigation Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-blue-700 text-white absolute w-full shadow-lg z-40 py-1">
+        <div className="md:hidden bg-black text-white absolute w-full shadow-lg z-40 py-1">
           <Link
             to="/events"
             className="block px-4 py-2.5 hover:bg-blue-600 transition-colors text-sm"
@@ -434,8 +434,8 @@ const Header = () => {
           </Link>
 
           {!user && (
-            <div className="border-t border-blue-500 mt-1 pt-1">
-              <div className="px-4 py-1">
+            <div className="border-t border-white mt-1 pt-1">
+              <div className="px-3 py-1">
                 <Link
                   to={"/auth"}
                   className="block py-2.5 my-0.5 hover:bg-blue-600 rounded transition-colors text-sm"
