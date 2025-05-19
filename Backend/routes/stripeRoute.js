@@ -8,56 +8,51 @@ dotenv.config();
 const stripeRouter = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-stripeRouter.post(
-  "/create-checkout-session",
-  auth,
-  validate(billSchema),
-  async (req, res) => {
-    const userId = req.userId;
-    const {
-      email,
-      phone,
-      bill_number,
-      billType,
-      total_amount,
-      payment_method,
-      dueDate,
-    } = req.body;
+stripeRouter.post("/create-checkout-session", auth, async (req, res) => {
+  const userId = req.userId;
+  const {
+    email,
+    phone,
+    bill_number,
+    billType,
+    total_amount,
+    payment_method,
+    dueDate,
+  } = req.body;
 
-    try {
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        mode: "payment",
-        line_items: [
-          {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: `${billType} Bill`,
-              },
-              unit_amount: total_amount * 100, // Stripe expects cents
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `${billType} Bill`,
             },
-            quantity: 1,
+            unit_amount: total_amount * 100, // Stripe expects cents
           },
-        ],
-        metadata: {
-          userId,
-          email,
-          phone,
-          bill_number,
-          billType,
-          payment_method,
-          dueDate,
+          quantity: 1,
         },
-        success_url: `${process.env.CLIENT_URL}/success`,
-        cancel_url: `${process.env.CLIENT_URL}/cancel`,
-      });
+      ],
+      metadata: {
+        userId,
+        email,
+        phone,
+        bill_number,
+        billType,
+        payment_method,
+        dueDate,
+      },
+      success_url: `${process.env.CLIENT_URL}/success`,
+      cancel_url: `${process.env.CLIENT_URL}/cancel`,
+    });
 
-      res.json({ id: session.id });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
+    res.json({ id: session.id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-);
+});
 
 export default stripeRouter;

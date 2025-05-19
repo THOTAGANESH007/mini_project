@@ -4,7 +4,7 @@ const BillSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
-  bill_number: { type: String, required: true, unique: true },
+  bill_number: { type: String, required: true },
   billType: {
     type: String,
     enum: ["Electrical", "Sanitation", "Water_Service"],
